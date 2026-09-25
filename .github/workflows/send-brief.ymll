@@ -2,7 +2,7 @@ name: Send morning brief
 
 on:
   schedule:
-    - cron: "0 11 * * *"   # 11:00 UTC daily — adjust to just before your audience's market open
+    - cron: "0 11 * * *"
   workflow_dispatch: {}
 
 jobs:
@@ -20,4 +20,4 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           SITE_URL: ${{ vars.SITE_URL }}
           FROM_EMAIL: ${{ vars.FROM_EMAIL }}
-        run: python automation/scripts/send_brief.py
+        run: python scripts/send_brief.py
