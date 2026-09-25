@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Armonia Capital — Market Intelligence, Balanced</title>
+<meta name="description" content="Armonia Capital delivers equilibrium-based market intelligence: what's overextended, what's undervalued, and where the balance is shifting.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,450&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,450&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;600&display=swap" rel="stylesheet"></noscript>
+<style>
+  :root{
+    --ink:#14181D;
+    --ink-soft:#2A2F36;
+    --bone:#EAE6DC;
+    --paper:#F6F4EE;
+    --brass:#9C7A3C;
+    --brass-bright:#C6A25E;
+    --slate:#5A6B6B;
+    --rise:#3E6B57;
+    --fall:#8C4A3B;
+    --line: rgba(20,24,29,0.12);
+    --line-light: rgba(246,244,238,0.16);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+  @media(max-width:640px){.wrap{padding:0 20px;}}
+
+  /* ---------- Header ---------- */
+  header{
+    border-bottom:1px solid var(--line);
+    background:var(--paper);
+    position:sticky;top:0;z-index:50;
+  }
+  .header-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px 0;
+  }
+  .logo{
+    font-family:'Fraunces',serif;
+    font-size:22px;
+    font-weight:450;
+    letter-spacing:-0.01em;
+    display:flex;align-items:center;gap:10px;
+  }
+  .logo .mark{
+    width:20px;height:20px;flex-shrink:0;
+  }
+  nav{display:flex;gap:34px;}
+  nav a{font-size:14px;color:var(--ink-soft);transition:color .15s;}
+  nav a:hover{color:var(--brass);}
+  .nav-toggle{display:none;background:none;border:none;font-size:24px;cursor:pointer;color:var(--ink);}
+  .subscribe-btn{
+    font-size:14px;font-weight:600;
+    background:var(--ink);color:var(--paper);
+    padding:10px 20px;border-radius:2px;
+    transition:background .15s;
+  }
+  .subscribe-btn:hover{background:var(--brass);}
+  @media(max-width:800px){
+    nav{display:none;}
+    .nav-toggle{display:block;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:64px 0 56px;
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;
+    align-items:start;
+    border-bottom:1px solid var(--line);
+  }
+  @media(max-width:900px){.hero{grid-template-columns:1fr;gap:40px;padding:40px 0;}}
+  .hero-kicker{
+    font-size:13px;color:var(--slate);
+    margin:0 0 18px;
+  }
+  .hero h1{
+    font-family:'Fraunces',serif;
+    font-weight:450;
+    font-size:clamp(34px,4.6vw,54px);
+    line-height:1.06;
+    letter-spacing:-0.015em;
+    margin:0 0 22px;
+  }
+  .hero p.lede{
+    font-size:17px;color:var(--ink-soft);
+    max-width:46ch;
+    margin:0 0 28px;
+  }
+  .hero-cta{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--ink);color:var(--paper);
+    padding:13px 24px;font-size:14px;font-weight:600;border-radius:2px;
+  }
+  .btn-primary:hover{background:var(--brass);}
+  .btn-ghost{
+    font-size:14px;color:var(--ink-soft);border-bottom:1px solid var(--ink-soft);
+    padding-bottom:2px;
+  }
+
+  /* ---------- Balance panel (ticker) ---------- */
+  .balance-panel{
+    background:var(--ink);color:var(--bone);
+    border-radius:3px;
+    padding:26px 26px 22px;
+  }
+  .balance-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-bottom:18px;
+    font-size:13px;color:rgba(234,230,220,0.55);
+  }
+  .balance-head .dot{
+    display:inline-block;width:6px;height:6px;border-radius:50%;
+    background:var(--rise);margin-right:6px;
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+  .ticker-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:11px 0;
+    border-bottom:1px solid var(--line-light);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:14px;
+  }
+  .ticker-row:last-of-type{border-bottom:none;}
+  .ticker-name{font-family:'Inter',sans-serif;color:var(--bone);font-size:13.5px;}
+  .ticker-sub{color:rgba(234,230,220,0.45);font-size:11px;font-family:'Inter',sans-serif;}
+  .ticker-price{text-align:right;}
+  .ticker-change{font-size:12px;}
+  .up{color:#8FC7A8;}
+  .down{color:#D99C8C;}
+  .balance-foot{
+    margin-top:16px;padding-top:14px;
+    border-top:1px solid var(--line-light);
+    font-size:11.5px;color:rgba(234,230,220,0.4);
+    display:flex;justify-content:space-between;
+  }
+
+  /* ---------- Equilibrium strip ---------- */
+  .strip{
+    border-bottom:1px solid var(--line);
+    background:var(--bone);
+    overflow:hidden;
+    white-space:nowrap;
+  }
+  .strip-inner{
+    display:inline-flex;gap:48px;padding:12px 0;
+    animation:scroll 32s linear infinite;
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;
+  }
+  .strip:hover .strip-inner{animation-play-state:paused;}
+  @keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  .strip-item{display:inline-flex;gap:8px;align-items:center;color:var(--ink-soft);}
+
+  /* ---------- Sections ---------- */
+  section{padding:56px 0;border-bottom:1px solid var(--line);}
+  .section-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-bottom:32px;flex-wrap:wrap;gap:10px;
+  }
+  .section-head h2{
+    font-family:'Fraunces',serif;font-weight:450;
+    font-size:26px;margin:0;letter-spacing:-0.01em;
+  }
+  .section-head a{font-size:13.5px;color:var(--brass);border-bottom:1px solid var(--brass);padding-bottom:1px;}
+
+  /* Category grid */
+  .cat-grid{
+    display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);
+  }
+  @media(max-width:900px){.cat-grid{grid-template-columns:repeat(3,1fr);}}
+  @media(max-width:700px){.cat-grid{grid-template-columns:repeat(2,1fr);}}
+  .cat-card{
+    background:var(--paper);padding:26px 22px;
+    transition:background .15s;
+  }
+  .cat-card:hover{background:var(--bone);}
+  .cat-card h3{
+    font-family:'Fraunces',serif;font-weight:450;font-size:19px;margin:0 0 6px;
+  }
+  .cat-card p{font-size:13px;color:var(--slate);margin:0;}
+
+  /* Article grid */
+  .article-grid{
+    display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:36px;
+  }
+  @media(max-width:900px){.article-grid{grid-template-columns:1fr;}}
+  .article-feature img, .article-card img{
+    width:100%;aspect-ratio:16/10;object-fit:cover;
+    background:var(--bone);
+    border-radius:2px;
+  }
+  .article-feature{grid-column:1;}
+  .article-cat{
+    font-size:12px;color:var(--brass);margin:14px 0 8px;
+  }
+  .article-feature h3{
+    font-family:'Fraunces',serif;font-weight:450;
+    font-size:24px;line-height:1.18;margin:0 0 10px;
+  }
+  .article-card h3{
+    font-family:'Fraunces',serif;font-weight:450;
+    font-size:18px;line-height:1.22;margin:10px 0 8px;
+  }
+  .article-excerpt{font-size:14px;color:var(--slate);margin:0;}
+  .article-meta{font-size:12px;color:var(--slate);margin-top:10px;}
+  .article-list{display:flex;flex-direction:column;gap:26px;}
+
+  /* Newsletter */
+  .newsletter{
+    background:var(--ink);color:var(--bone);
+    border-radius:3px;
+    padding:44px 40px;
+    display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;
+  }
+  @media(max-width:700px){.newsletter{grid-template-columns:1fr;}}
+  .newsletter h2{
+    font-family:'Fraunces',serif;font-weight:450;font-size:26px;margin:0 0 8px;
+  }
+  .newsletter p{font-size:14px;color:rgba(234,230,220,0.65);margin:0;max-width:42ch;}
+  .newsletter form{display:flex;gap:10px;flex-wrap:wrap;}
+  .newsletter input[type=email]{
+    background:transparent;border:1px solid var(--line-light);
+    padding:12px 16px;color:var(--bone);font-size:14px;border-radius:2px;
+    min-width:220px;font-family:'Inter',sans-serif;
+  }
+  .newsletter input::placeholder{color:rgba(234,230,220,0.4);}
+  .newsletter button{
+    background:var(--brass-bright);color:var(--ink);border:none;
+    padding:12px 22px;font-weight:600;font-size:14px;border-radius:2px;cursor:pointer;
+  }
+  .newsletter button:hover{background:var(--bone);}
+
+  /* Footer */
+  footer{padding:40px 0 60px;}
+  .foot-grid{
+    display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;margin-bottom:36px;
+  }
+  @media(max-width:700px){.foot-grid{grid-template-columns:1fr;gap:28px;}}
+  .foot-brand{font-family:'Fraunces',serif;font-size:19px;margin-bottom:10px;}
+  .foot-tag{font-size:13.5px;color:var(--slate);max-width:34ch;}
+  .foot-col h4{font-size:12.5px;color:var(--slate);margin:0 0 12px;font-weight:600;}
+  .foot-col a{display:block;font-size:14px;color:var(--ink-soft);margin-bottom:10px;}
+  .foot-col a:hover{color:var(--brass);}
+  .foot-bottom{
+    border-top:1px solid var(--line);padding-top:22px;
+    font-size:12.5px;color:var(--slate);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-inner">
+    <a class="logo" href="/">
+      <svg class="mark" viewBox="0 0 20 20" fill="none">
+        <path d="M2 14 L10 3 L18 14" stroke="#9C7A3C" stroke-width="1.6" fill="none"/>
+        <line x1="2" y1="14" x2="18" y2="14" stroke="#14181D" stroke-width="1.6"/>
+        <circle cx="10" cy="14" r="1.6" fill="#14181D"/>
+      </svg>
+      Armonia Capital
+    </a>
+    <nav>
+      <a href="/category/markets/">Markets</a>
+      <a href="/category/macro/">Macro</a>
+      <a href="/category/equities/">Equities</a>
+      <a href="/category/digital-assets/">Digital Assets</a>
+      <a href="/category/islamic-finance/">Islamic Finance</a>
+    </nav>
+    <a class="subscribe-btn" href="#newsletter">Subscribe</a>
+  </div>
+</header>
+
+<section class="hero" style="border-bottom:1px solid var(--line);">
+  <div class="wrap" style="display:contents;">
+    <div>
+      <p class="hero-kicker">Today's balance</p>
+      <h1>Markets don't trend. They seek equilibrium — and overshoot on the way.</h1>
+      <p class="lede">Armonia Capital reads the gap between price and balance: where positioning has gone too far, where flows are quietly reversing, and what that means for the next move — including Sharia-compliant markets, a lens most market-intelligence sites skip entirely.</p>
+      <div class="hero-cta">
+        <a class="btn-primary" href="#latest">Read today's briefing</a>
+        <a class="btn-ghost" href="#newsletter">Get it every morning</a>
+      </div>
+    </div>
+    <div class="balance-panel">
+      <div class="balance-head">
+        <span><span class="dot"></span>Live — updates on load</span>
+        <span id="clock"></span>
+      </div>
+      <div id="ticker-list">
+        <div class="ticker-row"><span class="ticker-name">Loading market data…</span></div>
+      </div>
+      <div class="balance-foot">
+        <span>Source: CoinGecko public API</span>
+        <span>Not financial advice</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="strip-inner" id="strip-inner">
+    <div class="strip-item">Fetching equilibrium readings…</div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Coverage</h2>
+    </div>
+    <div class="cat-grid">
+      <a class="cat-card" href="/category/markets/">
+        <h3>Markets</h3>
+        <p>Cross-asset positioning and where it's stretched</p>
+      </a>
+      <a class="cat-card" href="/category/macro/">
+        <h3>Macro</h3>
+        <p>Rates, central banks, and the data that moves them</p>
+      </a>
+      <a class="cat-card" href="/category/equities/">
+        <h3>Equities</h3>
+        <p>Single names, sectors, and earnings that shift the balance</p>
+      </a>
+      <a class="cat-card" href="/category/digital-assets/">
+        <h3>Digital Assets</h3>
+        <p>Crypto flows, ETFs, and on-chain positioning</p>
+      </a>
+      <a class="cat-card" href="/category/islamic-finance/">
+        <h3>Islamic Finance</h3>
+        <p>Sharia-compliant equities, sukuk, and halal screening — coverage most finance sites skip</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="latest">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Latest briefings</h2>
+      <a href="/category/markets/">View all</a>
+    </div>
+    <div class="article-grid">
+      <div class="article-feature">
+        <img src="https://placehold.co/800x500/EAE6DC/2A2F36?text=Armonia+Capital" alt="">
+        <p class="article-cat">Macro</p>
+        <h3>Sample headline: how a policy shift rebalances the yield curve</h3>
+        <p class="article-excerpt">Replace with your first auto-generated or written briefing. This is placeholder copy showing the feature-article layout.</p>
+        <p class="article-meta">6 min read</p>
+      </div>
+      <div class="article-list">
+        <div class="article-card">
+          <p class="article-cat">Equities</p>
+          <h3>Sample headline: a sector rotation nobody's pricing in yet</h3>
+          <p class="article-meta">3 min read</p>
+        </div>
+        <div class="article-card">
+          <p class="article-cat">Islamic Finance</p>
+          <h3>Sample headline: sukuk issuance picks up as rates stabilize</h3>
+          <p class="article-meta">4 min read</p>
+        </div>
+      </div>
+      <div class="article-list">
+        <div class="article-card">
+          <p class="article-cat">Markets</p>
+          <h3>Sample headline: positioning data shows an extreme worth watching</h3>
+          <p class="article-meta">3 min read</p>
+        </div>
+        <div class="article-card">
+          <p class="article-cat">Macro</p>
+          <h3>Sample headline: the data release that resets rate-cut odds</h3>
+          <p class="article-meta">5 min read</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="newsletter" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="newsletter">
+      <div>
+        <h2>The morning balance</h2>
+        <p>One email, before the open, on where markets are stretched and where they're not.</p>
+      </div>
+      <form onsubmit="event.preventDefault(); alert('Wire this to Buttondown / your ESP.');">
+        <input type="email" placeholder="you@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">Armonia Capital</div>
+        <p class="foot-tag">Market intelligence built around equilibrium: what's overextended, what's cheap, and where the balance is shifting next.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Coverage</h4>
+        <a href="/category/markets/">Markets</a>
+        <a href="/category/macro/">Macro</a>
+        <a href="/category/equities/">Equities</a>
+        <a href="/category/digital-assets/">Digital Assets</a>
+        <a href="/category/islamic-finance/">Islamic Finance</a>
+      </div>
+      <div class="foot-col">
+        <h4>Site</h4>
+        <a href="/about/">About</a>
+        <a href="/disclaimer/">Financial Disclaimer</a>
+        <a href="/privacy/">Privacy Policy</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Armonia Capital. All rights reserved.</span>
+      <span>Not investment advice.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Live clock
+function tick(){
+  const el = document.getElementById('clock');
+  if(el) el.textContent = new Date().toUTCString().slice(17,25) + ' UTC';
+}
+tick(); setInterval(tick, 1000);
+
+// Live ticker — CoinGecko public API, no key required
+const COINS = [
+  {id:'bitcoin', name:'Bitcoin', sym:'BTC'},
+  {id:'ethereum', name:'Ethereum', sym:'ETH'},
+  {id:'solana', name:'Solana', sym:'SOL'},
+  {id:'ripple', name:'XRP', sym:'XRP'}
+];
+
+async function loadTicker(){
+  const listEl = document.getElementById('ticker-list');
+  const stripEl = document.getElementById('strip-inner');
+  try{
+    const ids = COINS.map(c=>c.id).join(',');
+    const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`);
+    const data = await res.json();
+
+    listEl.innerHTML = COINS.map(c=>{
+      const d = data[c.id];
+      if(!d) return '';
+      const change = d.usd_24h_change ?? 0;
+      const dir = change >= 0 ? 'up' : 'down';
+      const arrow = change >= 0 ? '▲' : '▼';
+      return `<div class="ticker-row">
+        <span class="ticker-name">${c.name} <span class="ticker-sub">${c.sym}</span></span>
+        <span class="ticker-price">$${d.usd.toLocaleString(undefined,{maximumFractionDigits:2})}
+          <div class="ticker-change ${dir}">${arrow} ${Math.abs(change).toFixed(2)}%</div>
+        </span>
+      </div>`;
+    }).join('');
+
+    // Scrolling strip — duplicate content for seamless loop
+    const stripItems = COINS.map(c=>{
+      const d = data[c.id];
+      if(!d) return '';
+      const change = d.usd_24h_change ?? 0;
+      const dir = change >= 0 ? 'up' : 'down';
+      return `<span class="strip-item">${c.sym} <b>$${d.usd.toLocaleString(undefined,{maximumFractionDigits:0})}</b> <span class="${dir}">${change>=0?'▲':'▼'} ${Math.abs(change).toFixed(1)}%</span></span>`;
+    }).join('');
+    stripEl.innerHTML = stripItems + stripItems;
+
+  }catch(e){
+    listEl.innerHTML = '<div class="ticker-row"><span class="ticker-name">Market data unavailable</span></div>';
+    stripEl.innerHTML = '<div class="strip-item">Live feed temporarily unavailable</div>';
+  }
+}
+loadTicker();
+setInterval(loadTicker, 60000); // refresh every 60s — stays well within CoinGecko free rate limits
+</script>
+
+</body>
+</html>

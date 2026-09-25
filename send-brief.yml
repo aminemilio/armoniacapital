@@ -1,0 +1,23 @@
+name: Send morning brief
+
+on:
+  schedule:
+    - cron: "0 11 * * *"   # 11:00 UTC daily — adjust to just before your audience's market open
+  workflow_dispatch: {}
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Send brief
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          SITE_URL: ${{ vars.SITE_URL }}
+          FROM_EMAIL: ${{ vars.FROM_EMAIL }}
+        run: python automation/scripts/send_brief.py
