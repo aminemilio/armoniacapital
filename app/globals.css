@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #0e1116;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #0e1116;
+  color: #e8e2d0;
+}
+
+::selection {
+  background: #ad8536;
+  color: #0e1116;
+}
+
+:focus-visible {
+  outline: 2px solid #d9af63;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-ticker {
+    animation: none !important;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
