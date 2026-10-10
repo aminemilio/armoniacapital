@@ -4,7 +4,7 @@
  *   npm run generate
  *
  * 1. Picks a category (rotating daily, or CATEGORY=...).
- * 2. Asks an LLM that can browse the web (Gemini + Google Search grounding, or Groq compound)
+ * 2. Asks an LLM that can browse the web (Gemini + Google Search grounding, or Groq browser search)
  *    to research the last ~48 hours and write a note in the site's voice.
  * 3. Rejects the result unless it cites real web sources and passes basic quality checks.
  * 4. Adds a free image from Pexels (or Pixabay) and appends the article to data/articles.json
@@ -186,24 +186,38 @@ async function callGemini(prompt: string): Promise<LlmResult> {
   return { text, sources: cleanSources(raw) };
 }
 
+/** Walks any JSON value and collects every {url, title} pair it finds (shape-agnostic). */
+function collectSources(node: unknown, out: Source[] = []): Source[] {
+  if (Array.isArray(node)) {
+    node.forEach((n) => collectSources(n, out));
+  } else if (node && typeof node === "object") {
+    const o = node as Record<string, unknown>;
+    if (typeof o.url === "string") out.push({ title: typeof o.title === "string" ? o.title : "", url: o.url });
+    Object.values(o).forEach((v) => collectSources(v, out));
+  }
+  return out;
+}
+
 async function callGroq(prompt: string): Promise<LlmResult> {
   const key = env("GROQ_API_KEY");
   if (!key) throw new Error("GROQ_API_KEY is not set");
-  type Resp = {
-    choices?: {
-      message?: {
-        content?: string;
-        executed_tools?: { search_results?: { results?: { title?: string; url?: string }[] } }[];
-      };
-    }[];
-  };
-  // Only "compound" systems can browse the web. Try the configured one, then the mini version.
-  const candidates = [...new Set([env("GROQ_MODEL") ?? "groq/compound", "groq/compound-mini"])];
+  type Resp = { choices?: { message?: Record<string, unknown> & { content?: string; executed_tools?: unknown }}[] };
+  // Web access on Groq: "groq/compound*" systems, or openai/gpt-oss-* with the built-in browser_search tool.
+  const candidates = [...new Set([env("GROQ_MODEL"), "openai/gpt-oss-120b", "openai/gpt-oss-20b"])].filter(
+    (m): m is string => Boolean(m),
+  );
   for (const model of candidates) {
+    const isGptOss = model.startsWith("openai/gpt-oss");
     const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: { "content-type": "application/json", authorization: `Bearer ${key}`, "Groq-Model-Version": "latest" },
-      body: JSON.stringify({ model, temperature: 0.4, messages: [{ role: "user", content: prompt }] }),
+      body: JSON.stringify({
+        model,
+        temperature: 0.4,
+        max_completion_tokens: 6000,
+        messages: [{ role: "user", content: prompt }],
+        ...(isGptOss ? { tools: [{ type: "browser_search" }], tool_choice: "required" } : {}),
+      }),
     });
     if (res.status === 404) {
       console.warn(`Groq model ${model} not available for this key, trying the next one…`);
@@ -212,12 +226,13 @@ async function callGroq(prompt: string): Promise<LlmResult> {
     if (!res.ok) throw new Error(`Groq (${model}) failed: ${res.status} ${(await res.text()).slice(0, 300)}`);
     const json = (await res.json()) as Resp;
     const msg = json.choices?.[0]?.message;
-    const raw = (msg?.executed_tools ?? [])
-      .flatMap((t) => t.search_results?.results ?? [])
-      .map((r) => ({ title: r.title ?? "", url: r.url ?? "" }));
-    return { text: msg?.content ?? "", sources: cleanSources(raw) };
+    const sources = cleanSources(collectSources([msg?.executed_tools, msg?.annotations]));
+    if (sources.length === 0) {
+      console.warn(`No sources found. executed_tools was: ${JSON.stringify(msg?.executed_tools ?? null).slice(0, 600)}`);
+    }
+    console.log(`Used Groq model ${model} (${sources.length} sources)`);
+    return { text: msg?.content ?? "", sources };
   }
-  // Nothing worked: show what this key can actually use.
   let available = "unknown";
   try {
     const list = await http<{ data?: { id: string }[] }>(
@@ -229,7 +244,7 @@ async function callGroq(prompt: string): Promise<LlmResult> {
   } catch (err) {
     available = `could not list models (${(err as Error).message})`;
   }
-  throw new Error(`No web-search model (groq/compound*) is available for this Groq key. Models available: ${available}`);
+  throw new Error(`No web-search model is available for this Groq key. Models available: ${available}`);
 }
 
 /* ---------------- parsing + checks ---------------- */
@@ -240,6 +255,7 @@ function parseArticle(text: string) {
   if (!m) throw new Error("Model output did not match the required format");
   const body = m[4]
     .replace(/\[\d+(?:\s*,\s*\d+)*\]/g, "")
+    .replace(/【[^】]*】/g, "")
     .split("\n")
     .map((l) => l.trim())
     .filter(Boolean)
