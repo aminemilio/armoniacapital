@@ -87,7 +87,8 @@ function pickCategory(offset: number): CategorySlug {
   const forced = env("CATEGORY");
   if (forced && forced in CATEGORY_META) return forced as CategorySlug;
   const day = Math.floor(Date.now() / 86_400_000);
-  return CORE_CATEGORIES[(day + offset) % CORE_CATEGORIES.length];
+  const slot = new Date().getUTCHours() >= 10 ? 1 : 0; // 0 = European run, 1 = US run
+  return CORE_CATEGORIES[(day * 2 + slot + offset) % CORE_CATEGORIES.length];
 }
 
 async function http<T>(url: string, init: RequestInit, label: string): Promise<T> {
@@ -128,7 +129,7 @@ function buildPrompt(category: CategorySlug, recentTitles: string[]): string {
   const today = new Date().toISOString().slice(0, 10);
   return `You are a senior editor at Armonia Capital, a financial market intelligence site. Its lens is equilibrium: where is price relative to balance, who is positioned on each side, and what could pull it back. Islamic finance is covered as a core vertical, in neutral, non-preachy language.
 
-Today is ${today}. Use web search to find the most important developments from the last 48 hours in: ${FOCUS[category]}. Pick ONE angle and write one article about it.
+Today is ${today}.${env("SESSION") ? ` This article is published ahead of the ${env("SESSION")} market open, so frame it around what to watch going into that session.` : ""} Use web search to find the most important developments from the last 48 hours in: ${FOCUS[category]}. Pick ONE angle and write one article about it.
 
 Hard rules:
 - Rely only on facts you found in search results. Attribute figures and claims in the prose (for example "according to Reuters"). If you are unsure of a number, leave it out.
@@ -188,7 +189,6 @@ async function callGemini(prompt: string): Promise<LlmResult> {
 async function callGroq(prompt: string): Promise<LlmResult> {
   const key = env("GROQ_API_KEY");
   if (!key) throw new Error("GROQ_API_KEY is not set");
-  const model = env("GROQ_MODEL") ?? "groq/compound";
   type Resp = {
     choices?: {
       message?: {
@@ -197,20 +197,39 @@ async function callGroq(prompt: string): Promise<LlmResult> {
       };
     }[];
   };
-  const json = await http<Resp>(
-    "https://api.groq.com/openai/v1/chat/completions",
-    {
+  // Only "compound" systems can browse the web. Try the configured one, then the mini version.
+  const candidates = [...new Set([env("GROQ_MODEL") ?? "groq/compound", "groq/compound-mini"])];
+  for (const model of candidates) {
+    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: { "content-type": "application/json", authorization: `Bearer ${key}`, "Groq-Model-Version": "latest" },
       body: JSON.stringify({ model, temperature: 0.4, messages: [{ role: "user", content: prompt }] }),
-    },
-    `Groq (${model})`,
-  );
-  const msg = json.choices?.[0]?.message;
-  const raw = (msg?.executed_tools ?? [])
-    .flatMap((t) => t.search_results?.results ?? [])
-    .map((r) => ({ title: r.title ?? "", url: r.url ?? "" }));
-  return { text: msg?.content ?? "", sources: cleanSources(raw) };
+    });
+    if (res.status === 404) {
+      console.warn(`Groq model ${model} not available for this key, trying the next one…`);
+      continue;
+    }
+    if (!res.ok) throw new Error(`Groq (${model}) failed: ${res.status} ${(await res.text()).slice(0, 300)}`);
+    const json = (await res.json()) as Resp;
+    const msg = json.choices?.[0]?.message;
+    const raw = (msg?.executed_tools ?? [])
+      .flatMap((t) => t.search_results?.results ?? [])
+      .map((r) => ({ title: r.title ?? "", url: r.url ?? "" }));
+    return { text: msg?.content ?? "", sources: cleanSources(raw) };
+  }
+  // Nothing worked: show what this key can actually use.
+  let available = "unknown";
+  try {
+    const list = await http<{ data?: { id: string }[] }>(
+      "https://api.groq.com/openai/v1/models",
+      { headers: { authorization: `Bearer ${key}` } },
+      "Groq model list",
+    );
+    available = (list.data ?? []).map((m) => m.id).join(", ");
+  } catch (err) {
+    available = `could not list models (${(err as Error).message})`;
+  }
+  throw new Error(`No web-search model (groq/compound*) is available for this Groq key. Models available: ${available}`);
 }
 
 /* ---------------- parsing + checks ---------------- */
