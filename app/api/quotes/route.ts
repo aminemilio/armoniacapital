@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { fetchDashboard, getMockPayload } from "@/lib/market-data";
 
-export const revalidate = 60;
+// Must run on every request: without this Next.js pre-renders the route once at build time.
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {

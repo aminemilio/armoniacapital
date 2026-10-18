@@ -10,6 +10,8 @@ const NAV = [
   { href: "/category/equities", label: "Equities" },
   { href: "/category/digital-assets", label: "Digital Assets" },
   { href: "/category/islamic-finance", label: "Islamic Finance" },
+  { href: "/news", label: "News" },
+  { href: "/learn", label: "Learn" },
   { href: "/about", label: "About" },
 ];
 
@@ -43,7 +45,7 @@ export function Header() {
           <Logo />
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-6 xl:flex">
           {NAV.map((item) => (
             <Link
               key={item.href}
@@ -63,7 +65,7 @@ export function Header() {
 
         <button
           type="button"
-          className="p-2 text-bone lg:hidden"
+          className="p-2 text-bone xl:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="mobile-nav"
@@ -77,7 +79,7 @@ export function Header() {
         <nav
           id="mobile-nav"
           aria-label="Mobile"
-          className="border-t border-white/10 bg-ink px-4 pb-5 pt-3 lg:hidden"
+          className="border-t border-white/10 bg-ink px-4 pb-5 pt-3 xl:hidden"
         >
           <ul className="flex flex-col">
             {NAV.map((item) => (

@@ -24,7 +24,7 @@ npm run build && npm start
 5. At your registrar, set DNS as Vercel shows: `A  @  76.76.21.21` and `CNAME  www  cname.vercel-dns.com` (use the exact values Vercel displays for your project).
 6. Set `SITE_URL=https://armoniacapital.com` so canonical URLs, sitemap and robots are correct.
 
-**Cloudflare Pages (optional):** use the Next.js on Pages adapter (`@cloudflare/next-on-pages`); the `/api/quotes` route already uses the Edge runtime. Vercel needs no extra setup.
+**Cloudflare Pages (optional):** use the Next.js on Pages adapter (`@cloudflare/next-on-pages`); the site runs on Cloudflare Workers through OpenNext (`@opennextjs/cloudflare`), which does not support `runtime = "edge"`, so `/api/quotes` uses the default runtime. Vercel needs no extra setup.
 
 ## Environment variables
 
@@ -45,7 +45,7 @@ The site itself needs none of the keys to run; they are only used by `npm run ge
 
 ## How live data works
 
-- `GET /api/quotes` (Edge, `revalidate = 60`) returns `{ ticker, dashboard }`.
+- `GET /api/quotes` (`revalidate = 60`) returns `{ ticker, dashboard }`.
 - **Crypto** (BTC, ETH, SOL, XRP) comes from the free CoinGecko public API, with a 5 s timeout.
 - **S&P 500, NASDAQ, gold (futures), DXY, NVDA, TSLA** come from Yahoo Finance's free, keyless chart endpoint (`fetchEquities`). It is unofficial and can rate-limit or change, and quotes can be delayed. Each symbol falls back to its own mock value if its request fails; the UI labels mocks "indicative" and live values "LIVE". For a supported free API with a key, swap `fetchYahooOne` for Finnhub or Twelve Data (free tiers are rate-limited and may not include indices).
 - If CoinGecko fails or rate-limits, the route returns mocks. If the route itself fails, the client keeps the last good data (or mocks). Nothing waits on "Loading…" forever.
@@ -73,6 +73,17 @@ Model names change often. Pin a current id in `GEMINI_MODEL` from Google's model
 **Review before trusting it.** This is financial content produced by a model. Start with `DRAFT_MODE=true`, read the drafts in `data/drafts.json`, and move good ones into `data/articles.json`. Once you trust the output, switch to publishing directly and spot-check regularly. Fully automated, unreviewed articles can also run into search-engine and ad-network policies on scaled AI content.
 
 Seed images are Pexels URLs; replace any that no longer resolve.
+
+## News, RSS and Learn
+
+- **Market news (`/news`, homepage block):** `/api/news` fetches the feeds listed in `data/feeds.json`, parses RSS/Atom, merges, de-duplicates and sorts them. The page refreshes every 5 minutes in the browser; the server caches for 5 minutes per instance. A feed that fails is skipped, and the page says how many sources answered. Only headlines, a short summary and a link to the publisher are shown.
+- **Add or remove a source:** edit `data/feeds.json` (`name`, `url`, `topic`, optional `"enabled": false`) and push. Topics become the filter buttons. Check each publisher's terms before enabling it on a monetised site: for example BBC feeds are licensed for non-commercial use, so BBC and CNBC ship disabled.
+- **Regions and countries:** each feed in `data/feeds.json` has `regions` (`Europe`, `Africa`, `Asia`, `MENA`, `Global`) and an optional `country`. Region pages live at `/news/europe`, `/news/africa`, `/news/asia` and `/news/mena`, with country filter chips (Africa: South Africa, Egypt, Nigeria, Algeria, Morocco, the five largest economies by 2026 IMF nominal GDP projections). Edit region names, descriptions and country lists in `lib/regions.ts`. A feed can belong to several regions (Egypt is in Africa and MENA).
+- **Check your feeds:** run `npm run check-feeds` (add `-- --all` to include disabled ones). It prints OK or FAIL for each feed from your own machine; set `"enabled": false` on any FAIL. Feeds marked `"verified": true` were confirmed to exist when the list was written; the others use the publishers' usual feed addresses and may need fixing.
+- **Your own RSS feed:** `/feed.xml` lists the latest 30 articles and is advertised in the page `<head>`, so readers and aggregators can find it.
+- **Learn (`/learn`, `/learn/glossary`):** guides use the same article format with category `learn`. They are excluded from the "Latest intelligence" block. The glossary lives in `lib/glossary.ts`. The generator writes one new Learn guide every Saturday (and any time you run the workflow manually with category `learn`).
+- **Dates:** generated articles store a full timestamp (`publishedAt`) and show "Oct 17, 2026 · 12:35 UTC" on the article page; lists sort newest first.
+- **Articles not appearing?** If the workflow variable `DRAFT_MODE` is `true`, new articles go to `data/drafts.json` and are never shown. Set `DRAFT_MODE` to `false` (Settings → Secrets and variables → Actions → Variables) to publish automatically.
 
 ## Newsletter
 

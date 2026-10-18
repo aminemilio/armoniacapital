@@ -1,0 +1,37 @@
+[
+  { "name": "Federal Reserve", "url": "https://www.federalreserve.gov/feeds/press_all.xml", "topic": "Central banks", "regions": ["Global"], "verified": true },
+  { "name": "European Central Bank", "url": "https://www.ecb.europa.eu/rss/press.xml", "topic": "Central banks", "regions": ["Europe"], "country": "Eurozone", "verified": true },
+  { "name": "Bank of England", "url": "https://www.bankofengland.co.uk/rss/news", "topic": "Central banks", "regions": ["Europe"], "country": "United Kingdom", "verified": true },
+  { "name": "Euronews Business", "url": "https://www.euronews.com/rss?level=theme&name=business", "topic": "Economy", "regions": ["Europe"], "verified": true },
+  { "name": "Eurostat news", "url": "https://ec.europa.eu/eurostat/cache/RSS/rss_estat_news.xml", "topic": "Economy", "regions": ["Europe"], "country": "Eurozone", "enabled": false },
+
+  { "name": "Moneyweb", "url": "https://www.moneyweb.co.za/feed/", "topic": "Economy", "regions": ["Africa"], "country": "South Africa" },
+  { "name": "BusinessTech", "url": "https://businesstech.co.za/news/feed/", "topic": "Economy", "regions": ["Africa"], "country": "South Africa" },
+  { "name": "Daily News Egypt", "url": "https://dailynewsegypt.com/feed/", "topic": "Economy", "regions": ["Africa", "MENA"], "country": "Egypt" },
+  { "name": "Egypt Independent", "url": "https://www.egyptindependent.com/feed/", "topic": "Economy", "regions": ["Africa", "MENA"], "country": "Egypt" },
+  { "name": "Nairametrics", "url": "https://nairametrics.com/feed/", "topic": "Economy", "regions": ["Africa"], "country": "Nigeria" },
+  { "name": "BusinessDay Nigeria", "url": "https://businessday.ng/feed/", "topic": "Economy", "regions": ["Africa"], "country": "Nigeria" },
+  { "name": "TSA Algérie (French)", "url": "https://www.tsa-algerie.com/feed/", "topic": "Economy", "regions": ["Africa", "MENA"], "country": "Algeria" },
+  { "name": "Morocco World News", "url": "https://www.moroccoworldnews.com/feed", "topic": "Economy", "regions": ["Africa", "MENA"], "country": "Morocco" },
+  { "name": "Hespress English", "url": "https://en.hespress.com/feed", "topic": "Economy", "regions": ["Africa", "MENA"], "country": "Morocco" },
+  { "name": "The Africa Report", "url": "https://www.theafricareport.com/feed/", "topic": "Economy", "regions": ["Africa"] },
+  { "name": "African Business", "url": "https://african.business/feed", "topic": "Economy", "regions": ["Africa"] },
+
+  { "name": "Bank of Japan", "url": "https://www.boj.or.jp/en/rss/whatsnew.xml", "topic": "Central banks", "regions": ["Asia"], "country": "Japan", "verified": true },
+  { "name": "Reserve Bank of India", "url": "https://rbi.org.in/pressreleases_rss.xml", "topic": "Central banks", "regions": ["Asia"], "country": "India", "verified": true },
+  { "name": "South China Morning Post", "url": "https://www.scmp.com/rss/318747/feed", "topic": "Economy", "regions": ["Asia"], "verified": true },
+  { "name": "Economic Times (India economy)", "url": "https://economictimes.indiatimes.com/news/economy/rssfeeds/1373380680.cms", "topic": "Economy", "regions": ["Asia"], "country": "India" },
+  { "name": "China Daily Business", "url": "http://www.chinadaily.com.cn/rss/bizchina_rss.xml", "topic": "Economy", "regions": ["Asia"], "country": "China" },
+  { "name": "Channel NewsAsia Business", "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=6936", "topic": "Economy", "regions": ["Asia"] },
+  { "name": "Nikkei Asia", "url": "https://asia.nikkei.com/rss/feed/nar", "topic": "Economy", "regions": ["Asia"] },
+
+  { "name": "Abu Dhabi Media Office (Economy)", "url": "https://www.mediaoffice.abudhabi/en/economy/rss/", "topic": "Economy", "regions": ["MENA"], "country": "UAE", "verified": true },
+  { "name": "AGBI (Gulf business)", "url": "https://www.agbi.com/feed/", "topic": "Economy", "regions": ["MENA"] },
+  { "name": "Salaam Gateway", "url": "https://salaamgateway.com/feed/news", "topic": "Islamic finance", "regions": ["MENA"], "verified": true },
+
+  { "name": "CoinDesk", "url": "https://www.coindesk.com/arc/outboundfeeds/rss/", "topic": "Crypto", "regions": ["Global"], "verified": true },
+  { "name": "Cointelegraph", "url": "https://cointelegraph.com/rss", "topic": "Crypto", "regions": ["Global"], "verified": true },
+
+  { "name": "BBC Business", "url": "https://feeds.bbci.co.uk/news/business/rss.xml", "topic": "Markets", "regions": ["Global"], "enabled": false },
+  { "name": "CNBC Finance", "url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664", "topic": "Markets", "regions": ["Global"], "enabled": false }
+]

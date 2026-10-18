@@ -11,6 +11,10 @@ const COVERAGE = [
 
 const SITE = [
   { href: "/about", label: "About" },
+  { href: "/news", label: "News" },
+  { href: "/learn", label: "Learn" },
+  { href: "/learn/glossary", label: "Glossary" },
+  { href: "/feed.xml", label: "RSS" },
   { href: "/disclaimer", label: "Disclaimer" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
