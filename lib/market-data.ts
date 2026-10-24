@@ -1,3 +1,4 @@
+import { getFeatured, type FeaturedSpotlight } from "./featured";
 import type { DashboardData, QuotesPayload, TickerItem } from "./types";
 
 /**
@@ -30,8 +31,33 @@ export function getMockTicker(): TickerItem[] {
   return MOCK.map((item) => ({ ...item }));
 }
 
+/** Keyless fallback quote from Kraken (price vs today's open). Used when CoinGecko refuses the request. */
+async function krakenQuote(symbol: string): Promise<{ price: number; changePct: number } | null> {
+  const base = symbol.toUpperCase() === "BTC" ? "XBT" : symbol.toUpperCase();
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 5000);
+  try {
+    const res = await fetch(`https://api.kraken.com/0/public/Ticker?pair=${encodeURIComponent(base)}USD`, {
+      signal: controller.signal,
+      headers: { accept: "application/json" },
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return null;
+    const json = (await res.json()) as { error?: string[]; result?: Record<string, { c?: string[]; o?: string }> };
+    const row = json.result ? Object.values(json.result)[0] : undefined;
+    const price = Number(row?.c?.[0]);
+    const open = Number(row?.o);
+    if (!Number.isFinite(price) || price <= 0) return null;
+    return { price, changePct: Number.isFinite(open) && open > 0 ? ((price - open) / open) * 100 : 0 };
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 /** Live crypto prices from the free public CoinGecko API. Returns [] on any failure. */
-export async function fetchCrypto(): Promise<TickerItem[]> {
+async function fetchCoinGecko(): Promise<TickerItem[]> {
   const ids = COINS.map((c) => c.id).join(",");
   const url = `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`;
   const controller = new AbortController();
@@ -39,7 +65,10 @@ export async function fetchCrypto(): Promise<TickerItem[]> {
   try {
     const res = await fetch(url, {
       signal: controller.signal,
-      headers: { accept: "application/json" },
+      headers: {
+        accept: "application/json",
+        ...(process.env.COINGECKO_API_KEY ? { "x-cg-demo-api-key": process.env.COINGECKO_API_KEY } : {}),
+      },
       next: { revalidate: 60 },
     });
     if (!res.ok) throw new Error(`CoinGecko responded ${res.status}`);
@@ -63,6 +92,21 @@ export async function fetchCrypto(): Promise<TickerItem[]> {
   } finally {
     clearTimeout(timer);
   }
+}
+
+/** Crypto prices: CoinGecko first, then Kraken for any coin CoinGecko did not return. */
+export async function fetchCrypto(): Promise<TickerItem[]> {
+  const out = await fetchCoinGecko();
+  const have = new Set(out.map((i) => i.symbol));
+  const missing = COINS.filter((c) => !have.has(c.symbol));
+  if (missing.length === 0) return out;
+  const filled = await Promise.all(
+    missing.map(async (c): Promise<TickerItem | null> => {
+      const q = await krakenQuote(c.symbol);
+      return q ? { symbol: c.symbol, name: c.name, price: q.price, changePct: q.changePct, live: true, currency: "USD" } : null;
+    }),
+  );
+  return [...out, ...filled.filter((x): x is TickerItem => x !== null)];
 }
 
 /* Free, keyless equities/index/FX/commodity quotes via Yahoo Finance's chart endpoint.
@@ -90,7 +134,7 @@ async function fetchYahooOne(entry: (typeof YAHOO)[number]): Promise<TickerItem 
     if (!res.ok) return null;
     const json = (await res.json()) as {
       chart?: {
-        result?: { meta?: { regularMarketPrice?: number; previousClose?: number; chartPreviousClose?: number } }[];
+        result?: { meta?: { regularMarketPrice?: number; previousClose?: number; chartPreviousClose?: number; currency?: string } }[];
       };
     };
     const meta = json.chart?.result?.[0]?.meta;
@@ -98,7 +142,7 @@ async function fetchYahooOne(entry: (typeof YAHOO)[number]): Promise<TickerItem 
     const prev = meta?.previousClose ?? meta?.chartPreviousClose;
     if (typeof price !== "number") return null;
     const changePct = typeof prev === "number" && prev !== 0 ? ((price - prev) / prev) * 100 : 0;
-    return { symbol: entry.symbol, name: entry.name, price, changePct, live: true };
+    return { symbol: entry.symbol, name: entry.name, price, changePct, live: true, currency: meta?.currency };
   } catch {
     return null;
   } finally {
@@ -117,27 +161,73 @@ function mergeTicker(crypto: TickerItem[]): TickerItem[] {
   return ORDER.map((s) => bySymbol.get(s)).filter((i): i is TickerItem => Boolean(i));
 }
 
-function buildDashboard(ticker: TickerItem[]): DashboardData {
+/** Live quote for the day's featured asset (CoinGecko for coins, Yahoo for stocks). Null on failure. */
+async function fetchFeaturedQuote(spec: FeaturedSpotlight): Promise<TickerItem | null> {
+  if (spec.type === "crypto" && spec.coingeckoId) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 5000);
+    try {
+      const url = `https://api.coingecko.com/api/v3/simple/price?ids=${encodeURIComponent(spec.coingeckoId)}&vs_currencies=usd&include_24hr_change=true`;
+      const res = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          accept: "application/json",
+          ...(process.env.COINGECKO_API_KEY ? { "x-cg-demo-api-key": process.env.COINGECKO_API_KEY } : {}),
+        },
+        next: { revalidate: 60 },
+      });
+      if (!res.ok) throw new Error(`CoinGecko ${res.status}`);
+      const json = (await res.json()) as Record<string, { usd?: number; usd_24h_change?: number }>;
+      const q = json[spec.coingeckoId];
+      if (!q || typeof q.usd !== "number") throw new Error("no CoinGecko price");
+      return { symbol: spec.symbol, name: spec.name, price: q.usd, changePct: q.usd_24h_change ?? 0, live: true, currency: "USD" };
+    } catch {
+      const k = await krakenQuote(spec.symbol);
+      return k ? { symbol: spec.symbol, name: spec.name, price: k.price, changePct: k.changePct, live: true, currency: "USD" } : null;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  if (spec.type === "stock" && spec.yahoo) {
+    return fetchYahooOne({ symbol: spec.symbol, name: spec.name, ticker: spec.yahoo });
+  }
+  return null;
+}
+
+function buildDashboard(ticker: TickerItem[], featured?: TickerItem): DashboardData {
   const pick = (symbol: string): TickerItem =>
     ticker.find((i) => i.symbol === symbol) ?? MOCK.find((i) => i.symbol === symbol)!;
   return {
     overview: [pick("SPX"), pick("IXIC")],
     indices: [pick("DXY"), pick("XAU")],
-    featured: pick("BTC"),
+    featured: featured ?? pick("BTC"),
     updatedAt: new Date().toISOString(),
   };
 }
 
 export function getMockPayload(): QuotesPayload {
   const ticker = getMockTicker();
-  return { ticker, dashboard: buildDashboard(ticker) };
+  const spot = getFeatured();
+  // With a daily spotlight the price is unknown until the live call answers (price 0 = "unavailable").
+  const featured: TickerItem | undefined = spot
+    ? { symbol: spot.symbol, name: spot.name, price: 0, changePct: 0, live: false }
+    : undefined;
+  return { ticker, dashboard: buildDashboard(ticker, featured) };
 }
 
 /** Builds the full /api/quotes payload: live crypto + indicative mocks. Never throws. */
 export async function fetchDashboard(): Promise<QuotesPayload> {
-  const [crypto, equities] = await Promise.all([fetchCrypto(), fetchEquities()]);
+  const spot = getFeatured();
+  const [crypto, equities, spotQuote] = await Promise.all([
+    fetchCrypto(),
+    fetchEquities(),
+    spot ? fetchFeaturedQuote(spot) : Promise.resolve(null),
+  ]);
   const ticker = mergeTicker([...crypto, ...equities]);
-  return { ticker, dashboard: buildDashboard(ticker) };
+  const featured: TickerItem | undefined = spot
+    ? spotQuote ?? { symbol: spot.symbol, name: spot.name, price: 0, changePct: 0, live: false }
+    : undefined;
+  return { ticker, dashboard: buildDashboard(ticker, featured) };
 }
 
 /* ---------- Sentiment ---------- */

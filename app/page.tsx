@@ -5,11 +5,13 @@ import { InstitutionalDashboard } from "@/components/InstitutionalDashboard";
 import { LivePanel } from "@/components/LivePanel";
 import { Newsletter } from "@/components/Newsletter";
 import { SentimentHeatmap } from "@/components/SentimentHeatmap";
-import { getAllArticles } from "@/lib/articles";
+import { NewsFeed } from "@/components/NewsFeed";
+import { getArticlesByCategory, getLatestIntelligence } from "@/lib/articles";
 
 export default function HomePage() {
-  const [featured, ...rest] = getAllArticles();
+  const [featured, ...rest] = getLatestIntelligence();
   const side = rest.slice(0, 4);
+  const guides = getArticlesByCategory("learn").slice(0, 3);
 
   return (
     <>
@@ -58,6 +60,41 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <section aria-labelledby="news-heading" className="mx-auto max-w-7xl px-4 pt-20 sm:px-6">
+        <div className="flex items-end justify-between gap-4">
+          <h2 id="news-heading" className="font-serif text-3xl text-bone">
+            Market news
+          </h2>
+          <Link href="/news" className="text-sm text-brass-light hover:underline">
+            All news →
+          </Link>
+        </div>
+        <div className="mt-6 max-w-4xl">
+          <NewsFeed limit={8} compact />
+        </div>
+      </section>
+
+      {guides.length > 0 && (
+        <section aria-labelledby="learn-heading" className="mx-auto max-w-7xl px-4 pt-20 sm:px-6">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <h2 id="learn-heading" className="font-serif text-3xl text-bone">
+                Learn
+              </h2>
+              <p className="mt-2 max-w-xl text-bone/70">Plain-language guides to the ideas behind the headlines.</p>
+            </div>
+            <Link href="/learn" className="text-sm text-brass-light hover:underline">
+              All guides →
+            </Link>
+          </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {guides.map((a) => (
+              <ArticleCard key={a.slug} article={a} />
+            ))}
+          </div>
+        </section>
+      )}
 
       <SentimentHeatmap />
       <Newsletter />

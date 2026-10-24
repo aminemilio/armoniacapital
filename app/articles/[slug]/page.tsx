@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { format, parseISO } from "date-fns";
 import { ArticleCard } from "@/components/ArticleCard";
+import { formatPublished } from "@/lib/utils";
 import { ARTICLES, getArticle, getCategoryName, getRelatedArticles } from "@/lib/articles";
 
 type Params = { slug: string };
@@ -18,13 +18,14 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   if (!article) return { title: "Article not found" };
   return {
     title: article.title,
-    description: article.excerpt,
+    description: article.metaDescription ?? article.excerpt,
+    keywords: article.keywords,
     alternates: { canonical: `/articles/${article.slug}` },
     openGraph: {
       type: "article",
       title: article.title,
-      description: article.excerpt,
-      publishedTime: article.date,
+      description: article.metaDescription ?? article.excerpt,
+      publishedTime: article.publishedAt ?? article.date,
       images: [article.image],
     },
   };
@@ -53,9 +54,28 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
   const article = getArticle(slug);
   if (!article) notFound();
   const related = getRelatedArticles(article);
+  const siteUrl = process.env.SITE_URL ?? "https://armoniacapital.com";
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.metaDescription ?? article.excerpt,
+    image: [article.image],
+    datePublished: article.publishedAt ?? article.date,
+    dateModified: article.publishedAt ?? article.date,
+    articleSection: getCategoryName(article.category),
+    keywords: article.keywords?.join(", "),
+    author: { "@type": "Organization", name: "Armonia Capital" },
+    publisher: { "@type": "Organization", name: "Armonia Capital", url: siteUrl },
+    mainEntityOfPage: `${siteUrl}/articles/${article.slug}`,
+  };
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
       <Link
         href={`/category/${article.category}`}
         className="text-sm font-medium text-brass-light hover:underline"
@@ -64,7 +84,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
       </Link>
       <h1 className="mt-3 font-serif text-4xl leading-tight text-bone sm:text-5xl">{article.title}</h1>
       <p className="mt-4 font-mono text-xs text-slate">
-        {format(parseISO(article.date), "MMMM d, yyyy")} · {article.readTime} min read
+        {formatPublished(article)} · {article.readTime} min read
       </p>
       <p className="mt-6 text-xl leading-relaxed text-bone/75">{article.excerpt}</p>
 

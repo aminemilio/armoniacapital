@@ -1,0 +1,8 @@
+{
+  "note": "Priority local sources the research step checks first for regional angles. Add a site here when you find a good one (LinkedIn is a good place to discover them, but it cannot be read automatically).",
+  "priority": [
+    { "site": "algerian-business.com", "region": "Africa", "country": "Algeria", "note": "Business media on Algeria (French)" },
+    { "site": "laminutearabe.com/en", "region": "MENA", "country": "", "note": "Arab-world economy, energy, contracts (English edition)" },
+    { "site": "energycircle.org/news", "region": "Africa / MENA / Asia", "country": "", "note": "Energy investment in emerging markets" }
+  ]
+}

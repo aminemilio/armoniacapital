@@ -32,6 +32,7 @@ export const CATEGORY_META: Record<CategorySlug, { name: string; description: st
   business: { name: "Business", description: "Corporate strategy and the economy behind the tape" },
   politics: { name: "Politics", description: "Policy and geopolitics where they touch prices" },
   stock: { name: "Stock", description: "Individual stock notes and watchlists" },
+  learn: { name: "Learn", description: "Plain-language guides to markets, macro and Islamic finance" },
 };
 
 /** The five verticals always shown on the homepage grid. */
@@ -294,6 +295,202 @@ Gilt yields typically fall on weak growth surprises as rate-cut expectations ris
 
 Revisions to prior months, forward-looking surveys such as PMIs, and wage settlements. Confirmation from several sources would suggest a genuine slowdown rather than noise.`,
   },
+  {
+    slug: "what-is-a-bond-yield-and-why-does-it-move-every-market",
+    title: "What Is a Bond Yield, and Why Does It Move Every Market?",
+    excerpt: "Bond yields set the price of money across the economy. Here is how they work, why they move inversely to bond prices, and why stock and currency traders watch them.",
+    category: "learn",
+    date: "2026-09-22",
+    image: px(590041),
+    readTime: 5,
+    content: `## What a bond yield measures
+
+A bond is a loan. You lend money to a government or company, and it pays you interest, called the coupon, and returns your principal at maturity. The yield is the annual return you earn relative to the price you actually pay. If a bond pays 4 units a year and costs 100, the yield is about 4 percent.
+
+## Why prices and yields move in opposite directions
+
+Existing bonds keep paying their fixed coupons. If new bonds start offering higher coupons, nobody will pay full price for the older, lower-paying ones, so their prices fall until their yield matches the new market level. A falling bond price therefore means a rising yield, and the reverse.
+
+## What drives yields
+
+Three things matter most: expectations for the central bank's policy rate, expected inflation, and the extra compensation investors demand for lending for a longer time. News that raises any of these tends to push yields up.
+
+## Why other markets care
+
+Yields act as the benchmark price of money. When they rise, mortgages and corporate borrowing cost more, and future company profits are worth less in today's terms, which weighs on stock valuations. Higher yields can also attract foreign money into a currency. That is why a surprise in inflation data can move bonds, stocks and the dollar within minutes.
+
+## A useful habit
+
+Look at real yields, which subtract expected inflation, as well as headline yields. A 4 percent yield means something very different when inflation is 2 percent than when it is 4 percent.`,
+  },
+  {
+    slug: "how-central-banks-set-interest-rates-a-plain-language-guide",
+    title: "How Central Banks Set Interest Rates: A Plain-Language Guide",
+    excerpt: "Central banks do not decide rates on a whim. They balance inflation against jobs, using a short list of tools and imperfect data. Here is how the process works.",
+    category: "learn",
+    date: "2026-09-21",
+    image: px(210607),
+    readTime: 5,
+    content: `## The job of a central bank
+
+Most central banks have a mandate to keep prices stable. Some, like the US Federal Reserve, also target maximum employment. They pursue these goals mainly by setting a short-term policy rate, the rate at which banks lend to each other overnight.
+
+## From one rate to the whole economy
+
+When the policy rate rises, borrowing becomes more expensive for banks, and the effect spreads to mortgages, business loans and savings rates. Higher borrowing costs cool spending and hiring, which eventually slows price rises. Lowering rates works in the opposite direction. The effect takes months to appear, so policymakers act on forecasts, not only on today's data.
+
+## The other tools
+
+Central banks also use their balance sheets. Quantitative easing means buying bonds to push long-term yields down; quantitative tightening lets those holdings shrink. Forward guidance, the way officials describe their likely path, can move markets as much as an actual rate change.
+
+## Why it is hard
+
+No one can observe the neutral rate, the level at which policy neither speeds up nor slows the economy. Inflation data arrives late and is revised. Committees therefore move gradually, and often wait when the signals conflict.
+
+## What to watch
+
+The statement wording, the committee's projections, and the press conference. Markets compare each new statement with the previous one and trade the differences.`,
+  },
+  {
+    slug: "what-is-sukuk-and-how-do-islamic-bonds-work",
+    title: "What Is Sukuk? How Islamic Bonds Work, Step by Step",
+    excerpt: "Sukuk look like bonds but are built on assets, not interest-bearing debt. A plain explanation of how the structure works and how it differs from a conventional bond.",
+    category: "learn",
+    date: "2026-09-20",
+    image: px(730564),
+    readTime: 5,
+    content: `## The basic idea
+
+A conventional bond is a loan that pays interest. Islamic finance prohibits interest, so sukuk work differently. A sukuk certificate gives its holder a share of ownership in an asset, the use of an asset, or a business venture. The returns come from what that asset earns, such as rent or profit, not from interest on a loan.
+
+## A typical structure
+
+An issuer sets up a special purpose vehicle. Investors buy certificates, and the vehicle uses the money to acquire or lease an asset, for example a building or equipment. The vehicle then leases the asset back to the issuer in return for regular payments. Those payments are passed on to investors as periodic returns. At maturity, the issuer buys the asset back and investors get their principal.
+
+## Common contract types
+
+Ijara sukuk are based on leasing. Murabaha sukuk are based on cost-plus sales. Mudarabah and musharakah sukuk are based on partnerships that share profit. Each structure has its own rules about how risk and returns are allocated.
+
+## How sukuk differ from bonds in practice
+
+Sukuk are tied to identifiable assets or ventures, which is why scholars require specific structures. Many are asset-based rather than fully asset-backed, meaning investors rely mainly on the issuer's credit. Investors still face credit and market risk, and prices move with interest-rate conditions much like conventional bonds.
+
+## Who issues and buys them
+
+Governments, state-linked entities and banks in the Gulf and Southeast Asia are large issuers. Buyers include Islamic banks, takaful operators, funds and increasingly international investors. Whether a particular sukuk is Sharia-compliant is decided by its scholars, so always check the issuer's board.`,
+  },
+  {
+    slug: "what-is-the-us-dollar-index-dxy-and-how-to-read-it",
+    title: "What Is the US Dollar Index (DXY) and How to Read It",
+    excerpt: "DXY is the most quoted gauge of the dollar, but it covers only six currencies and leans heavily on the euro. Here is what it shows and what it leaves out.",
+    category: "learn",
+    date: "2026-09-19",
+    image: px(6770610),
+    readTime: 4,
+    content: `## What DXY is
+
+The US Dollar Index measures the dollar against a fixed basket of six currencies: the euro, Japanese yen, British pound, Canadian dollar, Swedish krona and Swiss franc. It began in 1973, and its composition has barely changed since the euro replaced several European currencies.
+
+## The weights matter
+
+The euro makes up well over half of the index. A move in the euro against the dollar therefore explains most of the move in DXY. When the index rises, the dollar is stronger against that basket; when it falls, it is weaker.
+
+## How to read a move
+
+A rising DXY often coincides with higher US yields, stronger US data, or a flight to safety. A falling DXY often follows expectations of lower US rates or improving global growth. Because many commodities, including gold and oil, are priced in dollars, a stronger dollar tends to weigh on them, though other forces can override that link.
+
+## What DXY leaves out
+
+It excludes the Chinese yuan, the Mexican peso and other currencies that matter for US trade. Broader trade-weighted indices exist for that reason. DXY is best used as a quick summary of dollar direction against developed-market currencies, not as a full picture.
+
+## Practical tip
+
+When a headline says the dollar rose, check which currencies drove it. A move led by the yen tells a different story from one led by the euro.`,
+  },
+  {
+    slug: "market-breadth-explained-is-a-rally-broad-or-narrow",
+    title: "Market Breadth Explained: Is a Rally Broad or Narrow?",
+    excerpt: "An index can hit a new high while most stocks fall. Breadth indicators show whether a rally has wide support or rests on a few names.",
+    category: "learn",
+    date: "2026-09-18",
+    image: px(187041),
+    readTime: 4,
+    content: `## Why headline indexes can mislead
+
+Major indexes such as the S&P 500 and Nasdaq are weighted by company size. The largest companies have the biggest influence, so a few strong stocks can lift the whole index even when most members are flat or falling.
+
+## Common breadth measures
+
+The advance-decline line tracks how many stocks rise versus fall each day, cumulated over time. The share of stocks above their 50-day or 200-day moving average shows how many are in uptrends. The ratio of new highs to new lows shows how many stocks are leading or breaking down. Comparing an equal-weighted index with its cap-weighted version shows how much the giants are carrying the result.
+
+## How to interpret them
+
+If the index rises and breadth improves, the advance has broad support, which is generally a healthier sign. If the index rises while breadth weakens, the rally depends on fewer stocks and can be more fragile. Breadth does not time turning points; divergences can last for months.
+
+## Why it matters
+
+Narrow markets concentrate risk. A disappointment from one or two large companies can move the entire index. Broad markets spread that risk and usually reflect wider confidence in the economy.
+
+## A balanced approach
+
+Treat breadth as context, not a trading signal. Use it alongside earnings, interest rates and valuations to judge how stretched the market is.`,
+  },
+  {
+    slug: "what-are-spot-crypto-etfs-and-what-do-etf-flows-tell-you",
+    title: "What Are Spot Crypto ETFs, and What Do ETF Flows Tell You?",
+    excerpt: "Spot crypto ETFs hold the underlying coin and trade like stocks. Their daily flows are a useful, but imperfect, clue about demand.",
+    category: "learn",
+    date: "2026-09-17",
+    image: px(844124),
+    readTime: 5,
+    content: `## What a spot ETF is
+
+A spot crypto exchange-traded fund holds the actual cryptocurrency, such as bitcoin, and issues shares that trade on a stock exchange. Investors get exposure through an ordinary brokerage account without managing wallets or keys. The fund charges an annual fee for custody and administration.
+
+## How flows are created
+
+Large financial firms called authorised participants create or redeem fund shares. When demand for shares is high, they deliver cash or coins to the fund and receive new shares, so the fund buys more of the asset. When investors sell, shares are redeemed and the fund sells. Net flow is creations minus redemptions, usually reported daily by issuers and data providers.
+
+## What flows can tell you
+
+Sustained inflows suggest new capital is entering through regulated channels. Persistent outflows suggest investors are reducing exposure. Flows are easier to track than most crypto activity because they are reported by regulated funds.
+
+## Limits of the signal
+
+Flows show what investors did, not what will happen next. They can follow price rather than lead it. Some flows are arbitrage or hedging trades, such as basis trades, rather than directional bets. One day of data is noise; weeks of data are more informative.
+
+## How to use it
+
+Compare ETF flows with exchange volumes, derivatives positioning and funding rates. When several indicators agree, the picture is more reliable than any single one.`,
+  },
+  {
+    slug: "riba-explained-how-islamic-finance-avoids-interest",
+    title: "Riba Explained: How Islamic Finance Avoids Interest",
+    excerpt: "Riba is at the centre of Islamic finance. Here is what it means, why it is prohibited, and which contracts are used instead.",
+    category: "learn",
+    date: "2026-09-16",
+    image: px(6801648),
+    readTime: 5,
+    content: `## What riba means
+
+Riba literally means increase or excess. In finance it refers to a predetermined return charged on a loan, in other words interest. Classical Islamic jurisprudence prohibits it, along with excessive uncertainty and speculation without a real underlying transaction.
+
+## The reasoning
+
+The common explanation is that money should not earn a guaranteed return simply by being lent. Returns should be linked to real economic activity and the sharing of risk. Scholars discuss this at length, and interpretations of how the rule applies to modern banking vary.
+
+## Contracts used instead
+
+A murabaha is a sale in which the seller discloses cost and adds an agreed margin. An ijara is a lease. A mudarabah is a partnership between a capital provider and an entrepreneur who share profits by agreement. A musharakah is a joint venture in which partners share profit and loss according to their contributions. Each replaces a loan with a transaction tied to an asset or a venture.
+
+## What this means for savers and investors
+
+Islamic banks offer profit-sharing deposits and financing based on these contracts. In investing, funds screen out companies whose main business is prohibited and cap leverage and interest income through ratio tests. Any small impure income is typically purified through charitable donations.
+
+## A note on diversity of views
+
+Standards differ between scholars, jurisdictions and index providers. If a decision matters to you, consult a qualified Sharia scholar or the sharia board of the institution you are dealing with.`,
+  },
 ];
 
 /** Seed articles + anything the generator script has committed to data/articles.json. */
@@ -308,8 +505,15 @@ export const ARTICLES: Article[] = (() => {
 
 /* ---------- Helpers ---------- */
 
+const stamp = (a: Article): string => a.publishedAt ?? `${a.date}T00:00:00.000Z`;
+
 export function getAllArticles(): Article[] {
-  return [...ARTICLES].sort((a, b) => b.date.localeCompare(a.date));
+  return [...ARTICLES].sort((a, b) => stamp(b).localeCompare(stamp(a)));
+}
+
+/** News and analysis only: educational guides are shown in the Learn section instead. */
+export function getLatestIntelligence(): Article[] {
+  return getAllArticles().filter((a) => a.category !== "learn");
 }
 
 export function getArticle(slug: string): Article | undefined {
