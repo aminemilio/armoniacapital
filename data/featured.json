@@ -1,46 +1,50 @@
 {
   "current": {
-    "date": "2026-10-24",
-    "symbol": "NVDA",
-    "name": "NVIDIA",
-    "type": "stock",
-    "yahoo": "NVDA",
-    "sector": "Accelerated computing and AI chips",
-    "utility": "NVIDIA designs and sells accelerated‑computing GPUs and related software that power AI model training, inference and high‑performance data‑center workloads; its primary users are cloud service providers, large enterprises and research institutions that run AI and scientific computing workloads.",
+    "date": "2026-10-25",
+    "symbol": "LINK",
+    "name": "Chainlink",
+    "type": "crypto",
+    "coingeckoId": "chainlink",
+    "sector": "Oracle network connecting blockchains to real-world data",
+    "utility": "Chainlink provides a decentralized oracle network that delivers tamper‑proof off‑chain data (price feeds, weather, sports results, etc.) to smart contracts and enables cross‑chain messaging via its Cross‑Chain Interoperability Protocol (CCIP). Its services are used by DeFi platforms (e.g., GMX), blockchain layer‑2s (Arbitrum, Base), enterprise partners such as Circle, SWIFT and South‑Korea game developer Wemade, and numerous other crypto applications.",
     "evidence": [
-      "Data Center revenue of $30.8 billion in the nine‑month period ended Oct 27 2024, driven by Hopper and H200 AI platforms — NVIDIA Form 10‑Q (Q3 FY2025).",
-      "Cloud service providers accounted for roughly 50 % of Data Center revenue in Q3 FY2025, indicating heavy usage of NVIDIA GPUs for AI services — NVIDIA Form 10‑Q (Q3 FY2025).",
-      "NVIDIA announced shipments of the new Blackwell data‑center architecture beginning Q4 FY2025, expanding capacity for AI training clusters — NVIDIA Form 10‑Q (Q3 FY2025)."
+      "CCIP fee revenue rose from ~$61 k in Jan 2024 to >$171 k in the first two weeks of March 2024, with cumulative CCIP revenue reaching $377,724.",
+      "Chainlink Price Feeds generated approximately $2.6 million in month‑to‑date revenue and secured ~$11.4 billion of value as of 31 Oct 2023.",
+      "Arbitrum accounted for 28% of CCIP network fees, followed by Base at 24%, indicating heavy usage by major L2 networks."
     ],
-    "whyNow": "In late October 2024 NVIDIA disclosed that demand for its upcoming Blackwell AI GPUs exceeds supply, prompting accelerated production ramps to meet surging AI model training needs.",
+    "whyNow": "Recent crypto regulatory scrutiny and heightened market volatility underscore the need for reliable, verifiable data feeds, boosting demand for Chainlink’s oracle services.",
     "risks": [
-      "Exposure to U.S. export‑control restrictions that could limit sales of high‑performance GPUs to key markets such as China.",
-      "Supply‑chain constraints and long lead times for advanced semiconductor components that may impede the ability to meet growing AI demand."
+      "Regulatory actions targeting crypto infrastructure could restrict oracle deployments or impose compliance burdens.",
+      "Emerging competing oracle solutions (e.g., EigenLayer’s restaking model) may erode Chainlink’s market share and fee revenue."
     ],
     "sources": [
       {
-        "title": "Document",
-        "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581023000225/q3fy24cfocommentary.htm"
+        "title": "Chainlink (LINK):  The leader in oracles faces the challenges of diversification | The Big Whale",
+        "url": "https://www.thebigwhale.io/article/chainlink-link-the-leader-in-oracles-faces-the-challenges-of-diversification"
       },
       {
-        "title": "NVIDIA CORP Form 10-Q for the period ended October 27, 2024",
-        "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000316/nvda-20241027.htm"
+        "title": "Chainlink: Does Demand Meet Supply? | Messari by Blockworks",
+        "url": "https://messari.io/report/chainlink-does-demand-meet-supply"
       },
       {
-        "title": "Document",
-        "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581023000225/q3fy24pr.htm"
+        "title": "Blockchain oracles: business models still under construction | The Big Whale",
+        "url": "https://www.thebigwhale.io/article/blockchain-oracles-business-models-still-under-construction"
       },
       {
-        "title": "Q3FY24 CFO Commentary",
-        "url": "https://s201.q4cdn.com/141608511/files/doc_financials/Q3FY24/Q3FY24-CFO-Commentary.pdf"
+        "title": "LINK Price, Market Cap, Supply, Trading Volume & Token Rights",
+        "url": "https://defillama.com/token/link"
       },
       {
-        "title": "s201.q4cdn.com",
-        "url": "https://s201.q4cdn.com/141608511/files/doc_financials/Q3FY24/Rev_by_Mkt_Qtrly_Trend_Q324.pdf?stream=top"
+        "title": "Chainlink Network Financials and Valuation [1Q23 Update]",
+        "url": "https://ewallach.substack.com/p/chainlink-network-financials-and-fba"
       }
     ]
   },
   "history": [
+    {
+      "date": "2026-10-25",
+      "symbol": "LINK"
+    },
     {
       "date": "2026-10-24",
       "symbol": "NVDA"

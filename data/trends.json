@@ -1,5 +1,147 @@
 {
-  "generatedAt": null,
-  "trends": [],
-  "angles": []
+  "generatedAt": "2026-10-25T11:04:37.204Z",
+  "trends": [
+    {
+      "name": "Crypto regulatory push and investment climate",
+      "regions": [
+        "Global",
+        "Africa",
+        "MENA"
+      ],
+      "keywords": [
+        "crypto",
+        "regulation",
+        "investment"
+      ],
+      "why": "Multiple outlets across continents highlight need to move beyond frameworks, attracting investment and competing globally."
+    },
+    {
+      "name": "Nigeria’s FX inflows surge",
+      "regions": [
+        "Africa",
+        "Nigeria"
+      ],
+      "keywords": [
+        "FX flows",
+        "Nigeria",
+        "foreign investment"
+      ],
+      "why": "Highest since 2019, indicating robust capital market activity and potential for currency market volatility."
+    },
+    {
+      "name": "Egypt’s water and agricultural strategy",
+      "regions": [
+        "Africa",
+        "MENA",
+        "Egypt"
+      ],
+      "keywords": [
+        "water",
+        "Nile",
+        "farmland",
+        "agriculture"
+      ],
+      "why": "Multiple stories on water challenges, farmland targets, and irrigation tech signal a national priority with regional implications."
+    },
+    {
+      "name": "African banking sector growth",
+      "regions": [
+        "Africa",
+        "Nigeria",
+        "South Africa"
+      ],
+      "keywords": [
+        "bank profits",
+        "capital raising",
+        "fintech"
+      ],
+      "why": "Several banks report record profits and capital raises, indicating a strengthening financial sector."
+    },
+    {
+      "name": "Global bond issuance by AfDB",
+      "regions": [
+        "Africa",
+        "MENA"
+      ],
+      "keywords": [
+        "AfDB",
+        "bond",
+        "global finance"
+      ],
+      "why": "$2.5B raised with orders $4.8B shows strong investor appetite for African development debt."
+    },
+    {
+      "name": "European carmaker expansion to US",
+      "regions": [
+        "Europe",
+        "USA"
+      ],
+      "keywords": [
+        "Audi",
+        "US market",
+        "Trump"
+      ],
+      "why": "Audi’s US entry tied to political narratives, affecting automotive trade flows."
+    },
+    {
+      "name": "Indian manufacturing and investment surge",
+      "regions": [
+        "Asia",
+        "India"
+      ],
+      "keywords": [
+        "private capex",
+        "manufacturing",
+        "India"
+      ],
+      "why": "39% capex surge signals robust industrial activity, influencing global supply chains."
+    },
+    {
+      "name": "Crypto market volatility amid geopolitical tensions",
+      "regions": [
+        "Global",
+        "MENA"
+      ],
+      "keywords": [
+        "bitcoin",
+        "Middle East",
+        "volatility"
+      ],
+      "why": "Bitcoin slides below $80k following U.S. Middle East evacuations, linking crypto prices to geopolitical events."
+    }
+  ],
+  "angles": [
+    {
+      "place": "Africa",
+      "idea": "Explore how African regulators can craft crypto-friendly policies to attract foreign capital while mitigating fraud risks."
+    },
+    {
+      "place": "Nigeria",
+      "idea": "Analyze the impact of rising FX inflows on the Naira’s exchange rate and local banking sector profitability."
+    },
+    {
+      "place": "Egypt",
+      "idea": "Assess how water scarcity and agricultural expansion plans affect Egypt’s food security and export potential."
+    },
+    {
+      "place": "South Africa",
+      "idea": "Evaluate how South African banks’ capital strategies influence credit availability for SMEs."
+    },
+    {
+      "place": "MENA",
+      "idea": "Examine how AfDB bond proceeds are allocated across infrastructure projects and their impact on regional growth."
+    },
+    {
+      "place": "Europe",
+      "idea": "Investigate the strategic implications of European automakers entering the US market amid political shifts."
+    },
+    {
+      "place": "Asia",
+      "idea": "Analyze how India’s manufacturing boom reshapes regional supply chain dynamics and foreign investment flows."
+    },
+    {
+      "place": "Islamic finance",
+      "idea": "Explore how geopolitical risks in the Middle East affect crypto adoption among Islamic finance institutions."
+    }
+  ]
 }
