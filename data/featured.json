@@ -1,46 +1,50 @@
 {
   "current": {
-    "date": "2026-10-25",
-    "symbol": "LINK",
-    "name": "Chainlink",
-    "type": "crypto",
-    "coingeckoId": "chainlink",
-    "sector": "Oracle network connecting blockchains to real-world data",
-    "utility": "Chainlink provides a decentralized oracle network that delivers tamper‑proof off‑chain data (price feeds, weather, sports results, etc.) to smart contracts and enables cross‑chain messaging via its Cross‑Chain Interoperability Protocol (CCIP). Its services are used by DeFi platforms (e.g., GMX), blockchain layer‑2s (Arbitrum, Base), enterprise partners such as Circle, SWIFT and South‑Korea game developer Wemade, and numerous other crypto applications.",
+    "date": "2026-10-26",
+    "symbol": "ASML",
+    "name": "ASML (ADR)",
+    "type": "stock",
+    "yahoo": "ASML",
+    "sector": "Chip-making lithography equipment",
+    "utility": "ASML designs and manufactures extreme‑ultraviolet (EUV) and High‑NA lithography systems that print the microscopic circuit patterns on silicon wafers; its customers are the world’s leading semiconductor makers such as Intel, TSMC and Samsung.",
     "evidence": [
-      "CCIP fee revenue rose from ~$61 k in Jan 2024 to >$171 k in the first two weeks of March 2024, with cumulative CCIP revenue reaching $377,724.",
-      "Chainlink Price Feeds generated approximately $2.6 million in month‑to‑date revenue and secured ~$11.4 billion of value as of 31 Oct 2023.",
-      "Arbitrum accounted for 28% of CCIP network fees, followed by Base at 24%, indicating heavy usage by major L2 networks."
+      "€27.6 billion net sales in 2023, including €5.6 billion of EUV bookings in Q4 — ASML press release, 24 Jan 2024",
+      "Shipped 421 new lithography systems in 2023 (including the first High‑NA EUV tool) — ASML press release, 24 Jan 2024",
+      "Second High‑NA EUV machine delivered to an unnamed customer, with potential buyers TSMC and Samsung, each machine priced around €350 million — Reuters, 17 Apr 2024"
     ],
-    "whyNow": "Recent crypto regulatory scrutiny and heightened market volatility underscore the need for reliable, verifiable data feeds, boosting demand for Chainlink’s oracle services.",
+    "whyNow": "The recent $40 billion AI‑chip financing deal announced by SpaceX underscores accelerating demand for advanced chips, which in turn drives immediate need for ASML’s next‑generation lithography tools.",
     "risks": [
-      "Regulatory actions targeting crypto infrastructure could restrict oracle deployments or impose compliance burdens.",
-      "Emerging competing oracle solutions (e.g., EigenLayer’s restaking model) may erode Chainlink’s market share and fee revenue."
+      "Tight export‑control regimes that could restrict sales to key customers.",
+      "The extremely high cost of High‑NA systems may delay orders if semiconductor manufacturers curb capex amid macro‑economic uncertainty."
     ],
     "sources": [
       {
-        "title": "Chainlink (LINK):  The leader in oracles faces the challenges of diversification | The Big Whale",
-        "url": "https://www.thebigwhale.io/article/chainlink-link-the-leader-in-oracles-faces-the-challenges-of-diversification"
+        "title": "ASML reports €27.6 billion net sales and €7.8 billion net income in 2023 | Wed, 01/24/2024 - 07:00",
+        "url": "https://investor.asml.com/news-releases/news-release-details/asml-reports-eu27.6-billion-net-sales-and-eu7.8-billion-net-income-2023"
       },
       {
-        "title": "Chainlink: Does Demand Meet Supply? | Messari by Blockworks",
-        "url": "https://messari.io/report/chainlink-does-demand-meet-supply"
+        "title": "asml-20231231",
+        "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796624000008/asml-20231231.htm"
       },
       {
-        "title": "Blockchain oracles: business models still under construction | The Big Whale",
-        "url": "https://www.thebigwhale.io/article/blockchain-oracles-business-models-still-under-construction"
+        "title": "Transcript ASML Investor call",
+        "url": "https://edge.sitecorecloud.io/asmlnetherlaaea-asmlcom-prd-5369/media/project/asmlcom/asmlcom/asml/files/investors/financial-results/q-results/2023/q4/investor-call-prepared-remarks-q4-fy-2023.pdf"
       },
       {
-        "title": "LINK Price, Market Cap, Supply, Trading Volume & Token Rights",
-        "url": "https://defillama.com/token/link"
+        "title": "www.sec.gov",
+        "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796624000008/R66.htm"
       },
       {
-        "title": "Chainlink Network Financials and Valuation [1Q23 Update]",
-        "url": "https://ewallach.substack.com/p/chainlink-network-financials-and-fba"
+        "title": "R14.htm",
+        "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796624000008/R14.htm"
       }
     ]
   },
   "history": [
+    {
+      "date": "2026-10-26",
+      "symbol": "ASML"
+    },
     {
       "date": "2026-10-25",
       "symbol": "LINK"

@@ -1,147 +1,152 @@
 {
-  "generatedAt": "2026-10-25T11:04:37.204Z",
+  "generatedAt": "2026-10-26T12:37:42.740Z",
   "trends": [
     {
-      "name": "Crypto regulatory push and investment climate",
+      "name": "Bitcoin hovering near $80,000 amid Fed/ECB/BOJ rate decisions",
       "regions": [
         "Global",
-        "Africa",
-        "MENA"
+        "Asia",
+        "Europe"
       ],
       "keywords": [
+        "Bitcoin",
+        "Fed",
         "crypto",
-        "regulation",
-        "investment"
+        "market volatility"
       ],
-      "why": "Multiple outlets across continents highlight need to move beyond frameworks, attracting investment and competing globally."
+      "why": "Multiple global outlets highlight price sensitivity to central‑bank policy, indicating significant market impact."
     },
     {
-      "name": "Nigeria’s FX inflows surge",
+      "name": "SpaceX inks $40 billion AI chip financing deal with Apollo",
+      "regions": [
+        "Asia",
+        "Global"
+      ],
+      "keywords": [
+        "SpaceX",
+        "AI chips",
+        "financing",
+        "Apollo"
+      ],
+      "why": "The deal represents a major cross‑industry investment, attracting wide coverage and signaling AI infrastructure growth."
+    },
+    {
+      "name": "Nigeria declares Ebola‑free after patient evacuation",
       "regions": [
         "Africa",
         "Nigeria"
       ],
       "keywords": [
-        "FX flows",
+        "Ebola",
+        "WHO",
         "Nigeria",
-        "foreign investment"
+        "health"
       ],
-      "why": "Highest since 2019, indicating robust capital market activity and potential for currency market volatility."
+      "why": "Health crisis coverage across multiple outlets underscores public‑health and economic implications."
     },
     {
-      "name": "Egypt’s water and agricultural strategy",
+      "name": "Morocco plans social‑media ban for users under 15",
       "regions": [
         "Africa",
-        "MENA",
-        "Egypt"
+        "Morocco"
       ],
       "keywords": [
-        "water",
-        "Nile",
-        "farmland",
-        "agriculture"
+        "Morocco",
+        "social media",
+        "youth",
+        "regulation"
       ],
-      "why": "Multiple stories on water challenges, farmland targets, and irrigation tech signal a national priority with regional implications."
+      "why": "Policy change with regional and global privacy implications, widely reported."
     },
     {
-      "name": "African banking sector growth",
+      "name": "Saudi imports hold up despite Houthi shipping attacks",
+      "regions": [
+        "Gulf",
+        "Saudi Arabia"
+      ],
+      "keywords": [
+        "Saudi Arabia",
+        "imports",
+        "Houthi",
+        "shipping"
+      ],
+      "why": "Highlights resilience of Saudi supply chains amid geopolitical tensions, affecting regional trade."
+    },
+    {
+      "name": "Bahri places $450 million order for very large oil tankers",
+      "regions": [
+        "Gulf",
+        "Saudi Arabia"
+      ],
+      "keywords": [
+        "Bahri",
+        "oil tankers",
+        "shipping",
+        "$450m"
+      ],
+      "why": "Significant capital expenditure in the shipping sector, influencing Gulf maritime markets."
+    },
+    {
+      "name": "Nigeria’s proposed stamp tax threatens manufacturing margins",
       "regions": [
         "Africa",
+        "Nigeria"
+      ],
+      "keywords": [
         "Nigeria",
-        "South Africa"
+        "stamp tax",
+        "manufacturing",
+        "consumer spending"
       ],
-      "keywords": [
-        "bank profits",
-        "capital raising",
-        "fintech"
-      ],
-      "why": "Several banks report record profits and capital raises, indicating a strengthening financial sector."
+      "why": "Fiscal policy change with direct impact on domestic industry and consumer behavior, covered by multiple outlets."
     },
     {
-      "name": "Global bond issuance by AfDB",
-      "regions": [
-        "Africa",
-        "MENA"
-      ],
-      "keywords": [
-        "AfDB",
-        "bond",
-        "global finance"
-      ],
-      "why": "$2.5B raised with orders $4.8B shows strong investor appetite for African development debt."
-    },
-    {
-      "name": "European carmaker expansion to US",
-      "regions": [
-        "Europe",
-        "USA"
-      ],
-      "keywords": [
-        "Audi",
-        "US market",
-        "Trump"
-      ],
-      "why": "Audi’s US entry tied to political narratives, affecting automotive trade flows."
-    },
-    {
-      "name": "Indian manufacturing and investment surge",
+      "name": "India extends duty‑free cotton imports through December",
       "regions": [
         "Asia",
         "India"
       ],
       "keywords": [
-        "private capex",
-        "manufacturing",
-        "India"
+        "India",
+        "cotton",
+        "duty‑free",
+        "imports"
       ],
-      "why": "39% capex surge signals robust industrial activity, influencing global supply chains."
-    },
-    {
-      "name": "Crypto market volatility amid geopolitical tensions",
-      "regions": [
-        "Global",
-        "MENA"
-      ],
-      "keywords": [
-        "bitcoin",
-        "Middle East",
-        "volatility"
-      ],
-      "why": "Bitcoin slides below $80k following U.S. Middle East evacuations, linking crypto prices to geopolitical events."
+      "why": "Trade policy adjustment affecting global cotton supply chain, noted by several business sources."
     }
   ],
   "angles": [
     {
-      "place": "Africa",
-      "idea": "Explore how African regulators can craft crypto-friendly policies to attract foreign capital while mitigating fraud risks."
-    },
-    {
-      "place": "Nigeria",
-      "idea": "Analyze the impact of rising FX inflows on the Naira’s exchange rate and local banking sector profitability."
-    },
-    {
-      "place": "Egypt",
-      "idea": "Assess how water scarcity and agricultural expansion plans affect Egypt’s food security and export potential."
-    },
-    {
-      "place": "South Africa",
-      "idea": "Evaluate how South African banks’ capital strategies influence credit availability for SMEs."
-    },
-    {
-      "place": "MENA",
-      "idea": "Examine how AfDB bond proceeds are allocated across infrastructure projects and their impact on regional growth."
-    },
-    {
-      "place": "Europe",
-      "idea": "Investigate the strategic implications of European automakers entering the US market amid political shifts."
+      "place": "Global",
+      "idea": "Focus on how central‑bank rate moves are reshaping crypto risk appetite and institutional flows."
     },
     {
       "place": "Asia",
-      "idea": "Analyze how India’s manufacturing boom reshapes regional supply chain dynamics and foreign investment flows."
+      "idea": "Examine the strategic implications for Asian AI supply chains and the role of space‑tech firms in data centers."
     },
     {
-      "place": "Islamic finance",
-      "idea": "Explore how geopolitical risks in the Middle East affect crypto adoption among Islamic finance institutions."
+      "place": "Nigeria",
+      "idea": "Analyze the economic rebound post‑Ebola and the government's investment in health infrastructure."
+    },
+    {
+      "place": "Morocco",
+      "idea": "Investigate the impact on digital entrepreneurship and youth engagement in the MENA tech ecosystem."
+    },
+    {
+      "place": "Gulf",
+      "idea": "Assess how Saudi logistics strategies mitigate maritime risks and support economic diversification."
+    },
+    {
+      "place": "Gulf",
+      "idea": "Explore the shift toward larger, more efficient tankers and its effect on Gulf shipping competitiveness."
+    },
+    {
+      "place": "Nigeria",
+      "idea": "Evaluate the potential macroeconomic effects of the stamp tax on industrial output and inflation."
+    },
+    {
+      "place": "Asia",
+      "idea": "Scrutinize how extended duty‑free status influences Indian textile competitiveness and global market dynamics."
     }
   ]
 }
