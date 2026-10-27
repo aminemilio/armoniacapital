@@ -1,152 +1,152 @@
 {
-  "generatedAt": "2026-10-26T12:37:42.740Z",
+  "generatedAt": "2026-10-27T11:54:52.110Z",
   "trends": [
     {
-      "name": "Bitcoin hovering near $80,000 amid Fed/ECB/BOJ rate decisions",
+      "name": "Bitcoin price below $80,000",
       "regions": [
-        "Global",
-        "Asia",
-        "Europe"
-      ],
-      "keywords": [
-        "Bitcoin",
-        "Fed",
-        "crypto",
-        "market volatility"
-      ],
-      "why": "Multiple global outlets highlight price sensitivity to central‑bank policy, indicating significant market impact."
-    },
-    {
-      "name": "SpaceX inks $40 billion AI chip financing deal with Apollo",
-      "regions": [
-        "Asia",
         "Global"
       ],
       "keywords": [
-        "SpaceX",
-        "AI chips",
-        "financing",
-        "Apollo"
+        "Bitcoin",
+        "price",
+        "AI buildout",
+        "Fed meeting"
       ],
-      "why": "The deal represents a major cross‑industry investment, attracting wide coverage and signaling AI infrastructure growth."
+      "why": "Multiple global outlets report sustained dip amid AI hype, impacting crypto markets and investor sentiment."
     },
     {
-      "name": "Nigeria declares Ebola‑free after patient evacuation",
+      "name": "Dangote Refinery IPO meets record demand",
       "regions": [
-        "Africa",
-        "Nigeria"
+        "Africa (Nigeria)"
       ],
       "keywords": [
-        "Ebola",
-        "WHO",
-        "Nigeria",
-        "health"
+        "Dangote",
+        "refinery",
+        "IPO",
+        "record demand"
       ],
-      "why": "Health crisis coverage across multiple outlets underscores public‑health and economic implications."
+      "why": "Largest African IPO with 119-country investor participation, reshaping capital markets."
     },
     {
-      "name": "Morocco plans social‑media ban for users under 15",
+      "name": "Saudi Arabia raises power and water tariffs for 2027",
       "regions": [
-        "Africa",
-        "Morocco"
-      ],
-      "keywords": [
-        "Morocco",
-        "social media",
-        "youth",
-        "regulation"
-      ],
-      "why": "Policy change with regional and global privacy implications, widely reported."
-    },
-    {
-      "name": "Saudi imports hold up despite Houthi shipping attacks",
-      "regions": [
-        "Gulf",
-        "Saudi Arabia"
+        "MENA/Gulf"
       ],
       "keywords": [
         "Saudi Arabia",
-        "imports",
-        "Houthi",
-        "shipping"
+        "tariffs",
+        "power",
+        "water",
+        "2027"
       ],
-      "why": "Highlights resilience of Saudi supply chains amid geopolitical tensions, affecting regional trade."
+      "why": "Significant policy shift affecting utilities and consumer costs, with regional ripple effects."
     },
     {
-      "name": "Bahri places $450 million order for very large oil tankers",
+      "name": "Banque du Caire private tranche IPO near $4bn",
       "regions": [
-        "Gulf",
-        "Saudi Arabia"
+        "MENA/Gulf"
       ],
       "keywords": [
-        "Bahri",
-        "oil tankers",
-        "shipping",
-        "$450m"
+        "Banque du Caire",
+        "IPO",
+        "private tranche",
+        "$4bn"
       ],
-      "why": "Significant capital expenditure in the shipping sector, influencing Gulf maritime markets."
+      "why": "Major capital raise in the Gulf banking sector, indicating investor confidence."
     },
     {
-      "name": "Nigeria’s proposed stamp tax threatens manufacturing margins",
+      "name": "OPEC+ oil producers keep output targets steady",
       "regions": [
-        "Africa",
-        "Nigeria"
+        "Asia (Middle East)"
       ],
       "keywords": [
-        "Nigeria",
-        "stamp tax",
-        "manufacturing",
-        "consumer spending"
+        "OPEC+",
+        "output",
+        "oil",
+        "meeting"
       ],
-      "why": "Fiscal policy change with direct impact on domestic industry and consumer behavior, covered by multiple outlets."
+      "why": "Global oil supply decision with wide-reaching market implications."
     },
     {
-      "name": "India extends duty‑free cotton imports through December",
+      "name": "India urges rupee as first line of defence",
       "regions": [
-        "Asia",
-        "India"
+        "Asia"
       ],
       "keywords": [
         "India",
-        "cotton",
-        "duty‑free",
-        "imports"
+        "rupee",
+        "IMF",
+        "forex reserves"
       ],
-      "why": "Trade policy adjustment affecting global cotton supply chain, noted by several business sources."
+      "why": "Currency strategy debate affecting trade and investment flows."
+    },
+    {
+      "name": "AI chip boom triples South Korea's Q3 growth",
+      "regions": [
+        "Asia"
+      ],
+      "keywords": [
+        "AI chip",
+        "South Korea",
+        "growth",
+        "Q3"
+      ],
+      "why": "Tech sector surge driving economic growth, attracting investment."
+    },
+    {
+      "name": "Morocco 2027 budget targets affordable youth housing",
+      "regions": [
+        "Africa (Morocco)"
+      ],
+      "keywords": [
+        "Morocco",
+        "budget",
+        "housing",
+        "youth"
+      ],
+      "why": "Social policy initiative with potential impact on construction and finance sectors."
     }
   ],
   "angles": [
     {
-      "place": "Global",
-      "idea": "Focus on how central‑bank rate moves are reshaping crypto risk appetite and institutional flows."
+      "place": "Europe",
+      "idea": "AI chip boom in South Korea: Assess how South Korea’s AI chip surge could influence European semiconductor supply chains and investment flows."
     },
     {
-      "place": "Asia",
-      "idea": "Examine the strategic implications for Asian AI supply chains and the role of space‑tech firms in data centers."
+      "place": "Algeria",
+      "idea": "Potential for Algerian fintech to tap into emerging crypto markets amid global Bitcoin volatility."
+    },
+    {
+      "place": "Egypt",
+      "idea": "Evaluating Egypt’s solar power project agreements as a catalyst for renewable investment and regional energy cooperation."
     },
     {
       "place": "Nigeria",
-      "idea": "Analyze the economic rebound post‑Ebola and the government's investment in health infrastructure."
+      "idea": "Analyzing the dual impact of Dangote refinery IPO and Naira volatility on Nigeria’s industrial and financial sectors."
+    },
+    {
+      "place": "South Africa",
+      "idea": "Assessing South Africa’s response to increased military recruitment drives in Africa and its implications for defense spending."
     },
     {
       "place": "Morocco",
-      "idea": "Investigate the impact on digital entrepreneurship and youth engagement in the MENA tech ecosystem."
+      "idea": "Exploring Morocco’s affordable housing targets for youth as a driver for real‑estate investment and construction financing."
     },
     {
-      "place": "Gulf",
-      "idea": "Assess how Saudi logistics strategies mitigate maritime risks and support economic diversification."
-    },
-    {
-      "place": "Gulf",
-      "idea": "Explore the shift toward larger, more efficient tankers and its effect on Gulf shipping competitiveness."
-    },
-    {
-      "place": "Nigeria",
-      "idea": "Evaluate the potential macroeconomic effects of the stamp tax on industrial output and inflation."
+      "place": "Tunisia",
+      "idea": "Investigating how Tunisia’s economic policies could align with regional investment trends highlighted by Morocco’s housing agenda."
     },
     {
       "place": "Asia",
-      "idea": "Scrutinize how extended duty‑free status influences Indian textile competitiveness and global market dynamics."
+      "idea": "India’s rupee defence strategy: Implications for foreign direct investment and trade balances amid global currency shifts."
+    },
+    {
+      "place": "MENA/Gulf",
+      "idea": "Saudi power tariff hike: Impact on utility sector profitability and investor appetite in Gulf markets."
+    },
+    {
+      "place": "Islamic finance",
+      "idea": "Sharia‑compliant crypto investment products: Opportunities and regulatory challenges amid Bitcoin’s price volatility."
     }
   ]
 }

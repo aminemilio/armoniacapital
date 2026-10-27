@@ -1,46 +1,50 @@
 {
   "current": {
-    "date": "2026-10-26",
-    "symbol": "ASML",
-    "name": "ASML (ADR)",
+    "date": "2026-10-27",
+    "symbol": "V",
+    "name": "Visa",
     "type": "stock",
-    "yahoo": "ASML",
-    "sector": "Chip-making lithography equipment",
-    "utility": "ASML designs and manufactures extreme‑ultraviolet (EUV) and High‑NA lithography systems that print the microscopic circuit patterns on silicon wafers; its customers are the world’s leading semiconductor makers such as Intel, TSMC and Samsung.",
+    "yahoo": "V",
+    "sector": "Global payments network",
+    "utility": "Visa operates a global electronic payments network that authorises, clears and settles card‑based transactions, enabling merchants, banks and consumers to move money instantly and securely.",
     "evidence": [
-      "€27.6 billion net sales in 2023, including €5.6 billion of EUV bookings in Q4 — ASML press release, 24 Jan 2024",
-      "Shipped 421 new lithography systems in 2023 (including the first High‑NA EUV tool) — ASML press release, 24 Jan 2024",
-      "Second High‑NA EUV machine delivered to an unnamed customer, with potential buyers TSMC and Samsung, each machine priced around €350 million — Reuters, 17 Apr 2024"
+      "Processed 257.5 billion transactions on Visa’s networks in FY 2025 (ended Sep 30 2025) — Visa Annual Report 2025",
+      "Total payment volume reached $16.7 trillion in FY 2025, reflecting the dollar value of purchases using Visa‑branded cards — Visa Annual Report 2025",
+      "Visa reported $2.5 billion in crypto‑related payments in 2024, with Circle’s USDC accounting for over 50% of that volume — Crypto Briefing, Apr 29 2024"
     ],
-    "whyNow": "The recent $40 billion AI‑chip financing deal announced by SpaceX underscores accelerating demand for advanced chips, which in turn drives immediate need for ASML’s next‑generation lithography tools.",
+    "whyNow": "The recent dip of Bitcoin below $80,000 has pressured crypto transaction volumes, directly affecting Visa’s emerging crypto‑payment services【4†L17-L20】.",
     "risks": [
-      "Tight export‑control regimes that could restrict sales to key customers.",
-      "The extremely high cost of High‑NA systems may delay orders if semiconductor manufacturers curb capex amid macro‑economic uncertainty."
+      "Regulatory tightening on digital payments or stablecoins could limit Visa’s crypto‑related revenue streams.",
+      "Competitive pressure from alternative payment networks and fintech platforms may erode Visa’s transaction volume growth."
     ],
     "sources": [
       {
-        "title": "ASML reports €27.6 billion net sales and €7.8 billion net income in 2023 | Wed, 01/24/2024 - 07:00",
-        "url": "https://investor.asml.com/news-releases/news-release-details/asml-reports-eu27.6-billion-net-sales-and-eu7.8-billion-net-income-2023"
+        "title": "Visa Inc. - Financials",
+        "url": "https://annualreport.visa.com/financials/default.aspx"
       },
       {
-        "title": "asml-20231231",
-        "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796624000008/asml-20231231.htm"
+        "title": "Visa Annual Report 2024",
+        "url": "https://s29.q4cdn.com/385744025/files/doc_downloads/2024/Visa-Fiscal-2024-Annual-Report.pdf"
       },
       {
-        "title": "Transcript ASML Investor call",
-        "url": "https://edge.sitecorecloud.io/asmlnetherlaaea-asmlcom-prd-5369/media/project/asmlcom/asmlcom/asml/files/investors/financial-results/q-results/2023/q4/investor-call-prepared-remarks-q4-fy-2023.pdf"
+        "title": "Annual Report",
+        "url": "https://www.sec.gov/Archives/edgar/data/1403161/000130817924000809/v4356631-ars.pdf"
       },
       {
-        "title": "www.sec.gov",
-        "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796624000008/R66.htm"
+        "title": "Q4 2024 Earnings Release",
+        "url": "https://s1.q4cdn.com/050606653/files/doc_financials/2024/q4/Q4-2024-Earnings-Release_vF.pdf"
       },
       {
-        "title": "R14.htm",
-        "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796624000008/R14.htm"
+        "title": "s1.q4cdn.com",
+        "url": "https://s1.q4cdn.com/050606653/files/doc_financials/2024/q4/Q4FY24-Visa-Operational-Performance-Data-FINAL.pdf"
       }
     ]
   },
   "history": [
+    {
+      "date": "2026-10-27",
+      "symbol": "V"
+    },
     {
       "date": "2026-10-26",
       "symbol": "ASML"
