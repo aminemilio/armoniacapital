@@ -1,5 +1,6 @@
 import type { Article, Category, CategorySlug } from "./types";
 import generated from "../data/articles.json";
+import overridesJson from "../data/image-overrides.json";
 
 const px = (id: number) =>
   `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=1200`;
@@ -496,11 +497,15 @@ Standards differ between scholars, jurisdictions and index providers. If a decis
 /** Seed articles + anything the generator script has committed to data/articles.json. */
 export const ARTICLES: Article[] = (() => {
   const seen = new Set<string>();
-  return [...(generated as Article[]), ...SEED_ARTICLES].filter((a) => {
-    if (seen.has(a.slug)) return false;
-    seen.add(a.slug);
-    return true;
-  });
+  const overrides = (overridesJson as { overrides?: Record<string, { image: string; credit?: string }> }).overrides ?? {};
+  return [...(generated as Article[]), ...SEED_ARTICLES]
+    .filter((a) => {
+      if (seen.has(a.slug)) return false;
+      seen.add(a.slug);
+      return true;
+    })
+    // data/image-overrides.json (written by `npm run fix-images`) replaces photos that do not fit their category.
+    .map((a) => (overrides[a.slug] ? { ...a, image: overrides[a.slug].image, imageCredit: overrides[a.slug].credit ?? a.imageCredit } : a));
 })();
 
 /* ---------- Helpers ---------- */

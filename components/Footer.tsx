@@ -13,6 +13,7 @@ const SITE = [
   { href: "/about", label: "About" },
   { href: "/news", label: "News" },
   { href: "/learn", label: "Learn" },
+  { href: "/featured", label: "Asset of the day" },
   { href: "/learn/glossary", label: "Glossary" },
   { href: "/feed.xml", label: "RSS" },
   { href: "/disclaimer", label: "Disclaimer" },

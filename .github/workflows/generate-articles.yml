@@ -28,6 +28,12 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - name: Fix mismatched images (once per article)
+        continue-on-error: true
+        run: npm run fix-images
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
       - run: npm run generate
         env:
           CATEGORY: ${{ inputs.category || '' }}

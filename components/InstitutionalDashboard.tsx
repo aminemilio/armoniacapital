@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useQuotes } from "@/lib/use-quotes";
 import { getFeatured } from "@/lib/featured";
 import { cn, formatPct, formatPrice } from "@/lib/utils";
@@ -103,6 +104,11 @@ export function InstitutionalDashboard() {
               <p>
                 <strong className="text-bone">In focus today. </strong>
                 {spot.whyNow}
+              </p>
+              <p>
+                <Link href="/featured" className="font-medium text-brass-light hover:underline">
+                  Read the full profile and past picks →
+                </Link>
               </p>
               {spot.evidence.length > 0 && (
                 <div>

@@ -21,6 +21,7 @@ import { ARTICLES, CATEGORY_META, CORE_CATEGORIES, getAllArticles } from "../lib
 import { renderBriefing, type BriefingData } from "../lib/briefing-template";
 import { fetchDashboard } from "../lib/market-data";
 import { getNews } from "../lib/news";
+import { findImage } from "./images";
 import type { Article, CategorySlug, NewsItem } from "../lib/types";
 
 interface Source {
@@ -31,16 +32,13 @@ interface LlmResult {
   text: string;
   sources: Source[];
 }
-interface Image {
-  url: string;
-  credit: string;
-}
 
 const ROOT = process.cwd();
 const PUBLISH_PATH = path.join(ROOT, "data", "articles.json");
 const DRAFT_PATH = path.join(ROOT, "data", "drafts.json");
 const TRENDS_PATH = path.join(ROOT, "data", "trends.json");
 const FEATURED_PATH = path.join(ROOT, "data", "featured.json");
+const FEATURED_ARCHIVE_PATH = path.join(ROOT, "data", "featured-archive.json");
 const UNIVERSE_PATH = path.join(ROOT, "data", "universe.json");
 const SOURCES_PATH = path.join(ROOT, "data", "sources.json");
 const BRIEFING_PATH = path.join(ROOT, "data", "briefing.json");
@@ -155,7 +153,9 @@ function cleanSources(raw: Source[], limit = 6): Source[] {
   for (const s of raw) {
     if (!s.url || !/^https?:\/\//.test(s.url) || seen.has(s.url)) continue;
     seen.add(s.url);
-    out.push({ title: (s.title || new URL(s.url).hostname).slice(0, 120), url: s.url });
+    const host = new URL(s.url).hostname.replace(/^www\./, "");
+    const generic = !s.title || s.title.trim().length < 4 || /^(document|untitled|home|index|pdf|file|download|page)$/i.test(s.title.trim());
+    out.push({ title: (generic ? host : s.title.trim()).slice(0, 120), url: s.url });
     if (out.length >= limit) break;
   }
   return out;
@@ -391,45 +391,6 @@ function checkQuality(a: ReturnType<typeof parseArticle>, sources: Source[]): vo
   }
 }
 
-/* ---------------- images ---------------- */
-
-async function pexelsImage(query: string, used: Set<string>): Promise<Image | null> {
-  const key = env("PEXELS_API_KEY");
-  if (!key) return null;
-  type Resp = { photos?: { photographer: string; src: { large2x?: string; large: string } }[] };
-  const json = await http<Resp>(
-    `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=10&orientation=landscape`,
-    { headers: { Authorization: key } },
-    "Pexels",
-  );
-  const p = (json.photos ?? []).find((x) => !used.has(x.src.large2x ?? x.src.large));
-  return p ? { url: p.src.large2x ?? p.src.large, credit: `Photo by ${p.photographer} on Pexels` } : null;
-}
-
-async function pixabayImage(query: string, used: Set<string>): Promise<Image | null> {
-  const key = env("PIXABAY_API_KEY");
-  if (!key) return null;
-  type Resp = { hits?: { largeImageURL: string; user: string }[] };
-  const json = await http<Resp>(
-    `https://pixabay.com/api/?key=${key}&q=${encodeURIComponent(query)}&image_type=photo&orientation=horizontal&safesearch=true&per_page=20`,
-    {},
-    "Pixabay",
-  );
-  const h = (json.hits ?? []).find((x) => !used.has(x.largeImageURL));
-  return h ? { url: h.largeImageURL, credit: `Image by ${h.user} on Pixabay` } : null;
-}
-
-async function findImage(query: string, used: Set<string>): Promise<Image | null> {
-  for (const fn of [pexelsImage, pixabayImage]) {
-    try {
-      const img = await fn(query, used);
-      if (img) return img;
-    } catch (err) {
-      console.warn(`Image lookup failed: ${(err as Error).message}`);
-    }
-  }
-  return null;
-}
 
 
 async function prioritySources(): Promise<string> {
@@ -466,7 +427,9 @@ interface FeaturedFile {
   history: { date: string; symbol: string }[];
 }
 
-const FEATURED_BANNED = /\b(buy|sell|undervalued|overvalued|price target|guaranteed|will (rise|soar|surge|moon|double)|best investment|must[- ]own)\b/i;
+// Only block wording that actually recommends or predicts; ordinary business verbs ("customers buy") are fine.
+const FEATURED_BANNED =
+  /\b(you should (buy|sell)|buy now|strong buy|worth buying|undervalued|overvalued|price target|guaranteed|will (rise|soar|surge|moon|double|skyrocket)|best investment|must[- ]own|can't lose)\b/i;
 
 function hashPick(seed: string, n: number): number {
   let h = 2166136261;
@@ -477,8 +440,45 @@ function hashPick(seed: string, n: number): number {
   return (h >>> 0) % n;
 }
 
+/** Years mentioned in the text that are too old to be "current" (older than last year). */
+function staleYears(text: string, nowYear: number): string[] {
+  const out = new Set<string>();
+  for (const m of text.matchAll(/\b(20\d{2})\b/g)) {
+    const y = Number(m[1]);
+    if (y < nowYear - 1) out.add(m[1]);
+  }
+  return [...out];
+}
+
+function parseFeaturedText(raw: string) {
+  const text = raw.replace(/\*\*/g, "");
+  const grab = (label: string, next: string[]) => {
+    const m = new RegExp(`${label}:\\s*([\\s\\S]*?)(?=\\n\\s*(?:${next.join("|")}):|$)`, "i").exec(text);
+    return m?.[1] ?? "";
+  };
+  const bullets = (block: string) =>
+    block
+      .split("\n")
+      .map((l) => l.trim().replace(/^[-*•]\s*/, ""))
+      .filter((l) => l.length > 10)
+      .map((l) => l.replace(/\[\d+\]|【[^】]*】/g, "").trim())
+      .slice(0, 4);
+  return {
+    utility: grab("UTILITY", ["EVIDENCE", "WHY NOW", "RISKS", "PROFILE"]).replace(/\s+/g, " ").trim(),
+    evidence: bullets(grab("EVIDENCE", ["WHY NOW", "RISKS", "PROFILE"])),
+    whyNow: grab("WHY NOW", ["RISKS", "PROFILE"]).replace(/\s+/g, " ").trim(),
+    risks: bullets(grab("RISKS", ["PROFILE"])),
+    profile: grab("PROFILE", ["ZZZ"])
+      .split(/\n\s*\n/)
+      .map((p) => p.replace(/\s+/g, " ").trim())
+      .filter(Boolean)
+      .join("\n\n"),
+  };
+}
+
 async function runFeatured(radar: Radar | null): Promise<void> {
   const today = new Date().toISOString().slice(0, 10);
+  const year = Number(today.slice(0, 4));
   let file: FeaturedFile = { current: null, history: [] };
   try {
     file = JSON.parse(await readFile(FEATURED_PATH, "utf8")) as FeaturedFile;
@@ -486,10 +486,13 @@ async function runFeatured(radar: Radar | null): Promise<void> {
     /* first run */
   }
   if (!Array.isArray(file.history)) file.history = [];
-  if ((file.current as { date?: string } | null)?.date === today && env("FEATURED_FORCE") !== "true") {
+  const cur = file.current as { date?: string; whyNow?: string; evidence?: string[] } | null;
+  const curStale = cur ? staleYears(`${cur.whyNow ?? ""} ${(cur.evidence ?? []).join(" ")}`, year).length > 0 : false;
+  if (cur?.date === today && !curStale && env("FEATURED_FORCE") !== "true") {
     console.log("Featured asset already chosen today.");
     return;
   }
+  if (cur?.date === today && curStale) console.log("Today's featured profile uses outdated figures: redoing it.");
 
   const universe = JSON.parse(await readFile(UNIVERSE_PATH, "utf8")) as UniverseItem[];
   const recent = new Set(file.history.slice(0, 14).map((h) => h.symbol));
@@ -518,48 +521,57 @@ Output ONLY one line: SYMBOL: <symbol> | WHY: <one sentence>`;
   }
   console.log(`Featured asset: ${chosen.name} (${chosen.symbol})`);
 
-  // 2) research its real-world utility (web search, main model)
-  const prompt = `You are the research desk of Armonia Capital. Today is ${today}.
+  // 2) research it (web search, main model), with one corrective retry
+  const basePrompt = `You are the research desk of Armonia Capital. Today is ${today}; the current year is ${year}.
 ASSET: ${chosen.name} (${chosen.symbol}), ${chosen.type}, ${chosen.sector ?? ""}.
 
 TRENDING NOW
 ${trendsText(radar)}
 
-Build a short factual profile of this asset's REAL-WORLD UTILITY. Search the web. Prefer primary sources (company filings and investor reports, official documentation, regulators, usage or on-chain dashboards), then reputable outlets.
+Build a factual profile of this asset's REAL-WORLD UTILITY. Search the web. Prefer primary sources (company filings and investor reports, official documentation, regulators, usage or on-chain dashboards), then reputable outlets.
+
+FRESHNESS RULES (important)
+- Use the MOST RECENT annual or quarterly report, earnings release or official update published before today. State its period in each EVIDENCE line (for example "Q2 FY${year + 1}" or "June ${year}").
+- Do not use any figure or event from before ${year - 1}. If you cannot find recent data for a point, say so in that line instead of using old data.
+- WHY NOW must describe something from the last 30 days and name the month and year.
 
 Output EXACTLY this and nothing else:
 UTILITY: <two sentences: what it does and who actually uses it>
 EVIDENCE:
-- <concrete usage, revenue or adoption figure with its date> — <source name>
+- <concrete usage, revenue or adoption figure, with its period> — <source name>
 - <another>
 - <another>
-WHY NOW: <one sentence connecting it to news from the last 30 days>
+WHY NOW: <one sentence, with month and year>
 RISKS:
 - <specific risk>
 - <specific risk>
+PROFILE: <two short paragraphs, 150 to 200 words in total, plain English: how the business or network works and earns its keep, who competes with it, and what would change the picture. Facts from your sources only.>
 
-Rules: facts only from your sources; neutral tone; at most 170 words; no price predictions, no price targets, and no words such as buy, sell, undervalued.`;
-  const out = await groqChat({ model: MAIN_MODEL(), prompt, browse: true, maxTokens: 2500 });
+Rules: neutral tone; no price predictions, no price targets, no recommendation to buy or sell.`;
 
-  const text = out.text.replace(/\*\*/g, "");
-  const utility = text.match(/UTILITY:\s*([\s\S]*?)\n\s*EVIDENCE:/i)?.[1]?.replace(/\s+/g, " ").trim() ?? "";
-  const evidenceBlock = text.match(/EVIDENCE:\s*([\s\S]*?)\n\s*WHY NOW:/i)?.[1] ?? "";
-  const whyNow = text.match(/WHY NOW:\s*([\s\S]*?)\n\s*RISKS:/i)?.[1]?.replace(/\s+/g, " ").trim() ?? "";
-  const risksBlock = text.match(/RISKS:\s*([\s\S]*)$/i)?.[1] ?? "";
-  const bullets = (block: string) =>
-    block
-      .split("\n")
-      .map((l) => l.trim().replace(/^[-*•]\s*/, ""))
-      .filter((l) => l.length > 10)
-      .map((l) => l.replace(/\[\d+\]|【[^】]*】/g, "").trim())
-      .slice(0, 4);
-  const evidence = bullets(evidenceBlock);
-  const risks = bullets(risksBlock);
+  let parsed = parseFeaturedText("");
+  let sources: { title: string; url: string }[] = [];
+  let lastProblem = "";
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    const prompt = attempt === 1 ? basePrompt : `${basePrompt}\n\nYOUR PREVIOUS ANSWER FAILED A CHECK: ${lastProblem}. Search again for newer sources and answer again in the same format.`;
+    const out = await groqChat({ model: MAIN_MODEL(), prompt, browse: true, maxTokens: 3800 });
+    parsed = parseFeaturedText(out.text);
+    sources = out.sources;
 
-  const all = `${utility} ${whyNow} ${evidence.join(" ")} ${risks.join(" ")}`;
-  if (utility.length < 40 || !whyNow || evidence.length < 2 || risks.length < 1) throw new Error("Featured profile was incomplete");
-  if (out.sources.length < 2) throw new Error(`Featured profile had only ${out.sources.length} web sources`);
-  if (FEATURED_BANNED.test(all)) throw new Error("Featured profile contained recommendation-style wording");
+    const all = `${parsed.utility} ${parsed.whyNow} ${parsed.evidence.join(" ")} ${parsed.risks.join(" ")} ${parsed.profile}`;
+    const stale = staleYears(`${parsed.whyNow} ${parsed.evidence.join(" ")}`, year);
+    if (parsed.utility.length < 40 || !parsed.whyNow || parsed.evidence.length < 2 || parsed.risks.length < 1) lastProblem = "the answer was incomplete";
+    else if (parsed.profile.split(/\s+/).length < 90) lastProblem = "the PROFILE section was missing or too short";
+    else if (sources.length < 2) lastProblem = `only ${sources.length} web sources were found`;
+    else if (FEATURED_BANNED.test(all)) lastProblem = "it contained recommendation-style wording";
+    else if (stale.length) lastProblem = `it relies on outdated figures from ${stale.join(", ")}`;
+    else {
+      lastProblem = "";
+      break;
+    }
+    console.warn(`Featured attempt ${attempt} rejected: ${lastProblem}`);
+  }
+  if (lastProblem) throw new Error(`Featured profile rejected: ${lastProblem}`);
 
   const current = {
     date: today,
@@ -569,17 +581,26 @@ Rules: facts only from your sources; neutral tone; at most 170 words; no price p
     coingeckoId: chosen.coingeckoId,
     yahoo: chosen.yahoo,
     sector: chosen.sector,
-    utility,
-    evidence,
-    whyNow,
-    risks,
-    sources: out.sources.slice(0, 5),
+    utility: parsed.utility,
+    evidence: parsed.evidence,
+    whyNow: parsed.whyNow,
+    risks: parsed.risks,
+    profile: parsed.profile,
+    sources: sources.slice(0, 6),
   };
   const history = [{ date: today, symbol: chosen.symbol }, ...file.history.filter((h) => h.date !== today)].slice(0, 40);
   await writeFile(FEATURED_PATH, JSON.stringify({ current, history }, null, 2) + "\n", "utf8");
+
+  let archive: Record<string, unknown>[] = [];
+  try {
+    archive = JSON.parse(await readFile(FEATURED_ARCHIVE_PATH, "utf8")) as Record<string, unknown>[];
+  } catch {
+    /* first entry */
+  }
+  archive = [current, ...archive.filter((x) => (x as { date?: string }).date !== today)].slice(0, 90);
+  await writeFile(FEATURED_ARCHIVE_PATH, JSON.stringify(archive, null, 2) + "\n", "utf8");
   console.log(`✓ Featured asset of the day: ${chosen.name}`);
 }
-
 
 /* ----- the daily email briefing ----- */
 
@@ -816,7 +837,7 @@ async function generateOneSimple(offset: number, store: Article[]): Promise<Arti
   if (known.has(slug)) throw new Error(`Duplicate slug: ${slug}`);
 
   const usedImages = new Set([...ARTICLES, ...store].map((a) => a.image));
-  const image = await findImage(parsed.imageQuery, usedImages);
+  const image = await findImage(category, parsed.imageQuery, parsed.title, usedImages);
   if (!image) throw new Error("No image found (set PEXELS_API_KEY or PIXABAY_API_KEY)");
 
   return {
@@ -1220,7 +1241,7 @@ async function generateOneGroq(offset: number, store: Article[], radar: Radar | 
   if (known.has(slug)) throw new Error(`Duplicate slug: ${slug}`);
 
   const usedImages = new Set([...ARTICLES, ...store].map((a) => a.image));
-  const image = await findImage(parsed.imageQuery, usedImages);
+  const image = await findImage(category, parsed.imageQuery, parsed.title, usedImages);
   if (!image) throw new Error("No image found (set PEXELS_API_KEY or PIXABAY_API_KEY)");
 
   return {

@@ -128,6 +128,18 @@ Feeds marked `"lang": "fr"` in `data/feeds.json` are translated to English when 
 
 Resend's free plan has daily and monthly sending limits and contact limits; check them against your list size.
 
+## Images that fit the article
+
+`scripts/images.ts` picks a photo per category from curated topics (Islamic finance: mosque architecture, geometric patterns, Gulf and Malaysian skylines, calligraphy; Equities: trading floors and charts; and so on) and rejects any photo whose description or tags match a block list (for example crypto or bitcoin on a non-crypto article; casino, alcohol, or other religions' symbols on Islamic finance). For Islamic finance the model's own image idea is ignored. `npm run fix-images` audits articles that already exist and writes replacements to `data/image-overrides.json`; the workflow runs it before each generation and checks each article only once.
+
+## Featured asset page
+
+`/featured` shows today's full profile (what it does, evidence, why it is in focus, risks, a short analysis and sources) and every earlier pick (`data/featured-archive.json`). A profile that cites figures older than last year is rejected and researched again.
+
+## Checking the signup setup
+
+Open `https://your-site/api/subscribe` in a browser. It lists which settings the server can read (`RESEND_API_KEY`, `SUBSCRIBE_SECRET`, `RESEND_SEGMENT_ID`), never their values. `"ready": true` means the signup form can send confirmation emails.
+
 ## Newsletter form
 
 The form posts to `/api/subscribe` (see above). Without `RESEND_API_KEY` and `SUBSCRIBE_SECRET` set on Cloudflare it answers "Subscriptions are not available yet".

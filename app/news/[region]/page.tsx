@@ -20,8 +20,9 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   };
 }
 
-export default async function RegionNewsPage({ params }: { params: Promise<Params> }) {
+export default async function RegionNewsPage({ params, searchParams }: { params: Promise<Params>; searchParams: Promise<{ country?: string; topic?: string }> }) {
   const { region } = await params;
+  const sp = await searchParams;
   const cfg = getRegion(region);
   if (!cfg) notFound();
 
@@ -30,7 +31,7 @@ export default async function RegionNewsPage({ params }: { params: Promise<Param
       <h1 className="font-serif text-4xl text-bone sm:text-5xl">{cfg.title}</h1>
       <p className="mt-3 max-w-2xl text-lg text-bone/70">{cfg.description}</p>
       <div className="mt-10">
-        <NewsBrowser key={cfg.slug} regionSlug={cfg.slug} />
+        <NewsBrowser key={`${cfg.slug}|${sp.country ?? ""}|${sp.topic ?? ""}`} regionSlug={cfg.slug} initialCountry={sp.country} initialTopic={sp.topic} />
       </div>
     </div>
   );
