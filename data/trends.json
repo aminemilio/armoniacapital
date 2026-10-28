@@ -1,152 +1,136 @@
 {
-  "generatedAt": "2026-10-27T11:54:52.110Z",
+  "generatedAt": "2026-10-28T12:30:22.237Z",
   "trends": [
     {
-      "name": "Bitcoin price below $80,000",
+      "name": "Fed meeting watch",
+      "regions": [
+        "Global"
+      ],
+      "keywords": [
+        "Fed",
+        "policy",
+        "crypto",
+        "Bitcoin"
+      ],
+      "why": "Multiple outlets (CoinDesk, Cointelegraph) highlight market sensitivity to Fed decisions, driving volatility in crypto and equity markets."
+    },
+    {
+      "name": "Bitcoin rebounds above $81k",
       "regions": [
         "Global"
       ],
       "keywords": [
         "Bitcoin",
-        "price",
-        "AI buildout",
-        "Fed meeting"
+        "rally",
+        "crypto"
       ],
-      "why": "Multiple global outlets report sustained dip amid AI hype, impacting crypto markets and investor sentiment."
+      "why": "CoinDesk and Cointelegraph report a sharp rebound, indicating renewed institutional interest and affecting global crypto valuations."
     },
     {
-      "name": "Dangote Refinery IPO meets record demand",
+      "name": "Coinbase adds Ripple stablecoin",
       "regions": [
-        "Africa (Nigeria)"
+        "Asia"
+      ],
+      "keywords": [
+        "Coinbase",
+        "Ripple",
+        "stablecoin"
+      ],
+      "why": "Channel NewsAsia coverage signals a shift in crypto exchange offerings, impacting stablecoin liquidity and regulatory scrutiny."
+    },
+    {
+      "name": "African bank lending risk‑sharing scheme",
+      "regions": [
+        "Africa"
+      ],
+      "keywords": [
+        "risk‑sharing",
+        "bank lending",
+        "Africa"
+      ],
+      "why": "BusinessDay Nigeria reports a $1bn scheme, boosting credit availability and influencing regional growth prospects."
+    },
+    {
+      "name": "Dangote refinery IPO attracts global investors",
+      "regions": [
+        "Africa"
       ],
       "keywords": [
         "Dangote",
-        "refinery",
         "IPO",
-        "record demand"
+        "Africa"
       ],
-      "why": "Largest African IPO with 119-country investor participation, reshaping capital markets."
+      "why": "Nairametrics highlights a historic IPO, signaling confidence in African infrastructure and attracting foreign capital."
     },
     {
-      "name": "Saudi Arabia raises power and water tariffs for 2027",
+      "name": "Russia‑Africa summit engagement",
       "regions": [
-        "MENA/Gulf"
+        "Africa, Russia"
       ],
       "keywords": [
-        "Saudi Arabia",
-        "tariffs",
-        "power",
-        "water",
-        "2027"
+        "Russia",
+        "Africa",
+        "summit"
       ],
-      "why": "Significant policy shift affecting utilities and consumer costs, with regional ripple effects."
+      "why": "Moneyweb coverage of Putin courting African leaders underscores geopolitical realignment affecting trade and security dynamics."
     },
     {
-      "name": "Banque du Caire private tranche IPO near $4bn",
+      "name": "Morocco drug pricing overhaul",
       "regions": [
-        "MENA/Gulf"
-      ],
-      "keywords": [
-        "Banque du Caire",
-        "IPO",
-        "private tranche",
-        "$4bn"
-      ],
-      "why": "Major capital raise in the Gulf banking sector, indicating investor confidence."
-    },
-    {
-      "name": "OPEC+ oil producers keep output targets steady",
-      "regions": [
-        "Asia (Middle East)"
-      ],
-      "keywords": [
-        "OPEC+",
-        "output",
-        "oil",
-        "meeting"
-      ],
-      "why": "Global oil supply decision with wide-reaching market implications."
-    },
-    {
-      "name": "India urges rupee as first line of defence",
-      "regions": [
-        "Asia"
-      ],
-      "keywords": [
-        "India",
-        "rupee",
-        "IMF",
-        "forex reserves"
-      ],
-      "why": "Currency strategy debate affecting trade and investment flows."
-    },
-    {
-      "name": "AI chip boom triples South Korea's Q3 growth",
-      "regions": [
-        "Asia"
-      ],
-      "keywords": [
-        "AI chip",
-        "South Korea",
-        "growth",
-        "Q3"
-      ],
-      "why": "Tech sector surge driving economic growth, attracting investment."
-    },
-    {
-      "name": "Morocco 2027 budget targets affordable youth housing",
-      "regions": [
-        "Africa (Morocco)"
+        "Africa"
       ],
       "keywords": [
         "Morocco",
-        "budget",
-        "housing",
-        "youth"
+        "drug pricing",
+        "competition"
       ],
-      "why": "Social policy initiative with potential impact on construction and finance sectors."
+      "why": "North Africa Post warns of cautious implementation, impacting pharmaceutical markets and healthcare costs."
+    },
+    {
+      "name": "Egypt airport expansion near Cairo",
+      "regions": [
+        "Africa"
+      ],
+      "keywords": [
+        "Egypt",
+        "airport",
+        "expansion"
+      ],
+      "why": "AGBI reports bid reviews, indicating infrastructure investment that could boost tourism and logistics."
     }
   ],
   "angles": [
     {
-      "place": "Europe",
-      "idea": "AI chip boom in South Korea: Assess how South Korea’s AI chip surge could influence European semiconductor supply chains and investment flows."
-    },
-    {
-      "place": "Algeria",
-      "idea": "Potential for Algerian fintech to tap into emerging crypto markets amid global Bitcoin volatility."
-    },
-    {
-      "place": "Egypt",
-      "idea": "Evaluating Egypt’s solar power project agreements as a catalyst for renewable investment and regional energy cooperation."
-    },
-    {
       "place": "Nigeria",
-      "idea": "Analyzing the dual impact of Dangote refinery IPO and Naira volatility on Nigeria’s industrial and financial sectors."
-    },
-    {
-      "place": "South Africa",
-      "idea": "Assessing South Africa’s response to increased military recruitment drives in Africa and its implications for defense spending."
+      "idea": "Digital payments expansion through Google Pay and FirstBank partnerships, assessing impact on financial inclusion."
     },
     {
       "place": "Morocco",
-      "idea": "Exploring Morocco’s affordable housing targets for youth as a driver for real‑estate investment and construction financing."
+      "idea": "Debate over permanent African seats on UN Security Council, exploring geopolitical influence and diplomatic leverage."
     },
     {
-      "place": "Tunisia",
-      "idea": "Investigating how Tunisia’s economic policies could align with regional investment trends highlighted by Morocco’s housing agenda."
+      "place": "India",
+      "idea": "Trade pact talks with Mexico, evaluating implications for bilateral trade flows and investment climate."
     },
     {
-      "place": "Asia",
-      "idea": "India’s rupee defence strategy: Implications for foreign direct investment and trade balances amid global currency shifts."
-    },
-    {
-      "place": "MENA/Gulf",
-      "idea": "Saudi power tariff hike: Impact on utility sector profitability and investor appetite in Gulf markets."
+      "place": "UAE",
+      "idea": "UAE‑Canada trade agreement (Cepa), analyzing cross‑regional trade diversification and economic resilience."
     },
     {
       "place": "Islamic finance",
-      "idea": "Sharia‑compliant crypto investment products: Opportunities and regulatory challenges amid Bitcoin’s price volatility."
+      "idea": "Tokenized notes on Solana and formalized crypto brokerage, examining regulatory frameworks and market adoption."
+    },
+    {
+      "place": "South Africa",
+      "idea": "Impact of AI surveillance claims on labor markets, assessing regulatory and ethical considerations."
+    },
+    {
+      "place": "Algeria",
+      "idea": "Potential effects of El Niño on corn plantings and agricultural commodity prices, informing commodity risk assessments."
+    },
+    {
+      "place": "Tunisia",
+      "idea": "Rising digital payment adoption, exploring fintech ecosystem growth and regulatory challenges."
     }
   ]
 }
