@@ -1,1 +1,52 @@
-{ "overrides": {}, "checked": [] }
+{
+  "overrides": {
+    "global-sukuk-issuance-tops-11-trillion-in-q3-2026-extending-market-recovery": {
+      "image": "https://images.pexels.com/photos/14819994/pexels-photo-14819994.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "credit": "Photo by enaerguvan . on Pexels"
+    },
+    "sukuk-issuance-gcc-pipeline-what-it-signals": {
+      "image": "https://images.pexels.com/photos/27206533/pexels-photo-27206533.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "credit": "Photo by Kate Trysh on Pexels"
+    },
+    "sharia-screening-thresholds-practical-guide": {
+      "image": "https://images.pexels.com/photos/32570928/pexels-photo-32570928.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "credit": "Photo by Ncang Jack on Pexels"
+    },
+    "uk-gdp-services-drag-monthly-print": {
+      "image": "https://images.pexels.com/photos/4200593/pexels-photo-4200593.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "credit": "Photo by BERK OZDEMIR on Pexels"
+    },
+    "what-is-sukuk-and-how-do-islamic-bonds-work": {
+      "image": "https://images.pexels.com/photos/31155018/pexels-photo-31155018.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "credit": "Photo by This And No Internet 25 on Pexels"
+    },
+    "what-are-spot-crypto-etfs-and-what-do-etf-flows-tell-you": {
+      "image": "https://images.pexels.com/photos/20014423/pexels-photo-20014423.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "credit": "Photo by Екатерина  Полякова on Pexels"
+    }
+  },
+  "checked": [
+    "global-sukuk-issuance-tops-11-trillion-in-q3-2026-extending-market-recovery",
+    "bitcoin-slips-below-80000-as-ai-selloff-and-fed-caution-hit-markets",
+    "spacexs-40-b-aichip-debt-deal-shifts-the-aihardware-equilibrium",
+    "nigeria-fx-inflows-surge-to-fiveyear-high-in-march-2024",
+    "stocks-versus-bonds-key-differences-and-why-they-often-move-apart",
+    "institutions-are-buying-while-retail-panics",
+    "no-rate-cut-likely-at-first-fed-meeting",
+    "hype-crypto-price-prediction-volume-etf-inflows",
+    "sp-500-spy-voo-outlook-this-week",
+    "sukuk-issuance-gcc-pipeline-what-it-signals",
+    "gold-spot-dxy-divergence-what-it-means",
+    "sharia-screening-thresholds-practical-guide",
+    "nasdaq-leadership-narrow-or-broadening",
+    "bitcoin-etf-flows-positioning-reset",
+    "uk-gdp-services-drag-monthly-print",
+    "what-is-a-bond-yield-and-why-does-it-move-every-market",
+    "how-central-banks-set-interest-rates-a-plain-language-guide",
+    "what-is-sukuk-and-how-do-islamic-bonds-work",
+    "what-is-the-us-dollar-index-dxy-and-how-to-read-it",
+    "market-breadth-explained-is-a-rally-broad-or-narrow",
+    "what-are-spot-crypto-etfs-and-what-do-etf-flows-tell-you",
+    "riba-explained-how-islamic-finance-avoids-interest"
+  ]
+}

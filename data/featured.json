@@ -1,46 +1,55 @@
 {
   "current": {
-    "date": "2026-10-27",
-    "symbol": "V",
-    "name": "Visa",
-    "type": "stock",
-    "yahoo": "V",
-    "sector": "Global payments network",
-    "utility": "Visa operates a global electronic payments network that authorises, clears and settles card‑based transactions, enabling merchants, banks and consumers to move money instantly and securely.",
+    "date": "2026-10-29",
+    "symbol": "XLM",
+    "name": "Stellar",
+    "type": "crypto",
+    "coingeckoId": "stellar",
+    "sector": "Cross-border payments network",
+    "utility": "Stellar is an open‑source, public blockchain that provides a fast, low‑cost settlement layer for cross‑border payments, stablecoin transfers and tokenised real‑world assets. It is used by financial institutions, remittance providers and fintechs such as MoneyGram, U.S. Bank and DTCC to move value across borders and issue regulated digital assets.",
     "evidence": [
-      "Processed 257.5 billion transactions on Visa’s networks in FY 2025 (ended Sep 30 2025) — Visa Annual Report 2025",
-      "Total payment volume reached $16.7 trillion in FY 2025, reflecting the dollar value of purchases using Visa‑branded cards — Visa Annual Report 2025",
-      "Visa reported $2.5 billion in crypto‑related payments in 2024, with Circle’s USDC accounting for over 50% of that volume — Crypto Briefing, Apr 29 2024"
+      "$25.1 billion stablecoin transfer volume in Q3 2026 — CoinMarketCap (Oct 2026)",
+      "$33.2 billion total network transaction volume in Q3 2026 — CoinMarketCap (Oct 2026)",
+      "3,922 monthly active developers and 99.99 % network uptime in Q3 2026 — TokenPost (Oct 20 2026)"
     ],
-    "whyNow": "The recent dip of Bitcoin below $80,000 has pressured crypto transaction volumes, directly affecting Visa’s emerging crypto‑payment services【4†L17-L20】.",
+    "whyNow": "The Stellar Development Foundation released its Q3 2026 network metrics in October 2026, showing record‑high transaction volumes and developer activity.",
     "risks": [
-      "Regulatory tightening on digital payments or stablecoins could limit Visa’s crypto‑related revenue streams.",
-      "Competitive pressure from alternative payment networks and fintech platforms may erode Visa’s transaction volume growth."
+      "Heightened regulatory scrutiny of stablecoins and cross‑border crypto transfers could restrict Stellar’s use cases.",
+      "Competition from other public‑layer payment networks (e.g., Ripple, Solana, and emerging CBDC‑linked rails) may limit market share."
     ],
+    "profile": "Stellar’s protocol enables anyone to issue assets and move value in under five seconds with fees of a few cents, leveraging a federated consensus model that scales to thousands of transactions per second. The Stellar Development Foundation (SDF) drives adoption by partnering with banks, payment firms and tokenisation platforms, while a global ecosystem of “anchors” connects fiat on‑ramps and off‑ramps. Revenue for the SDF is indirect, coming from ecosystem growth, grants and service fees for enterprise integrations; the network’s value is captured through increased transaction volume and tokenised asset custody.\n\nCompeting solutions include Ripple’s XRP network, which targets similar cross‑border corridors, and newer public blockchains offering faster finality or broader smart‑contract capabilities. Stellar’s niche lies in its focus on regulated stablecoins and real‑world asset tokenisation, backed by institutional pilots (e.g., MoneyGram, DTCC). A shift such as major banks adopting alternative settlement layers, or stricter AML/KYC rules that impede on‑ramp providers, could curtail Stellar’s growth, while expanded CBDC integration or new large‑scale tokenisation projects would boost its utility.",
     "sources": [
       {
-        "title": "Visa Inc. - Financials",
-        "url": "https://annualreport.visa.com/financials/default.aspx"
+        "title": "Quarterly reports",
+        "url": "https://stellar.org/quarterly-reports"
       },
       {
-        "title": "Visa Annual Report 2024",
-        "url": "https://s29.q4cdn.com/385744025/files/doc_downloads/2024/Visa-Fiscal-2024-Annual-Report.pdf"
+        "title": "Stellar Ecosystem Overview | Messari by Blockworks",
+        "url": "https://messari.io/report/stellar-ecosystem-overview"
       },
       {
-        "title": "Annual Report",
-        "url": "https://www.sec.gov/Archives/edgar/data/1403161/000130817924000809/v4356631-ars.pdf"
+        "title": "End of Year 2025 Report – Execution at Scale",
+        "url": "https://stellar.org/blog/foundation-news/2025-year-in-review"
       },
       {
-        "title": "Q4 2024 Earnings Release",
-        "url": "https://s1.q4cdn.com/050606653/files/doc_financials/2024/q4/Q4-2024-Earnings-Release_vF.pdf"
+        "title": "stellar.org",
+        "url": "https://stellar.org/blog/foundation-news/q1-2026-execution-at-network-scale"
       },
       {
-        "title": "s1.q4cdn.com",
-        "url": "https://s1.q4cdn.com/050606653/files/doc_financials/2024/q4/Q4FY24-Visa-Operational-Performance-Data-FINAL.pdf"
+        "title": "Stellar 2025: A Podium Finish",
+        "url": "https://stellar.org/blog/ecosystem/stellar-2025-year-in-review"
+      },
+      {
+        "title": "State of Stellar Q4 2025 | Messari",
+        "url": "https://messari.io/report/state-of-stellar-q4-2025"
       }
     ]
   },
   "history": [
+    {
+      "date": "2026-10-29",
+      "symbol": "XLM"
+    },
     {
       "date": "2026-10-27",
       "symbol": "V"

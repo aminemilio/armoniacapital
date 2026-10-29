@@ -1,136 +1,143 @@
 {
-  "generatedAt": "2026-10-28T12:30:22.237Z",
+  "generatedAt": "2026-10-29T12:41:37.126Z",
   "trends": [
     {
-      "name": "Fed meeting watch",
+      "name": "Lagarde’s Resignation",
       "regions": [
-        "Global"
+        "Europe"
       ],
       "keywords": [
-        "Fed",
-        "policy",
-        "crypto",
-        "Bitcoin"
+        "Lagarde",
+        "ECB",
+        "resignation",
+        "leadership"
       ],
-      "why": "Multiple outlets (CoinDesk, Cointelegraph) highlight market sensitivity to Fed decisions, driving volatility in crypto and equity markets."
+      "why": "Multiple outlets across Europe and Asia report the ECB president stepping down, signaling a major shift in EU monetary policy leadership."
     },
     {
-      "name": "Bitcoin rebounds above $81k",
+      "name": "HTX UK Promotion Ban",
+      "regions": [
+        "Asia",
+        "Europe"
+      ],
+      "keywords": [
+        "HTX",
+        "UK",
+        "FCA",
+        "crypto promotion"
+      ],
+      "why": "Cointelegraph and Channel NewsAsia both cover the FCA’s enforcement action, highlighting tightening crypto marketing rules in the UK."
+    },
+    {
+      "name": "Bitcoin Price & Options Expiry",
       "regions": [
         "Global"
       ],
       "keywords": [
         "Bitcoin",
-        "rally",
-        "crypto"
+        "$80k",
+        "options",
+        "expiry"
       ],
-      "why": "CoinDesk and Cointelegraph report a sharp rebound, indicating renewed institutional interest and affecting global crypto valuations."
+      "why": "CoinDesk and Cointelegraph report a sharp price dip and options market dynamics, indicating heightened volatility ahead of expiry."
     },
     {
-      "name": "Coinbase adds Ripple stablecoin",
+      "name": "Algeria Troop Deployment to Niger",
+      "regions": [
+        "Africa"
+      ],
+      "keywords": [
+        "Algeria",
+        "Niger",
+        "troop deployment",
+        "oil assets"
+      ],
+      "why": "The Africa Report and other African outlets cover Algeria’s military move, underscoring geopolitical shifts in West Africa."
+    },
+    {
+      "name": "Nigeria Investment Promotion Commission Reconstitution",
+      "regions": [
+        "Africa"
+      ],
+      "keywords": [
+        "Nigeria",
+        "NIPC",
+        "board",
+        "investment"
+      ],
+      "why": "BusinessDay Nigeria reports a government‑initiated board overhaul, reflecting Nigeria’s focus on attracting investment."
+    },
+    {
+      "name": "EU Crypto Investor Survey",
+      "regions": [
+        "Global"
+      ],
+      "keywords": [
+        "EU",
+        "crypto",
+        "retirement plans",
+        "OKX"
+      ],
+      "why": "Cointelegraph highlights EU investors preferring crypto over traditional retirement vehicles, indicating a shift in wealth‑creation preferences."
+    },
+    {
+      "name": "Bitcoin Legal Status in Thailand",
       "regions": [
         "Asia"
       ],
       "keywords": [
-        "Coinbase",
-        "Ripple",
-        "stablecoin"
+        "Thailand",
+        "bitcoin",
+        "property",
+        "Supreme Court"
       ],
-      "why": "Channel NewsAsia coverage signals a shift in crypto exchange offerings, impacting stablecoin liquidity and regulatory scrutiny."
+      "why": "CoinDesk reports a landmark Thai court ruling, setting a precedent for crypto legal recognition in Southeast Asia."
     },
     {
-      "name": "African bank lending risk‑sharing scheme",
+      "name": "ECB Tokenised Collateral Initiative",
       "regions": [
-        "Africa"
+        "Europe"
       ],
       "keywords": [
-        "risk‑sharing",
-        "bank lending",
-        "Africa"
+        "ECB",
+        "tokenised collateral",
+        "central clearing"
       ],
-      "why": "BusinessDay Nigeria reports a $1bn scheme, boosting credit availability and influencing regional growth prospects."
-    },
-    {
-      "name": "Dangote refinery IPO attracts global investors",
-      "regions": [
-        "Africa"
-      ],
-      "keywords": [
-        "Dangote",
-        "IPO",
-        "Africa"
-      ],
-      "why": "Nairametrics highlights a historic IPO, signaling confidence in African infrastructure and attracting foreign capital."
-    },
-    {
-      "name": "Russia‑Africa summit engagement",
-      "regions": [
-        "Africa, Russia"
-      ],
-      "keywords": [
-        "Russia",
-        "Africa",
-        "summit"
-      ],
-      "why": "Moneyweb coverage of Putin courting African leaders underscores geopolitical realignment affecting trade and security dynamics."
-    },
-    {
-      "name": "Morocco drug pricing overhaul",
-      "regions": [
-        "Africa"
-      ],
-      "keywords": [
-        "Morocco",
-        "drug pricing",
-        "competition"
-      ],
-      "why": "North Africa Post warns of cautious implementation, impacting pharmaceutical markets and healthcare costs."
-    },
-    {
-      "name": "Egypt airport expansion near Cairo",
-      "regions": [
-        "Africa"
-      ],
-      "keywords": [
-        "Egypt",
-        "airport",
-        "expansion"
-      ],
-      "why": "AGBI reports bid reviews, indicating infrastructure investment that could boost tourism and logistics."
+      "why": "Bank of England coverage of ECB’s approach signals a broader European move toward digital asset integration in central banking."
     }
   ],
   "angles": [
     {
-      "place": "Nigeria",
-      "idea": "Digital payments expansion through Google Pay and FirstBank partnerships, assessing impact on financial inclusion."
+      "place": "Europe",
+      "idea": "Explore how Lagarde’s exit may affect ECB’s future stance on inflation and digital asset regulation."
     },
     {
-      "place": "Morocco",
-      "idea": "Debate over permanent African seats on UN Security Council, exploring geopolitical influence and diplomatic leverage."
+      "place": "Asia",
+      "idea": "Assess the impact of UK regulatory actions on Asian crypto exchanges seeking cross‑border expansion."
     },
     {
-      "place": "India",
-      "idea": "Trade pact talks with Mexico, evaluating implications for bilateral trade flows and investment climate."
-    },
-    {
-      "place": "UAE",
-      "idea": "UAE‑Canada trade agreement (Cepa), analyzing cross‑regional trade diversification and economic resilience."
-    },
-    {
-      "place": "Islamic finance",
-      "idea": "Tokenized notes on Solana and formalized crypto brokerage, examining regulatory frameworks and market adoption."
-    },
-    {
-      "place": "South Africa",
-      "idea": "Impact of AI surveillance claims on labor markets, assessing regulatory and ethical considerations."
+      "place": "Global",
+      "idea": "Analyze how near‑expiry options pricing is shaping institutional Bitcoin demand and risk management."
     },
     {
       "place": "Algeria",
-      "idea": "Potential effects of El Niño on corn plantings and agricultural commodity prices, informing commodity risk assessments."
+      "idea": "Examine Algeria’s strategic motives for deploying troops to Niger and its implications for regional oil security."
     },
     {
-      "place": "Tunisia",
-      "idea": "Rising digital payment adoption, exploring fintech ecosystem growth and regulatory challenges."
+      "place": "Nigeria",
+      "idea": "Evaluate how the new NIPC board structure could influence foreign direct investment flows into key sectors."
+    },
+    {
+      "place": "MENA/Gulf",
+      "idea": "Investigate how Gulf investors are responding to EU crypto sentiment and potential regulatory alignment."
+    },
+    {
+      "place": "Asia",
+      "idea": "Discuss the legal implications of treating bitcoin as property for cross‑border transactions and tax regimes."
+    },
+    {
+      "place": "Europe",
+      "idea": "Analyze how tokenised collateral could reshape liquidity provision and settlement efficiency in the Eurozone."
     }
   ]
 }
