@@ -1,143 +1,147 @@
 {
-  "generatedAt": "2026-10-29T12:41:37.126Z",
+  "generatedAt": "2026-10-30T12:32:49.607Z",
   "trends": [
     {
-      "name": "Lagarde’s Resignation",
-      "regions": [
-        "Europe"
-      ],
-      "keywords": [
-        "Lagarde",
-        "ECB",
-        "resignation",
-        "leadership"
-      ],
-      "why": "Multiple outlets across Europe and Asia report the ECB president stepping down, signaling a major shift in EU monetary policy leadership."
-    },
-    {
-      "name": "HTX UK Promotion Ban",
+      "name": "Binance $6.3B Hack",
       "regions": [
         "Asia",
+        "Europe",
+        "Africa",
+        "MENA"
+      ],
+      "keywords": [
+        "Binance",
+        "hack",
+        "crypto",
+        "losses"
+      ],
+      "why": "Global coverage across 10+ outlets, massive market impact on crypto and exchanges."
+    },
+    {
+      "name": "Indian Forex Reserves Drop",
+      "regions": [
+        "Asia"
+      ],
+      "keywords": [
+        "India",
+        "forex reserves",
+        "RBI",
+        "reserves fall"
+      ],
+      "why": "Major macro indicator with implications for currency markets and policy."
+    },
+    {
+      "name": "Nigerian Banks Lending Ratios Lowest",
+      "regions": [
+        "Africa (Nigeria)"
+      ],
+      "keywords": [
+        "Nigerian banks",
+        "lending ratios",
+        "credit",
+        "recapitalisation"
+      ],
+      "why": "Signals tightening credit in a key African economy, affecting growth and investment."
+    },
+    {
+      "name": "Congo-Rwanda Sanctions Spat",
+      "regions": [
+        "Africa (Congo, Rwanda)"
+      ],
+      "keywords": [
+        "sanctions",
+        "Congo",
+        "Rwanda",
+        "US",
+        "spat"
+      ],
+      "why": "Geopolitical tension with potential spill‑over into regional trade and investment flows."
+    },
+    {
+      "name": "Brent Crude Surge 13%",
+      "regions": [
+        "Africa (Nigeria, MENA)"
+      ],
+      "keywords": [
+        "Brent crude",
+        "surge",
+        "Middle East attacks",
+        "oil"
+      ],
+      "why": "Sharp oil price move affecting energy markets and emerging economies."
+    },
+    {
+      "name": "AstraZeneca Profit Jump",
+      "regions": [
         "Europe"
       ],
       "keywords": [
-        "HTX",
-        "UK",
-        "FCA",
-        "crypto promotion"
+        "AstraZeneca",
+        "profit",
+        "cancer drugs",
+        "savings plan"
       ],
-      "why": "Cointelegraph and Channel NewsAsia both cover the FCA’s enforcement action, highlighting tightening crypto marketing rules in the UK."
+      "why": "Significant earnings boost for a major pharma, affecting biotech valuations."
     },
     {
-      "name": "Bitcoin Price & Options Expiry",
+      "name": "Indian RBI Tightens Cyber Checks",
+      "regions": [
+        "Asia"
+      ],
+      "keywords": [
+        "RBI",
+        "cyber checks",
+        "lenders",
+        "hacks"
+      ],
+      "why": "Regulatory tightening in a large financial system, affecting fintech and banking."
+    },
+    {
+      "name": "Bitcoin & Ether Sell‑off Post Hack",
       "regions": [
         "Global"
       ],
       "keywords": [
         "Bitcoin",
-        "$80k",
-        "options",
-        "expiry"
+        "ether",
+        "sell‑off",
+        "leveraged bets"
       ],
-      "why": "CoinDesk and Cointelegraph report a sharp price dip and options market dynamics, indicating heightened volatility ahead of expiry."
-    },
-    {
-      "name": "Algeria Troop Deployment to Niger",
-      "regions": [
-        "Africa"
-      ],
-      "keywords": [
-        "Algeria",
-        "Niger",
-        "troop deployment",
-        "oil assets"
-      ],
-      "why": "The Africa Report and other African outlets cover Algeria’s military move, underscoring geopolitical shifts in West Africa."
-    },
-    {
-      "name": "Nigeria Investment Promotion Commission Reconstitution",
-      "regions": [
-        "Africa"
-      ],
-      "keywords": [
-        "Nigeria",
-        "NIPC",
-        "board",
-        "investment"
-      ],
-      "why": "BusinessDay Nigeria reports a government‑initiated board overhaul, reflecting Nigeria’s focus on attracting investment."
-    },
-    {
-      "name": "EU Crypto Investor Survey",
-      "regions": [
-        "Global"
-      ],
-      "keywords": [
-        "EU",
-        "crypto",
-        "retirement plans",
-        "OKX"
-      ],
-      "why": "Cointelegraph highlights EU investors preferring crypto over traditional retirement vehicles, indicating a shift in wealth‑creation preferences."
-    },
-    {
-      "name": "Bitcoin Legal Status in Thailand",
-      "regions": [
-        "Asia"
-      ],
-      "keywords": [
-        "Thailand",
-        "bitcoin",
-        "property",
-        "Supreme Court"
-      ],
-      "why": "CoinDesk reports a landmark Thai court ruling, setting a precedent for crypto legal recognition in Southeast Asia."
-    },
-    {
-      "name": "ECB Tokenised Collateral Initiative",
-      "regions": [
-        "Europe"
-      ],
-      "keywords": [
-        "ECB",
-        "tokenised collateral",
-        "central clearing"
-      ],
-      "why": "Bank of England coverage of ECB’s approach signals a broader European move toward digital asset integration in central banking."
+      "why": "Market volatility in crypto affecting institutional portfolios worldwide."
     }
   ],
   "angles": [
     {
-      "place": "Europe",
-      "idea": "Explore how Lagarde’s exit may affect ECB’s future stance on inflation and digital asset regulation."
+      "place": "MENA",
+      "idea": "Investigate how the hack could affect Middle Eastern crypto regulatory frameworks and cross-border remittances."
     },
     {
-      "place": "Asia",
-      "idea": "Assess the impact of UK regulatory actions on Asian crypto exchanges seeking cross‑border expansion."
-    },
-    {
-      "place": "Global",
-      "idea": "Analyze how near‑expiry options pricing is shaping institutional Bitcoin demand and risk management."
-    },
-    {
-      "place": "Algeria",
-      "idea": "Examine Algeria’s strategic motives for deploying troops to Niger and its implications for regional oil security."
+      "place": "India",
+      "idea": "Analyze the impact on the rupee’s stability and potential RBI intervention strategies."
     },
     {
       "place": "Nigeria",
-      "idea": "Evaluate how the new NIPC board structure could influence foreign direct investment flows into key sectors."
+      "idea": "Examine how recapitalisation pressures are reshaping SME financing and capital market development."
     },
     {
-      "place": "MENA/Gulf",
-      "idea": "Investigate how Gulf investors are responding to EU crypto sentiment and potential regulatory alignment."
+      "place": "Congo",
+      "idea": "Assess the impact on mining exports and foreign investment sentiment in Central Africa."
     },
     {
-      "place": "Asia",
-      "idea": "Discuss the legal implications of treating bitcoin as property for cross‑border transactions and tax regimes."
+      "place": "MENA",
+      "idea": "Explore how higher oil prices influence fiscal budgets and inflation in Gulf states."
     },
     {
       "place": "Europe",
-      "idea": "Analyze how tokenised collateral could reshape liquidity provision and settlement efficiency in the Eurozone."
+      "idea": "Discuss the strategic savings plan’s implications for drug pricing and R&D investment."
+    },
+    {
+      "place": "India",
+      "idea": "Evaluate the potential slowdown in digital lending growth and its impact on financial inclusion."
+    },
+    {
+      "place": "Global",
+      "idea": "Analyze the shift in risk appetite among institutional crypto investors post‑hack."
     }
   ]
 }

@@ -1,51 +1,55 @@
 {
   "current": {
-    "date": "2026-10-29",
-    "symbol": "XLM",
-    "name": "Stellar",
+    "date": "2026-10-30",
+    "symbol": "ETH",
+    "name": "Ethereum",
     "type": "crypto",
-    "coingeckoId": "stellar",
-    "sector": "Cross-border payments network",
-    "utility": "Stellar is an open‑source, public blockchain that provides a fast, low‑cost settlement layer for cross‑border payments, stablecoin transfers and tokenised real‑world assets. It is used by financial institutions, remittance providers and fintechs such as MoneyGram, U.S. Bank and DTCC to move value across borders and issue regulated digital assets.",
+    "coingeckoId": "ethereum",
+    "sector": "Smart-contract settlement network",
+    "utility": "Ethereum is a decentralized, programmable blockchain that enables developers to deploy smart‑contracts and decentralized applications (dApps). It is used by a wide range of participants, from DeFi protocols and NFT platforms to enterprise consortia and institutional investors that require trust‑less settlement and programmable finance.",
     "evidence": [
-      "$25.1 billion stablecoin transfer volume in Q3 2026 — CoinMarketCap (Oct 2026)",
-      "$33.2 billion total network transaction volume in Q3 2026 — CoinMarketCap (Oct 2026)",
-      "3,922 monthly active developers and 99.99 % network uptime in Q3 2026 — TokenPost (Oct 20 2026)"
+      "Real Economic Value (network fee revenue) of ≈ $41.4 million in September 2025 — Messari “Ethereum September 2025 Update”.",
+      "203.9 million L1 transactions processed in Q2 2026, generating $17.1 million of burn revenue — ZyCrypto article citing Token Terminal, September 2026.",
+      "Over 312 million unique addresses holding ETH as of Q2 2026 — ZyCrypto article, September 2026."
     ],
-    "whyNow": "The Stellar Development Foundation released its Q3 2026 network metrics in October 2026, showing record‑high transaction volumes and developer activity.",
+    "whyNow": "The network recorded a 68% surge in transaction volume and a $17.1 million burn revenue increase in Q2 2026 (July‑September 2026), reflecting renewed institutional activity after the Binance hack fallout.",
     "risks": [
-      "Heightened regulatory scrutiny of stablecoins and cross‑border crypto transfers could restrict Stellar’s use cases.",
-      "Competition from other public‑layer payment networks (e.g., Ripple, Solana, and emerging CBDC‑linked rails) may limit market share."
+      "Potential regulatory restrictions on smart‑contract platforms or on‑chain DeFi activity that could limit usage or force compliance upgrades.",
+      "Competition from lower‑cost layer‑1s (e.g., Solana, Avalanche) and modular roll‑up solutions that could erode Ethereum’s market share for data availability and transaction processing."
     ],
-    "profile": "Stellar’s protocol enables anyone to issue assets and move value in under five seconds with fees of a few cents, leveraging a federated consensus model that scales to thousands of transactions per second. The Stellar Development Foundation (SDF) drives adoption by partnering with banks, payment firms and tokenisation platforms, while a global ecosystem of “anchors” connects fiat on‑ramps and off‑ramps. Revenue for the SDF is indirect, coming from ecosystem growth, grants and service fees for enterprise integrations; the network’s value is captured through increased transaction volume and tokenised asset custody.\n\nCompeting solutions include Ripple’s XRP network, which targets similar cross‑border corridors, and newer public blockchains offering faster finality or broader smart‑contract capabilities. Stellar’s niche lies in its focus on regulated stablecoins and real‑world asset tokenisation, backed by institutional pilots (e.g., MoneyGram, DTCC). A shift such as major banks adopting alternative settlement layers, or stricter AML/KYC rules that impede on‑ramp providers, could curtail Stellar’s growth, while expanded CBDC integration or new large‑scale tokenisation projects would boost its utility.",
+    "profile": "Ethereum operates as a public, permissionless blockchain that secures a global ledger through proof‑of‑stake consensus. Developers write smart‑contracts in Solidity, which run on the Ethereum Virtual Machine, enabling decentralized finance, NFTs, gaming, and enterprise use‑cases. The network’s economic model derives revenue from transaction (base) fees and priority tips, a portion of which is burned under EIP‑1559, creating a deflationary pressure that benefits holders and funds ecosystem development via the Ethereum Foundation.\n\nCompeting platforms include other layer‑1 blockchains such as Solana, Avalanche, and newer modular chains like Celestia that vie for data‑availability and transaction‑processing market share. Ethereum’s dominance is challenged by scaling solutions (optimistic and zk‑rollups) that may shift activity off‑chain, reducing on‑chain fee capture. A sustained shift of developers to alternative ecosystems, or a major regulatory clamp‑down on DeFi, would materially alter Ethereum’s utility and revenue outlook.",
     "sources": [
       {
-        "title": "Quarterly reports",
-        "url": "https://stellar.org/quarterly-reports"
+        "title": "Charting",
+        "url": "https://20368641.fs1.hubspotusercontent-na1.net/hubfs/20368641/Glassnode%20x%20Coinbase%20Reports/Q3%202025%20Charting%20Crypto_Glassnode%20x%20Coinbase.pdf"
       },
       {
-        "title": "Stellar Ecosystem Overview | Messari by Blockworks",
-        "url": "https://messari.io/report/stellar-ecosystem-overview"
+        "title": "Ethereum (ETH): Q3 2025 Activity and Financial Report",
+        "url": "https://oakresearch.io/en/reports/protocols/ethereum-eth-q3-2025-activity-financial-report"
       },
       {
-        "title": "End of Year 2025 Report – Execution at Scale",
-        "url": "https://stellar.org/blog/foundation-news/2025-year-in-review"
+        "title": "Token Terminal | Fundamentals for crypto",
+        "url": "https://tokenterminal.com/products/sheets"
       },
       {
-        "title": "stellar.org",
-        "url": "https://stellar.org/blog/foundation-news/q1-2026-execution-at-network-scale"
+        "title": "The ETH Report: Q3-25",
+        "url": "https://thedefireport.io/research/the-eth-report-q3-25.md"
       },
       {
-        "title": "Stellar 2025: A Podium Finish",
-        "url": "https://stellar.org/blog/ecosystem/stellar-2025-year-in-review"
+        "title": "Ethereum September 2025 Update | Messari by Blockworks",
+        "url": "https://messari.io/report/ethereum-september-2025-update"
       },
       {
-        "title": "State of Stellar Q4 2025 | Messari",
-        "url": "https://messari.io/report/state-of-stellar-q4-2025"
+        "title": "The state of Ethereum in Q3 2025",
+        "url": "https://app.thebigwhale.io/article-en/the-state-of-ethereum-in-q3-2025"
       }
     ]
   },
   "history": [
+    {
+      "date": "2026-10-30",
+      "symbol": "ETH"
+    },
     {
       "date": "2026-10-29",
       "symbol": "XLM"
