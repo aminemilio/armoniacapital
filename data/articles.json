@@ -1,5 +1,61 @@
 [
   {
+    "slug": "what-is-a-recession-definition-criteria-and-global-perspectives",
+    "title": "What Is a Recession? Definition, Criteria and Global Perspectives",
+    "excerpt": "A recession is more than two quarters of falling GDP; it is a broad, sustained decline across output, employment and income that shapes policy and markets.",
+    "metaDescription": "Learn the exact definition of a recession, the data used by official dating bodies, and why the definition matters for markets worldwide.",
+    "keywords": [
+      "what is a recession",
+      "recession definition",
+      "nber business cycle",
+      "gdp decline",
+      "macroeconomic slowdown",
+      "global recession criteria"
+    ],
+    "category": "learn",
+    "date": "2026-10-31",
+    "publishedAt": "2026-10-31T12:00:21.754Z",
+    "image": "https://images.pexels.com/photos/38782891/pexels-photo-38782891.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "imageCredit": "Photo by Rafael Minguet Delgado on Pexels",
+    "readTime": 5,
+    "content": "## Core definition: depth, diffusion and duration\n\nA recession is a significant decline in economic activity that spreads across the whole economy and lasts more than a few months. The National Bureau of Economic Research (NBER) uses a three‑part test—depth, diffusion and duration—to decide when a downturn qualifies. Depth refers to the size of the drop in output, diffusion means the contraction appears in many sectors, and duration requires the slowdown to persist beyond a brief blip. NBER looks at a basket of monthly indicators such as real personal income, non‑farm payrolls, industrial production and other measures of real activity. The month in which these series peak marks the end of expansion; the trough marks the end of contraction. This approach, also adopted by the euro‑area business‑cycle dating committee, emphasizes breadth over any single data point.\n\n## Why the “two‑quarter” rule is only a shortcut\n\nThe headline that “two consecutive quarters of negative GDP growth” equals a recession is a convenient shorthand, not an official definition. The U.S. Bureau of Economic Analysis confirms that this rule is not the formal standard; it is a popular media shortcut while NBER’s monthly‑indicator method remains authoritative. Some jurisdictions adopt the two‑quarter rule for simplicity. Statistics South Africa formally defines a recession as two or more consecutive quarters of negative quarter‑on‑quarter real GDP growth. The International Monetary Fund describes a recession as a sustained, broad‑based decline in real output, employment and income lasting at least six months, which aligns with the depth‑diffusion‑duration view. The Organisation for Economic Co‑operation and Development does not prescribe a single formula, but its analysts usually interpret the NBER‑style criteria as “consecutive months of declining growth,” often translating that into the two‑quarter benchmark for cross‑country reporting.\n\n## How official dating bodies piece together the evidence\n\nWhen NBER announces a recession, it does so retrospectively, typically in February or October, after monthly data have been vetted. The committee examines each series for a turning point, declares the peak month as the last month of expansion and the trough as the end of contraction. The euro‑area business‑cycle dating committee followed the same logic when it labelled the fourth quarter of 2022 a recession after a 1.3 % year‑on‑year GDP drop. The COVID‑19 shock in early 2020 illustrates the emphasis on depth and diffusion: although the downturn lasted only three months and did not meet the two‑quarter rule, the sharp contraction in output, employment and income satisfied NBER’s broader criteria, prompting a recession label.\n\n## Regional nuances and differing viewpoints\n\nAnalysts in Africa often argue that year‑on‑year GDP comparisons give a clearer picture than quarter‑on‑quarter figures, because they smooth seasonal swings that can distort short‑term trends. Africa Check’s Roelof Botha makes that case, while Statistics South Africa sticks with the two‑quarter rule for pragmatic alignment with global practice. In Europe, the European‑area business‑cycle dating committee’s use of the NBER‑style depth‑diffusion‑duration framework ensures that policy makers consider employment and production alongside GDP, a nuance that matters for the European Central Bank’s growth‑compatible guidance. Across Asia, central banks also reference the same framework when balancing inflation pressures against the risk of a prolonged slowdown, showing that the definition is not confined to the United States.\n\n## Market implications of an official recession label\n\nWhen a recession is formally dated, markets react not only to the underlying data but also to the policy response it is likely to trigger. A recession label can prompt central banks to shift from tightening to easing, as the Federal Reserve often references the two‑quarter trigger when discussing rate cuts. Bond yields may compress, equity valuations adjust, and risk premia recalibrate across asset classes. Conversely, a misreading of the definition can cause over‑reactions. If investors cling to the two‑quarter rule while NBER’s broader analysis points to a milder slowdown, equity markets may oversell and credit spreads could widen unnecessarily. Understanding the full set of indicators helps investors gauge whether policy will stay hawkish, turn dovish, or adopt a more nuanced stance.\n\n## What to watch: data releases and dating announcements\n\nThe next NBER peak‑trough announcement will be a key calendar event; it can retroactively re‑date recent downturns and reshape the narrative around policy moves taken in the interim. OECD’s periodic “Business Cycle Statistics” releases often hint at shifts in the adopted definition for cross‑country reporting, which can affect how emerging‑market recessions are compared to advanced economies. Central‑bank forward guidance that cites a “two‑quarter” trigger for policy change should be read alongside the broader NBER criteria. When the two signals diverge, markets may see a window of uncertainty that can amplify volatility.\n\nBy anchoring the concept of a recession in the depth‑diffusion‑duration framework, investors and policymakers gain a clearer view of where the economy sits relative to equilibrium, who stands on each side of the balance, and what forces could pull the market back toward growth.",
+    "sources": [
+      {
+        "title": "Business Cycle Dating | NBER",
+        "url": "https://www.nber.org/research/business-cycle-dating"
+      },
+      {
+        "title": "Business Cycle Dating Committee Announcement December 1, 2008 | NBER",
+        "url": "https://www.nber.org/news/business-cycle-dating-committee-announcement-december-1-2008"
+      },
+      {
+        "title": "Business Cycle Dating Committee Announcement June 8, 2020 | NBER",
+        "url": "https://www.nber.org/news/business-cycle-dating-committee-announcement-june-8-2020"
+      },
+      {
+        "title": "If12774.web.html",
+        "url": "https://www.congress.gov/crs_external_products/IF/HTML/IF12774.web.html"
+      },
+      {
+        "title": "Recession: How is that defined? | U.S. Bureau of Economic Analysis (BEA)",
+        "url": "https://www.bea.gov/help/faq/485"
+      },
+      {
+        "title": "ANALYSIS: When is a recession not a recession? - Africa Check",
+        "url": "https://africacheck.org/fact-checks/blog/analysis-when-recession-not-recession"
+      },
+      {
+        "title": "The measurement of economic downturns: Beyond GDP | OECD",
+        "url": "https://www.oecd.org/en/publications/beyond-gdp_9789264307292-en/full-report/component-6.html"
+      },
+      {
+        "title": "OECD Macrothesaurus - ECONOMIC RECESSION",
+        "url": "https://bibliotecavirtual.clacso.org.ar/ar/oecd-macroth/en/459.html"
+      }
+    ],
+    "generated": true
+  },
+  {
     "slug": "india-fx-reserves-hit-oneyear-low-testing-rbis-rupee-defence-balance",
     "title": "India FX reserves hit one‑year low, testing RBI’s rupee defence balance",
     "excerpt": "India’s FX buffer slipped to $671.6 bn in early April, prompting the RBI to lean on forward sales and market interventions as oil‑price volatility threatens rupee stability.",

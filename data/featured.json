@@ -1,51 +1,55 @@
 {
   "current": {
-    "date": "2026-10-30",
-    "symbol": "ETH",
-    "name": "Ethereum",
+    "date": "2026-10-31",
+    "symbol": "SOL",
+    "name": "Solana",
     "type": "crypto",
-    "coingeckoId": "ethereum",
-    "sector": "Smart-contract settlement network",
-    "utility": "Ethereum is a decentralized, programmable blockchain that enables developers to deploy smart‑contracts and decentralized applications (dApps). It is used by a wide range of participants, from DeFi protocols and NFT platforms to enterprise consortia and institutional investors that require trust‑less settlement and programmable finance.",
+    "coingeckoId": "solana",
+    "sector": "High-throughput payments and applications network",
+    "utility": "Solana is a high‑throughput, low‑cost blockchain that enables developers to build decentralized applications and on‑chain payment services, and it is used directly by validators, dApp developers, and institutional investors who stake or hold SOL.",
     "evidence": [
-      "Real Economic Value (network fee revenue) of ≈ $41.4 million in September 2025 — Messari “Ethereum September 2025 Update”.",
-      "203.9 million L1 transactions processed in Q2 2026, generating $17.1 million of burn revenue — ZyCrypto article citing Token Terminal, September 2026.",
-      "Over 312 million unique addresses holding ETH as of Q2 2026 — ZyCrypto article, September 2026."
+      "Staking revenue of $2.5 million was recorded in Q2 2026, generated from delegators’ SOL staked on the company’s validator cluster — Solana Company Form 10‑Q (quarter ending June 30 2026).",
+      "The company held 2.32 million SOL (valued at $170.6 million) as of June 30 2026, reflecting active on‑chain participation and exposure – Solana Company Form 10‑Q (June 30 2026).",
+      "External parties delegated 0.5 million SOL to the company’s validator cluster launched in July 2026 – Solana Company Form 10‑Q (June 30 2026)."
     ],
-    "whyNow": "The network recorded a 68% surge in transaction volume and a $17.1 million burn revenue increase in Q2 2026 (July‑September 2026), reflecting renewed institutional activity after the Binance hack fallout.",
+    "whyNow": "In August 2026 the company launched its own SOL validator cluster, attracting new delegations and generating its first staking‑revenue stream.",
     "risks": [
-      "Potential regulatory restrictions on smart‑contract platforms or on‑chain DeFi activity that could limit usage or force compliance upgrades.",
-      "Competition from lower‑cost layer‑1s (e.g., Solana, Avalanche) and modular roll‑up solutions that could erode Ethereum’s market share for data availability and transaction processing."
+      "Volatility of SOL price can materially affect revenue and net income.",
+      "Regulatory uncertainty around digital asset classification and staking could limit on‑chain activities."
     ],
-    "profile": "Ethereum operates as a public, permissionless blockchain that secures a global ledger through proof‑of‑stake consensus. Developers write smart‑contracts in Solidity, which run on the Ethereum Virtual Machine, enabling decentralized finance, NFTs, gaming, and enterprise use‑cases. The network’s economic model derives revenue from transaction (base) fees and priority tips, a portion of which is burned under EIP‑1559, creating a deflationary pressure that benefits holders and funds ecosystem development via the Ethereum Foundation.\n\nCompeting platforms include other layer‑1 blockchains such as Solana, Avalanche, and newer modular chains like Celestia that vie for data‑availability and transaction‑processing market share. Ethereum’s dominance is challenged by scaling solutions (optimistic and zk‑rollups) that may shift activity off‑chain, reducing on‑chain fee capture. A sustained shift of developers to alternative ecosystems, or a major regulatory clamp‑down on DeFi, would materially alter Ethereum’s utility and revenue outlook.",
+    "profile": "Solana operates a public, proof‑of‑history blockchain that processes thousands of transactions per second with sub‑second finality, enabling decentralized finance, NFTs, gaming, and real‑time payments. The network’s utility comes from developers building dApps on its platform and validators securing the chain while earning staking rewards. Solana Company, a publicly listed digital‑asset treasury, holds SOL, runs a validator cluster, and monetises staking yields, while also offering institutional exposure to SOL through its listed shares.\n\nCompeting platforms include Ethereum (which offers broader developer tooling but higher fees), Binance Smart Chain, and newer layer‑1s such as Avalanche and Aptos, all vying for dApp and DeFi traffic. Changes that could reshape Solana’s outlook include sustained SOL price appreciation, broader institutional adoption of staking, or regulatory clarity that either expands or restricts on‑chain activities. Conversely, prolonged price declines, network outages, or adverse regulation could diminish its real‑world utility and revenue prospects.",
     "sources": [
       {
-        "title": "Charting",
-        "url": "https://20368641.fs1.hubspotusercontent-na1.net/hubfs/20368641/Glassnode%20x%20Coinbase%20Reports/Q3%202025%20Charting%20Crypto_Glassnode%20x%20Coinbase.pdf"
+        "title": "Solana Token Holder Report Q3 2026 | Messari by Blockworks",
+        "url": "https://messari.io/report/solana-token-holder-report-q3-2026"
       },
       {
-        "title": "Ethereum (ETH): Q3 2025 Activity and Financial Report",
-        "url": "https://oakresearch.io/en/reports/protocols/ethereum-eth-q3-2025-activity-financial-report"
+        "title": "Quarterly Reports - Blockworks",
+        "url": "https://blockworks.com/quarterly-reports"
       },
       {
-        "title": "Token Terminal | Fundamentals for crypto",
-        "url": "https://tokenterminal.com/products/sheets"
+        "title": "Solana",
+        "url": "https://blockworks.com/api/investor-report/solana-token-holder-report-q2-2026/pdf"
       },
       {
-        "title": "The ETH Report: Q3-25",
-        "url": "https://thedefireport.io/research/the-eth-report-q3-25.md"
+        "title": "Solana Company Reports Second Quarter 2026 Financial Results",
+        "url": "https://cdn.prod.nntech.io/company-events/reports/fce0448c-fdbc-3938-bc20-a8a167195493/report.pdf"
       },
       {
-        "title": "Ethereum September 2025 Update | Messari by Blockworks",
-        "url": "https://messari.io/report/ethereum-september-2025-update"
+        "title": "Solana Company (via Public) / Quarterly Report for Quarter Ending June 30, 2026 (Form 10-Q)",
+        "url": "https://ebs.publicnow.com/view/4694DC020F23792A2F50DCF99D087E744B86CBB1"
       },
       {
-        "title": "The state of Ethereum in Q3 2025",
-        "url": "https://app.thebigwhale.io/article-en/the-state-of-ethereum-in-q3-2025"
+        "title": "Solana Token Holder Report Q3 2026 | Blockworks Intel",
+        "url": "https://app.blockworks.com/report/solana-token-holder-report-q3-2026"
       }
     ]
   },
   "history": [
+    {
+      "date": "2026-10-31",
+      "symbol": "SOL"
+    },
     {
       "date": "2026-10-30",
       "symbol": "ETH"

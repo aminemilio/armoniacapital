@@ -1,5 +1,51 @@
 [
   {
+    "date": "2026-10-31",
+    "symbol": "SOL",
+    "name": "Solana",
+    "type": "crypto",
+    "coingeckoId": "solana",
+    "sector": "High-throughput payments and applications network",
+    "utility": "Solana is a high‑throughput, low‑cost blockchain that enables developers to build decentralized applications and on‑chain payment services, and it is used directly by validators, dApp developers, and institutional investors who stake or hold SOL.",
+    "evidence": [
+      "Staking revenue of $2.5 million was recorded in Q2 2026, generated from delegators’ SOL staked on the company’s validator cluster — Solana Company Form 10‑Q (quarter ending June 30 2026).",
+      "The company held 2.32 million SOL (valued at $170.6 million) as of June 30 2026, reflecting active on‑chain participation and exposure – Solana Company Form 10‑Q (June 30 2026).",
+      "External parties delegated 0.5 million SOL to the company’s validator cluster launched in July 2026 – Solana Company Form 10‑Q (June 30 2026)."
+    ],
+    "whyNow": "In August 2026 the company launched its own SOL validator cluster, attracting new delegations and generating its first staking‑revenue stream.",
+    "risks": [
+      "Volatility of SOL price can materially affect revenue and net income.",
+      "Regulatory uncertainty around digital asset classification and staking could limit on‑chain activities."
+    ],
+    "profile": "Solana operates a public, proof‑of‑history blockchain that processes thousands of transactions per second with sub‑second finality, enabling decentralized finance, NFTs, gaming, and real‑time payments. The network’s utility comes from developers building dApps on its platform and validators securing the chain while earning staking rewards. Solana Company, a publicly listed digital‑asset treasury, holds SOL, runs a validator cluster, and monetises staking yields, while also offering institutional exposure to SOL through its listed shares.\n\nCompeting platforms include Ethereum (which offers broader developer tooling but higher fees), Binance Smart Chain, and newer layer‑1s such as Avalanche and Aptos, all vying for dApp and DeFi traffic. Changes that could reshape Solana’s outlook include sustained SOL price appreciation, broader institutional adoption of staking, or regulatory clarity that either expands or restricts on‑chain activities. Conversely, prolonged price declines, network outages, or adverse regulation could diminish its real‑world utility and revenue prospects.",
+    "sources": [
+      {
+        "title": "Solana Token Holder Report Q3 2026 | Messari by Blockworks",
+        "url": "https://messari.io/report/solana-token-holder-report-q3-2026"
+      },
+      {
+        "title": "Quarterly Reports - Blockworks",
+        "url": "https://blockworks.com/quarterly-reports"
+      },
+      {
+        "title": "Solana",
+        "url": "https://blockworks.com/api/investor-report/solana-token-holder-report-q2-2026/pdf"
+      },
+      {
+        "title": "Solana Company Reports Second Quarter 2026 Financial Results",
+        "url": "https://cdn.prod.nntech.io/company-events/reports/fce0448c-fdbc-3938-bc20-a8a167195493/report.pdf"
+      },
+      {
+        "title": "Solana Company (via Public) / Quarterly Report for Quarter Ending June 30, 2026 (Form 10-Q)",
+        "url": "https://ebs.publicnow.com/view/4694DC020F23792A2F50DCF99D087E744B86CBB1"
+      },
+      {
+        "title": "Solana Token Holder Report Q3 2026 | Blockworks Intel",
+        "url": "https://app.blockworks.com/report/solana-token-holder-report-q3-2026"
+      }
+    ]
+  },
+  {
     "date": "2026-10-30",
     "symbol": "ETH",
     "name": "Ethereum",
