@@ -1,5 +1,51 @@
 [
   {
+    "date": "2026-11-01",
+    "symbol": "XRP",
+    "name": "XRP",
+    "type": "crypto",
+    "coingeckoId": "ripple",
+    "sector": "Cross-border payments and settlement",
+    "utility": "XRP powers real‑time cross‑border payments and settlement on Ripple’s enterprise‑grade blockchain, the XRP Ledger, and is used by banks, fintechs and corporations to move value 24/7. The primary users are Ripple’s institutional customers—including global banks, payment providers and corporate treasuries—that access XRP‑based liquidity through Ripple’s On‑Demand Liquidity (ODL) and related services.",
+    "evidence": [
+      "$900 million annualized product revenue run‑rate, with Ripple on track to exit 2026 at that level – Oct 2026 press release",
+      "Over 1,700 institutions and enterprises using Ripple’s suite of solutions on the XR Ledger – Oct 2026 press release",
+      "$159.9 billion settled on the XRP Ledger in the first half of 2026 – Aug 19 2026 21Shares analysis"
+    ],
+    "whyNow": "In October 2026 Ripple secured a national trust bank charter from the U.S. OCC, expanding its regulated banking footprint and enabling broader institutional use of XRP‑backed liquidity.",
+    "risks": [
+      "Ongoing regulatory uncertainty in the United States and other jurisdictions could limit Ripple’s ability to offer banking‑related services.",
+      "Declining on‑chain fee revenue (81.6% drop YoY in H1 2026) indicates limited direct user demand for XRP transfers, risking reduced network activity."
+    ],
+    "profile": "Ripple operates a full‑stack financial infrastructure built on the XRP Ledger, a public blockchain optimized for fast, low‑cost transactions. Its revenue comes from enterprise products—Payments, Custody, On‑Demand Liquidity, Prime Brokerage and Treasury—licensed in over 85 jurisdictions and sold to banks, fintechs and corporates. By providing always‑on digital rails, Ripple helps clients settle cross‑border payments instantly, hold and tokenise assets, and access liquidity pools, earning fees and service contracts that generated a $900 million annualized product revenue run‑rate in 2026.\n\nCompetitors include other crypto‑based settlement networks such as Stellar, SWIFT’s gpi enhancements, and emerging private‑ledger solutions from major banks. Ripple’s growth hinges on expanding regulated banking partnerships (e.g., the new OCC charter) and broader adoption of its stablecoin RLUSD, which now underpins a $1.56 billion supply on the ledger. A shift whereby institutions begin to accept XRP itself as collateral or margin, or a regulatory setback affecting its banking charter, would materially alter the network’s utility and revenue trajectory.",
+    "sources": [
+      {
+        "title": "DAS Research - Ripple and XRP - Opportunities and risks of a growing financial infrastructure",
+        "url": "https://www.da.solutions/wp-content/uploads/2026/04/DAS-Research-Ripple-XRP-EN.pdf"
+      },
+      {
+        "title": "XRP Tokenholder Report — Q2 2026",
+        "url": "https://blockworks.com/api/investor-report/state-of-xrp-q2-2026/pdf"
+      },
+      {
+        "title": "Evernorth\n\t\t|\n\t\tPress Release | 2 Sept, 2026",
+        "url": "https://www.evernorth.xyz/press-release-09-02-2026"
+      },
+      {
+        "title": "State of XRP Q1 2026 | Messari by Blockworks",
+        "url": "https://messari.io/report/state-of-xrp-q1-2026"
+      },
+      {
+        "title": "Ripple Moved $16 Trillion, But Almost None Of It Was XRP - DailyCoin",
+        "url": "https://dailycoin.com/ripple-moved-16-trillion-but-almost-none-of-it-was-xrp/"
+      },
+      {
+        "title": "OCEM Whitepaper | XRP Academy",
+        "url": "https://xrpacademy.com/research/odl-corridor-economics-model/whitepaper"
+      }
+    ]
+  },
+  {
     "date": "2026-10-31",
     "symbol": "SOL",
     "name": "Solana",

@@ -1,147 +1,145 @@
 {
-  "generatedAt": "2026-10-30T12:32:49.607Z",
+  "generatedAt": "2026-11-01T12:59:30.295Z",
   "trends": [
     {
-      "name": "Binance $6.3B Hack",
+      "name": "Binance hack withdrawals and asset recovery",
       "regions": [
+        "Global",
         "Asia",
-        "Europe",
-        "Africa",
-        "MENA"
+        "Africa"
       ],
       "keywords": [
         "Binance",
         "hack",
-        "crypto",
-        "losses"
+        "withdrawals",
+        "crypto"
       ],
-      "why": "Global coverage across 10+ outlets, massive market impact on crypto and exchanges."
+      "why": "Multiple outlets across continents report phased withdrawals and asset replenishment after a $6.3B breach, affecting global crypto markets."
     },
     {
-      "name": "Indian Forex Reserves Drop",
+      "name": "OPEC+ maintains oil output targets",
+      "regions": [
+        "Asia",
+        "MENA"
+      ],
+      "keywords": [
+        "OPEC+",
+        "oil output",
+        "steady"
+      ],
+      "why": "Key energy policy decision reported by Asia and MENA outlets, influencing global oil prices and supply expectations."
+    },
+    {
+      "name": "Nigeria’s digital economy faces DNS security risks",
+      "regions": [
+        "Africa"
+      ],
+      "keywords": [
+        "Nigeria",
+        "DNS",
+        "cyberattacks",
+        "digital economy"
+      ],
+      "why": "High‑profile cyber incidents reported by multiple Nigerian outlets, underscoring cybersecurity vulnerabilities in emerging digital markets."
+    },
+    {
+      "name": "Egypt’s fuel price decision and distribution oversight",
+      "regions": [
+        "Africa"
+      ],
+      "keywords": [
+        "Egypt",
+        "fuel prices",
+        "CBE",
+        "distribution oversight"
+      ],
+      "why": "Central bank rate hike and new electronic oversight system reported, affecting consumer prices and market liquidity."
+    },
+    {
+      "name": "Morocco’s MINURSO exit and Sahara diplomacy",
+      "regions": [
+        "Africa"
+      ],
+      "keywords": [
+        "Morocco",
+        "MINURSO",
+        "UN",
+        "Sahara"
+      ],
+      "why": "Multiple African outlets cover the UN mandate lapse and Morocco’s diplomatic gains, influencing regional geopolitics."
+    },
+    {
+      "name": "UAE‑Iran war threat escalation",
+      "regions": [
+        "MENA"
+      ],
+      "keywords": [
+        "UAE",
+        "Iran",
+        "war threats",
+        "diplomacy"
+      ],
+      "why": "UAE’s diplomatic stance amid rising tensions reported, affecting regional security and energy markets."
+    },
+    {
+      "name": "India’s GST reforms for small e‑commerce sellers",
       "regions": [
         "Asia"
       ],
       "keywords": [
         "India",
-        "forex reserves",
-        "RBI",
-        "reserves fall"
+        "GST",
+        "e‑commerce",
+        "small sellers"
       ],
-      "why": "Major macro indicator with implications for currency markets and policy."
+      "why": "New registration and refund rules reported, impacting the growth of India’s digital commerce sector."
     },
     {
-      "name": "Nigerian Banks Lending Ratios Lowest",
-      "regions": [
-        "Africa (Nigeria)"
-      ],
-      "keywords": [
-        "Nigerian banks",
-        "lending ratios",
-        "credit",
-        "recapitalisation"
-      ],
-      "why": "Signals tightening credit in a key African economy, affecting growth and investment."
-    },
-    {
-      "name": "Congo-Rwanda Sanctions Spat",
-      "regions": [
-        "Africa (Congo, Rwanda)"
-      ],
-      "keywords": [
-        "sanctions",
-        "Congo",
-        "Rwanda",
-        "US",
-        "spat"
-      ],
-      "why": "Geopolitical tension with potential spill‑over into regional trade and investment flows."
-    },
-    {
-      "name": "Brent Crude Surge 13%",
-      "regions": [
-        "Africa (Nigeria, MENA)"
-      ],
-      "keywords": [
-        "Brent crude",
-        "surge",
-        "Middle East attacks",
-        "oil"
-      ],
-      "why": "Sharp oil price move affecting energy markets and emerging economies."
-    },
-    {
-      "name": "AstraZeneca Profit Jump",
-      "regions": [
-        "Europe"
-      ],
-      "keywords": [
-        "AstraZeneca",
-        "profit",
-        "cancer drugs",
-        "savings plan"
-      ],
-      "why": "Significant earnings boost for a major pharma, affecting biotech valuations."
-    },
-    {
-      "name": "Indian RBI Tightens Cyber Checks",
+      "name": "South Korea’s export growth surge",
       "regions": [
         "Asia"
       ],
       "keywords": [
-        "RBI",
-        "cyber checks",
-        "lenders",
-        "hacks"
+        "South Korea",
+        "exports",
+        "growth",
+        "1974"
       ],
-      "why": "Regulatory tightening in a large financial system, affecting fintech and banking."
-    },
-    {
-      "name": "Bitcoin & Ether Sell‑off Post Hack",
-      "regions": [
-        "Global"
-      ],
-      "keywords": [
-        "Bitcoin",
-        "ether",
-        "sell‑off",
-        "leveraged bets"
-      ],
-      "why": "Market volatility in crypto affecting institutional portfolios worldwide."
+      "why": "Record export increase reported, reflecting robust manufacturing and technology sectors, influencing global supply chains."
     }
   ],
   "angles": [
     {
-      "place": "MENA",
-      "idea": "Investigate how the hack could affect Middle Eastern crypto regulatory frameworks and cross-border remittances."
+      "place": "Global",
+      "idea": "Highlight the impact on institutional crypto custody and cross‑border regulatory responses to large‑scale thefts."
     },
     {
-      "place": "India",
-      "idea": "Analyze the impact on the rupee’s stability and potential RBI intervention strategies."
+      "place": "MENA",
+      "idea": "Examine how OPEC+ decisions affect Gulf oil exporters’ revenue forecasts and regional investment flows."
     },
     {
       "place": "Nigeria",
-      "idea": "Examine how recapitalisation pressures are reshaping SME financing and capital market development."
+      "idea": "Assess the economic cost of cyberattacks on fintech growth and investor confidence in the Nigerian digital economy."
     },
     {
-      "place": "Congo",
-      "idea": "Assess the impact on mining exports and foreign investment sentiment in Central Africa."
+      "place": "Egypt",
+      "idea": "Analyze the impact of tighter fuel distribution controls on retail margins and inflation dynamics."
     },
     {
-      "place": "MENA",
-      "idea": "Explore how higher oil prices influence fiscal budgets and inflation in Gulf states."
+      "place": "Morocco",
+      "idea": "Explore how the MINURSO exit reshapes Morocco’s strategic position and potential investment opportunities in the Western Sahara."
     },
     {
-      "place": "Europe",
-      "idea": "Discuss the strategic savings plan’s implications for drug pricing and R&D investment."
+      "place": "Gulf",
+      "idea": "Evaluate the implications for Gulf energy security and cross‑border trade flows amid heightened geopolitical risk."
     },
     {
       "place": "India",
-      "idea": "Evaluate the potential slowdown in digital lending growth and its impact on financial inclusion."
+      "idea": "Discuss how simplified GST compliance could accelerate SME digitalization and market entry for foreign e‑commerce players."
     },
     {
-      "place": "Global",
-      "idea": "Analyze the shift in risk appetite among institutional crypto investors post‑hack."
+      "place": "South Korea",
+      "idea": "Assess the role of semiconductor and EV component exports in driving the country’s economic rebound and investor sentiment."
     }
   ]
 }
