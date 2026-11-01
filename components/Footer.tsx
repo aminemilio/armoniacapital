@@ -7,6 +7,9 @@ const COVERAGE = [
   { href: "/category/equities", label: "Equities" },
   { href: "/category/digital-assets", label: "Digital Assets" },
   { href: "/category/islamic-finance", label: "Islamic Finance" },
+  { href: "/economy/us", label: "United States" },
+  { href: "/economy/eu", label: "European Union" },
+  { href: "/economy/china", label: "China" },
 ];
 
 const SITE = [

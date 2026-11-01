@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArticleCard } from "@/components/ArticleCard";
+import { DESK_META, isDeskKey } from "@/lib/desks";
 import { formatPublished } from "@/lib/utils";
 import { ARTICLES, getArticle, getCategoryName, getRelatedArticles } from "@/lib/articles";
 
@@ -82,6 +83,11 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
       >
         {getCategoryName(article.category)}
       </Link>
+      {article.desk && isDeskKey(article.desk) && (
+        <Link href={`/economy/${article.desk}`} className="ml-3 text-sm text-slate hover:text-bone hover:underline">
+          · {DESK_META[article.desk].name} desk
+        </Link>
+      )}
       <h1 className="mt-3 font-serif text-4xl leading-tight text-bone sm:text-5xl">{article.title}</h1>
       <p className="mt-4 font-mono text-xs text-slate">
         {formatPublished(article)} · {article.readTime} min read

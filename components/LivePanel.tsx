@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useQuotes } from "@/lib/use-quotes";
 import { sentimentFromChanges } from "@/lib/market-data";
-import { cn, formatPct, formatPrice } from "@/lib/utils";
+import { cn, formatPct, formatPrice, fxDigits } from "@/lib/utils";
 
 function utcClock(): string {
   return new Date().toISOString().slice(11, 19);
@@ -47,7 +47,7 @@ export function LivePanel() {
                 </p>
               </div>
               <div className="text-right font-mono">
-                <p className="text-sm text-bone">{formatPrice(item.price)}</p>
+                <p className="text-sm text-bone">{formatPrice(item.price, fxDigits(item.symbol))}</p>
                 <p className={cn("text-xs", up ? "text-rise" : "text-fall")}>{formatPct(item.changePct)}</p>
               </div>
             </li>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArticleCard } from "@/components/ArticleCard";
+import { BigThree } from "@/components/BigThree";
 import { CategoryGrid } from "@/components/CategoryGrid";
 import { InstitutionalDashboard } from "@/components/InstitutionalDashboard";
 import { LivePanel } from "@/components/LivePanel";
@@ -45,6 +46,7 @@ export default function HomePage() {
       </section>
 
       <InstitutionalDashboard />
+      <BigThree />
       <CategoryGrid />
 
       <section aria-labelledby="latest-heading" className="mx-auto max-w-7xl px-4 pt-20 sm:px-6">

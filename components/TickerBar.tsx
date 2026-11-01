@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuotes } from "@/lib/use-quotes";
-import { cn, formatPct, formatPrice } from "@/lib/utils";
+import { cn, formatPct, formatPrice, fxDigits } from "@/lib/utils";
 
 export function TickerBar() {
   const { data } = useQuotes();
@@ -24,7 +24,7 @@ export function TickerBar() {
               aria-hidden={i >= items.length}
             >
               <span className="text-bone">{item.symbol}</span>
-              <span className="text-bone/80">{formatPrice(item.price)}</span>
+              <span className="text-bone/80">{formatPrice(item.price, fxDigits(item.symbol))}</span>
               <span className={cn(up ? "text-rise" : "text-fall")}>
                 {up ? "▲" : "▼"} {formatPct(Math.abs(item.changePct)).replace("+", "")}
               </span>

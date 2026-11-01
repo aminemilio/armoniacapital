@@ -30,6 +30,7 @@ export interface Article {
   imageCredit?: string; // e.g. "Photo by X on Pexels"
   sources?: { title: string; url: string }[]; // set by the generator
   generated?: boolean;
+  desk?: "us" | "eu" | "china" | "week"; // which big-economy desk wrote it (set by the generator)
   metaDescription?: string; // <meta name="description">, 130-155 chars
   keywords?: string[]; // primary keyword first
 }

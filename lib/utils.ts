@@ -5,9 +5,9 @@ export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
 }
 
-export function formatPrice(value: number): string {
+export function formatPrice(value: number, fixedDigits?: number): string {
   if (!Number.isFinite(value)) return "—";
-  const digits = Math.abs(value) >= 1 ? 2 : 4;
+  const digits = fixedDigits ?? (Math.abs(value) >= 1 ? 2 : 4);
   return value.toLocaleString("en-US", {
     minimumFractionDigits: digits,
     maximumFractionDigits: digits,
@@ -27,4 +27,9 @@ export function formatPublished(a: { date: string; publishedAt?: string }): stri
   if (!a.publishedAt) return day;
   const time = d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "UTC" });
   return `${day} · ${time} UTC`;
+}
+
+/** Currency pairs are quoted with 4 decimals; everything else uses the default rule. */
+export function fxDigits(symbol: string): number | undefined {
+  return symbol === "EURUSD" || symbol === "USDCNY" ? 4 : undefined;
 }

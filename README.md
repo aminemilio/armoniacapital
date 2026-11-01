@@ -136,6 +136,14 @@ Resend's free plan has daily and monthly sending limits and contact limits; chec
 
 `/featured` shows today's full profile (what it does, evidence, why it is in focus, risks, a short analysis and sources) and every earlier pick (`data/featured-archive.json`). A profile that cites figures older than last year is rejected and researched again.
 
+## Three articles a day: the economies that move the world
+
+Monday to Friday the generator writes one article for each of three desks: the **United States**, the **European Union and euro area**, and **China**. Each desk gets a different site section every day (Markets, Macro, Equities, Digital Assets, Islamic Finance, rotating), so the three pieces differ and every section is covered over time. Each article leads with that economy and adds one paragraph on spillovers to emerging markets, Africa, the Gulf and Asia. Saturday: one Learn guide. Sunday: "the week ahead" for the three economies. Desk pages live at `/economy/us`, `/economy/eu` and `/economy/china`, and the homepage shows the latest piece from each.
+
+**Always the latest:** research is told to start from the newest official releases and financial statements (central bank statements and minutes, statistics-office releases, company filings and earnings), to date every fact, and to use only material from the last 7 to 10 days for the main story. If the notes come back without recent dates, the script searches again once. An article that leans on figures from before last year is sent back for a rewrite.
+
+**Token budget:** about 20,000 to 25,000 Groq tokens per article, so a weekday run is roughly 100,000 tokens including the radar, the featured asset and the briefing. Groq's free tier allows about 200,000 per day on the main model. Articles are saved as soon as each one finishes, and if the daily limit is hit the run stops cleanly and keeps what it finished. To cut usage, set the repo variable `RESEARCH_PASSES` to `1`, or `DESKS` to a subset such as `us,eu`. A weekday run takes about 20 to 30 minutes because Groq's per-minute limit forces pauses.
+
 ## Checking the signup setup
 
 Open `https://your-site/api/subscribe` in a browser. It lists which settings the server can read (`RESEND_API_KEY`, `SUBSCRIBE_SECRET`, `RESEND_SEGMENT_ID`), never their values. `"ready": true` means the signup form can send confirmation emails.
