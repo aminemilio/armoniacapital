@@ -1,145 +1,148 @@
 {
-  "generatedAt": "2026-11-01T12:59:30.295Z",
+  "generatedAt": "2026-11-02T13:56:27.282Z",
   "trends": [
     {
-      "name": "Binance hack withdrawals and asset recovery",
+      "name": "North Korea‑led Binance hack",
       "regions": [
-        "Global",
+        "Africa",
         "Asia",
-        "Africa"
+        "Europe",
+        "MENA"
       ],
       "keywords": [
         "Binance",
-        "hack",
-        "withdrawals",
+        "North Korea",
+        "crypto heist",
+        "AI court"
+      ],
+      "why": "Global crypto market rattled, regulatory scrutiny intensifies, and AI‑driven investigations add unprecedented complexity."
+    },
+    {
+      "name": "MINURSO liquidation and Sahara dispute",
+      "regions": [
+        "Africa",
+        "MENA"
+      ],
+      "keywords": [
+        "MINURSO",
+        "Morocco",
+        "Sahara",
+        "UN"
+      ],
+      "why": "End of a decades‑long UN mission reshapes geopolitical dynamics in North Africa, affecting regional security and investment flows."
+    },
+    {
+      "name": "US dollar dip ahead of midterms",
+      "regions": [
+        "North America",
+        "Europe",
+        "Asia"
+      ],
+      "keywords": [
+        "US dollar",
+        "midterms",
+        "Bitcoin",
         "crypto"
       ],
-      "why": "Multiple outlets across continents report phased withdrawals and asset replenishment after a $6.3B breach, affecting global crypto markets."
+      "why": "Political uncertainty in the US triggers currency volatility, influencing global markets and digital asset demand."
     },
     {
-      "name": "OPEC+ maintains oil output targets",
+      "name": "Bitcoin volatility curve mid‑term bump",
       "regions": [
-        "Asia",
-        "MENA"
+        "Global"
       ],
       "keywords": [
-        "OPEC+",
-        "oil output",
-        "steady"
+        "Bitcoin",
+        "volatility",
+        "crypto"
       ],
-      "why": "Key energy policy decision reported by Asia and MENA outlets, influencing global oil prices and supply expectations."
+      "why": "Bitcoin’s price swings signal shifting investor sentiment, affecting institutional crypto exposure worldwide."
     },
     {
-      "name": "Nigeria’s digital economy faces DNS security risks",
-      "regions": [
-        "Africa"
-      ],
-      "keywords": [
-        "Nigeria",
-        "DNS",
-        "cyberattacks",
-        "digital economy"
-      ],
-      "why": "High‑profile cyber incidents reported by multiple Nigerian outlets, underscoring cybersecurity vulnerabilities in emerging digital markets."
-    },
-    {
-      "name": "Egypt’s fuel price decision and distribution oversight",
-      "regions": [
-        "Africa"
-      ],
-      "keywords": [
-        "Egypt",
-        "fuel prices",
-        "CBE",
-        "distribution oversight"
-      ],
-      "why": "Central bank rate hike and new electronic oversight system reported, affecting consumer prices and market liquidity."
-    },
-    {
-      "name": "Morocco’s MINURSO exit and Sahara diplomacy",
-      "regions": [
-        "Africa"
-      ],
-      "keywords": [
-        "Morocco",
-        "MINURSO",
-        "UN",
-        "Sahara"
-      ],
-      "why": "Multiple African outlets cover the UN mandate lapse and Morocco’s diplomatic gains, influencing regional geopolitics."
-    },
-    {
-      "name": "UAE‑Iran war threat escalation",
-      "regions": [
-        "MENA"
-      ],
-      "keywords": [
-        "UAE",
-        "Iran",
-        "war threats",
-        "diplomacy"
-      ],
-      "why": "UAE’s diplomatic stance amid rising tensions reported, affecting regional security and energy markets."
-    },
-    {
-      "name": "India’s GST reforms for small e‑commerce sellers",
+      "name": "Oracle’s $20bn bond and equity raise",
       "regions": [
         "Asia"
       ],
       "keywords": [
-        "India",
-        "GST",
-        "e‑commerce",
-        "small sellers"
+        "Oracle",
+        "bonds",
+        "equity",
+        "capital markets"
       ],
-      "why": "New registration and refund rules reported, impacting the growth of India’s digital commerce sector."
+      "why": "A major tech firm’s financing move sets a benchmark for Asian corporate bond markets and signals confidence in global equity demand."
     },
     {
-      "name": "South Korea’s export growth surge",
+      "name": "Nigerian airlines CP issuance",
       "regions": [
-        "Asia"
+        "Africa"
       ],
       "keywords": [
-        "South Korea",
-        "exports",
-        "growth",
-        "1974"
+        "United Nigeria Airlines",
+        "CP issuance",
+        "capital markets"
       ],
-      "why": "Record export increase reported, reflecting robust manufacturing and technology sectors, influencing global supply chains."
+      "why": "Nigeria’s first CP issuance marks a milestone in African corporate finance, boosting market depth and investor confidence."
+    },
+    {
+      "name": "Abu Dhabi investments in European lender & AI partnership",
+      "regions": [
+        "MENA",
+        "Europe"
+      ],
+      "keywords": [
+        "Abu Dhabi",
+        "Adic",
+        "OpenAI",
+        "European lender"
+      ],
+      "why": "Gulf sovereign wealth funds diversify into European finance and AI, reshaping cross‑border investment patterns."
+    },
+    {
+      "name": "World Bank minerals financing push",
+      "regions": [
+        "Africa"
+      ],
+      "keywords": [
+        "World Bank",
+        "minerals financing",
+        "$19bn",
+        "Africa"
+      ],
+      "why": "Substantial financing boost targets Africa’s mining sector, driving commodity markets and infrastructure development."
     }
   ],
   "angles": [
     {
-      "place": "Global",
-      "idea": "Highlight the impact on institutional crypto custody and cross‑border regulatory responses to large‑scale thefts."
-    },
-    {
-      "place": "MENA",
-      "idea": "Examine how OPEC+ decisions affect Gulf oil exporters’ revenue forecasts and regional investment flows."
-    },
-    {
       "place": "Nigeria",
-      "idea": "Assess the economic cost of cyberattacks on fintech growth and investor confidence in the Nigerian digital economy."
-    },
-    {
-      "place": "Egypt",
-      "idea": "Analyze the impact of tighter fuel distribution controls on retail margins and inflation dynamics."
+      "idea": "Explore how Nigerian regulators are tightening crypto oversight in response to the hack, and the impact on local fintech growth."
     },
     {
       "place": "Morocco",
-      "idea": "Explore how the MINURSO exit reshapes Morocco’s strategic position and potential investment opportunities in the Western Sahara."
+      "idea": "Analyze Morocco’s economic strategy to capitalize on the Sahara’s newfound autonomy and its implications for regional trade corridors."
     },
     {
-      "place": "Gulf",
-      "idea": "Evaluate the implications for Gulf energy security and cross‑border trade flows amid heightened geopolitical risk."
+      "place": "European Union",
+      "idea": "Assess how EU monetary policy reacts to dollar fluctuations and the spill‑over into euro‑area bond markets."
     },
     {
-      "place": "India",
-      "idea": "Discuss how simplified GST compliance could accelerate SME digitalization and market entry for foreign e‑commerce players."
+      "place": "Islamic finance",
+      "idea": "Investigate how Sharia‑compliant crypto products are adapting to Bitcoin’s volatility and the regulatory response in Gulf markets."
     },
     {
-      "place": "South Korea",
-      "idea": "Assess the role of semiconductor and EV component exports in driving the country’s economic rebound and investor sentiment."
+      "place": "China",
+      "idea": "Examine how Oracle’s capital raise influences Chinese tech firms’ funding strategies and cross‑border investment flows."
+    },
+    {
+      "place": "South Africa",
+      "idea": "Compare Nigeria’s CP strategy with South African corporate bond market trends to gauge regional capital market development."
+    },
+    {
+      "place": "Islamic finance",
+      "idea": "Explore how Abu Dhabi’s investments align with Sharia‑compliant investment principles and the potential for Islamic fintech collaboration."
+    },
+    {
+      "place": "Egypt",
+      "idea": "Assess how increased mineral financing impacts Egypt’s mining exports and its broader economic diversification agenda."
     }
   ]
 }
