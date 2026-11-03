@@ -1,130 +1,148 @@
 {
-  "generatedAt": "2026-11-02T15:21:08.547Z",
+  "generatedAt": "2026-11-03T13:57:22.538Z",
   "trends": [
     {
-      "name": "Global crypto regulatory crackdown and market volatility",
+      "name": "Global crypto market volatility and regulatory shifts",
       "regions": [
         "Global",
-        "MENA",
+        "Asia",
+        "MENA"
+      ],
+      "keywords": [
+        "Bitcoin",
+        "Binance",
+        "ETHGas",
+        "crypto hack"
+      ],
+      "why": "Multiple major exchanges report large inflows/outflows and regulatory changes affecting liquidity worldwide"
+    },
+    {
+      "name": "African sovereign wealth and credit rating developments",
+      "regions": [
         "Africa"
       ],
       "keywords": [
-        "crypto",
-        "regulation",
-        "volatility"
+        "AfCRA",
+        "sovereign ratings",
+        "African sovereign funds"
       ],
-      "why": "Multiple outlets report regulatory actions, hacks, and market swings, indicating widespread industry impact."
+      "why": "AfCRA’s March debut and rising sovereign ratings signal a shift in Africa’s financing landscape"
     },
     {
-      "name": "Indian government securities auction and fiscal strategy",
+      "name": "Renewable energy investment in Africa",
+      "regions": [
+        "Africa"
+      ],
+      "keywords": [
+        "solar capital",
+        "green power",
+        "sustainable aviation fuel"
+      ],
+      "why": "Growing investment in solar and SAF projects indicates a pivot toward clean energy infrastructure across the continent"
+    },
+    {
+      "name": "AI computing and data center expansion",
+      "regions": [
+        "Europe",
+        "MENA",
+        "Asia"
+      ],
+      "keywords": [
+        "Anthropic",
+        "data center",
+        "AI computing services"
+      ],
+      "why": "AI firms’ financial performance and data center investments highlight a global race for computational infrastructure"
+    },
+    {
+      "name": "Middle East energy and climate initiatives",
+      "regions": [
+        "MENA"
+      ],
+      "keywords": [
+        "Morocco biosafety facility",
+        "sustainable aviation fuel",
+        "climate‑resilient agriculture"
+      ],
+      "why": "Gulf and North African countries are investing in high‑tech and climate projects, reshaping regional energy dynamics"
+    },
+    {
+      "name": "Automotive and battery manufacturing expansion",
       "regions": [
         "Asia"
       ],
       "keywords": [
-        "RBI",
-        "GDS auction",
-        "capex"
+        "GAC battery factory",
+        "Tesla",
+        "SpaceX‑Tesla merger"
       ],
-      "why": "Central bank auction signals fiscal policy direction, affecting global bond markets."
+      "why": "Major automotive players are expanding battery production in Asia, affecting global supply chains"
     },
     {
-      "name": "Nigerian tech and IPO boom",
+      "name": "Political instability and security in North Africa",
       "regions": [
-        "Africa"
+        "MENA"
       ],
       "keywords": [
-        "Dangote",
-        "IPO",
-        "startups"
+        "Houthi conflict",
+        "Saudi Arabia",
+        "Morocco parliament"
       ],
-      "why": "High-profile IPOs and funding rounds highlight Africa’s growing capital markets and investor appetite."
+      "why": "Regional conflicts and political responses are reshaping security and investment climates in North Africa"
     },
     {
-      "name": "Morocco’s MINURSO closure and political fallout",
+      "name": "Corporate governance and legal disputes in Asia",
       "regions": [
-        "Africa/MENA"
+        "Asia"
       ],
       "keywords": [
-        "MINURSO",
-        "Morocco",
-        "Sahara"
+        "Nexperia lawsuit",
+        "Wingtech",
+        "Apple shares"
       ],
-      "why": "Political shift in the Western Sahara has regional security implications and attracts international attention."
-    },
-    {
-      "name": "Abu Dhabi’s tech and finance investments",
-      "regions": [
-        "MENA/Gulf"
-      ],
-      "keywords": [
-        "OpenAI",
-        "Adic",
-        "investment"
-      ],
-      "why": "Gulf state’s strategic partnerships influence tech adoption and regional financial flows."
-    },
-    {
-      "name": "US midterms, dollar dip, and crypto stabilization",
-      "regions": [
-        "Global",
-        "US"
-      ],
-      "keywords": [
-        "US midterms",
-        "dollar",
-        "bitcoin"
-      ],
-      "why": "Political uncertainty drives currency and crypto market movements, affecting global investors."
-    },
-    {
-      "name": "Alphabet’s €6bn bond sale testing tech debt appetite",
-      "regions": [
-        "Europe"
-      ],
-      "keywords": [
-        "Alphabet",
-        "bond sale",
-        "tech debt"
-      ],
-      "why": "Large tech bond issuance signals investor appetite for tech debt, impacting European bond markets."
-    },
-    {
-      "name": "BII earmarks $3bn for Africa’s frontier markets",
-      "regions": [
-        "Africa"
-      ],
-      "keywords": [
-        "BII",
-        "frontier markets",
-        "funding"
-      ],
-      "why": "Significant external financing boosts African capital markets, with spillover to regional economies."
+      "why": "High‑profile legal battles and margin concerns are affecting investor confidence in Asian tech firms"
     }
   ],
   "angles": [
     {
-      "place": "Nigeria",
-      "idea": "Focus on how Dangote’s IPO could unlock broader African equity market participation and attract foreign institutional investors."
+      "place": "Global",
+      "idea": "Monitoring how crypto regulatory announcements in the US, EU, and China influence cross‑border trading volumes and institutional adoption"
     },
     {
-      "place": "Morocco",
-      "idea": "Analyze the economic impact of MINURSO’s closure on the Saharan trade corridor and potential investment opportunities in the region."
+      "place": "Nigeria",
+      "idea": "Analyzing how Nigeria’s rising reserves and sovereign credit rating improvements affect local bond markets and foreign investment"
+    },
+    {
+      "place": "South Africa",
+      "idea": "Assessing the impact of SA’s green power extension to Standard Bank branches on the banking sector’s ESG strategy"
     },
     {
       "place": "European Union",
-      "idea": "Examine Alphabet’s bond sale as a barometer for tech sector debt appetite and its implications for EU sovereign debt markets."
+      "idea": "Evaluating how Anthropic’s operating loss and EU data center funding influence the EU’s AI competitiveness strategy"
+    },
+    {
+      "place": "Morocco",
+      "idea": "Exploring the economic and geopolitical implications of Morocco’s new biosafety diagnostic facility and SAF procurement"
+    },
+    {
+      "place": "Thailand",
+      "idea": "Investigating how GAC’s overseas battery factory influences Southeast Asian EV market growth"
+    },
+    {
+      "place": "Algeria",
+      "idea": "Assessing how Houthi conflict spill‑over could affect Algeria’s energy exports and regional security posture"
+    },
+    {
+      "place": "Singapore",
+      "idea": "Analyzing how Nexperia’s lawsuit against Wingtech reflects broader IP enforcement trends in the region"
     },
     {
       "place": "United States",
-      "idea": "Assess how the US midterm election cycle influences dollar volatility and cross‑border crypto trading flows."
+      "idea": "Evaluating how US‑Iran negotiations and oil price volatility impact US energy policy and market expectations"
     },
     {
-      "place": "China",
-      "idea": "Investigate how Chinese capital outflows or policy shifts could affect global bond yields and emerging market liquidity, especially in Africa."
-    },
-    {
-      "place": "Islamic finance",
-      "idea": "Explore opportunities for tokenized deposits and crypto derivatives compliant with Sharia principles, building on Standard Chartered’s Hong Kong launch."
+      "place": "South Africa",
+      "idea": "Examining how the JET skills zone rollout supports the country’s automotive manufacturing and export ambitions"
     }
   ]
 }
