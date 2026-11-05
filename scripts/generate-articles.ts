@@ -20,6 +20,8 @@ import path from "node:path";
 import { ARTICLES, CATEGORY_META, CORE_CATEGORIES, getAllArticles } from "../lib/articles";
 import { renderBriefing, type BriefingData } from "../lib/briefing-template";
 import { fetchDashboard } from "../lib/market-data";
+import { fetchEcondbSnapshot, type EcondbSeries } from "../lib/econdb";
+import { screenStock } from "../lib/halal-terminal";
 import { getNews } from "../lib/news";
 import { findImage } from "./images";
 import type { Article, CategorySlug, NewsItem } from "../lib/types";
@@ -41,10 +43,12 @@ const FEATURED_PATH = path.join(ROOT, "data", "featured.json");
 const FEATURED_ARCHIVE_PATH = path.join(ROOT, "data", "featured-archive.json");
 const UNIVERSE_PATH = path.join(ROOT, "data", "universe.json");
 const SOURCES_PATH = path.join(ROOT, "data", "sources.json");
+const ECONDB_PATH = path.join(ROOT, "data", "econdb-series.json");
 const BRIEFING_PATH = path.join(ROOT, "data", "briefing.json");
 
 const FOCUS: Record<string, string> = {
-  markets: "cross-asset markets: equities, bonds, commodities, currencies, and where positioning looks stretched or balanced",
+  markets: "markets and macro: central banks and rates, inflation and growth data, stocks and earnings, bonds, commodities, currencies, and where positioning looks stretched or balanced",
+  energy: "energy markets: oil, gas and LNG, OPEC+ decisions, electricity and power markets, renewables and the energy transition, energy security, and how energy prices feed into inflation and trade balances",
   macro: "central banks, interest rates, inflation, and the economic data that moves them",
   equities: "major stock indices, sectors, and earnings that shift market balance",
   "digital-assets": "crypto markets, ETF flows, derivatives positioning, and regulation",
@@ -144,7 +148,7 @@ function deskCategory(desk: Desk, index: number): CategorySlug {
   if (forced && forced in CATEGORY_META && forced !== "learn") return forced as CategorySlug;
   if (desk.id === "week") return "macro";
   const day = Math.floor(Date.now() / 86_400_000);
-  return CORE_CATEGORIES[(day + index * 2) % CORE_CATEGORIES.length];
+  return CORE_CATEGORIES[(day + index) % CORE_CATEGORIES.length];
 }
 
 /* ---------------- helpers ---------------- */
@@ -423,7 +427,7 @@ function parseArticle(text: string) {
   };
 }
 
-const MIN_WORDS = 750;
+const MIN_WORDS = 700;
 
 const BANNED = [
   "in today's fast-paced",
@@ -459,6 +463,23 @@ function checkQuality(a: ReturnType<typeof parseArticle>, sources: Source[]): vo
 }
 
 
+
+let econdbSnapshot = "";
+
+/** One line per official figure Econdb returned, used to ground research in real, dated data. Best effort. */
+async function loadEcondbSnapshot(deskId?: string): Promise<string> {
+  if (econdbSnapshot) return econdbSnapshot;
+  try {
+    const list = JSON.parse(await readFile(ECONDB_PATH, "utf8")) as EcondbSeries[];
+    const byDesk: Record<string, string> = { us: "USA", eu: "EA19", china: "CHN" };
+    const filtered = deskId && byDesk[deskId] ? list.filter((s) => s.ticker.includes(byDesk[deskId])) : list;
+    const points = await fetchEcondbSnapshot(filtered.length ? filtered : list);
+    econdbSnapshot = points.map((p) => `- ${p.label}: ${p.value}${p.unit ? " " + p.unit : ""} (${p.date}) — Econdb`).join("\n");
+  } catch {
+    econdbSnapshot = "";
+  }
+  return econdbSnapshot;
+}
 
 async function prioritySources(): Promise<string> {
   try {
@@ -994,7 +1015,7 @@ let lastNews: NewsItem[] = []; // English headlines from our feeds, reused by th
 /** Free-tier Groq limits tokens per minute per model, so heavy calls on the same model are spaced out. */
 async function cooldown(model: string): Promise<void> {
   const u = usage.get(model);
-  if (!u || u.tokens < 3000) return;
+  if (!u || u.tokens < 5500) return;
   const wait = COOLDOWN_MS() - (Date.now() - u.at);
   if (wait > 0) {
     console.log(`Waiting ${Math.ceil(wait / 1000)}s for Groq's per-minute token window (${model})…`);
@@ -1014,12 +1035,68 @@ function retryDelayMs(header: string | null, body: string): number {
   return 20_000;
 }
 
+/**
+ * Optional second provider (any OpenAI-compatible API, for example Z.ai GLM or Kimi). It has no built-in web search, so it only
+ * handles steps that need no browsing: radar, writing, revising, the briefing and the featured pick.
+ * FALLBACK_BASE_URL, FALLBACK_API_KEY, FALLBACK_MODEL; OFFLOAD_WRITING=true uses it first to save Groq tokens.
+ */
+async function fallbackChat(c: GroqCall): Promise<GroqOut | null> {
+  const base = env("FALLBACK_BASE_URL");
+  const key = env("FALLBACK_API_KEY");
+  const model = env("FALLBACK_MODEL");
+  if (!base || !key || !model) return null;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 180_000);
+  try {
+    const res = await fetch(`${base.replace(/\/$/, "")}/chat/completions`, {
+      method: "POST",
+      signal: controller.signal,
+      headers: { "content-type": "application/json", authorization: `Bearer ${key}` },
+      body: JSON.stringify({ model, temperature: 0.4, max_tokens: Math.min(c.maxTokens ?? 4000, 8000), messages: [{ role: "user", content: c.prompt }] }),
+    });
+    if (!res.ok) {
+      console.warn(`Second provider failed: ${res.status} ${(await res.text()).slice(0, 200)}`);
+      return null;
+    }
+    const json = (await res.json()) as { choices?: { message?: { content?: string } }[]; usage?: { total_tokens?: number } };
+    const text = (json.choices?.[0]?.message?.content ?? "").replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+    if (!text) return null;
+    console.log(`Second provider ${model}: ${json.usage?.total_tokens ?? 0} tokens`);
+    return { text, sources: [], tokens: json.usage?.total_tokens ?? 0 };
+  } catch (err) {
+    console.warn(`Second provider error: ${(err as Error).message}`);
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function groqChat(c: GroqCall): Promise<GroqOut> {
+  if (!c.browse && env("OFFLOAD_WRITING") === "true") {
+    const r = await fallbackChat(c);
+    if (r) return r;
+    console.warn("Second provider unavailable; using Groq for this step.");
+  }
+  try {
+    return await groqChatCore(c);
+  } catch (err) {
+    if (!c.browse && /daily limit|still rate limited/i.test((err as Error).message)) {
+      const r = await fallbackChat(c);
+      if (r) {
+        console.warn("Groq is limited; this step used the second provider.");
+        return r;
+      }
+    }
+    throw err;
+  }
+}
+
+async function groqChatCore(c: GroqCall): Promise<GroqOut> {
   const key = env("GROQ_API_KEY");
   if (!key) throw new Error("GROQ_API_KEY is not set");
   const gptOss = c.model.startsWith("openai/gpt-oss");
 
-  for (let attempt = 1; attempt <= 5; attempt++) {
+  for (let attempt = 1; attempt <= 6; attempt++) {
     await cooldown(c.model);
     const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
@@ -1030,7 +1107,10 @@ async function groqChat(c: GroqCall): Promise<GroqOut> {
         max_completion_tokens: c.maxTokens ?? 6000,
         messages: [{ role: "user", content: c.prompt }],
         ...(gptOss
-          ? { reasoning_effort: "low", ...(c.browse ? { tools: [{ type: "browser_search" }], tool_choice: "required" } : {}) }
+          ? {
+              reasoning_effort: "low",
+              ...(c.browse ? { tools: [{ type: "browser_search" }], tool_choice: attempt >= 4 ? "auto" : "required" } : {}),
+            }
           : {}),
       }),
     });
@@ -1044,8 +1124,8 @@ async function groqChat(c: GroqCall): Promise<GroqOut> {
       continue;
     }
     if (res.status >= 500) {
-      console.warn(`Groq ${res.status} on ${c.model} (attempt ${attempt}/5). Retrying…`);
-      await sleep(4000 * attempt);
+      console.warn(`Groq ${res.status} on ${c.model} (attempt ${attempt}/6). Retrying…`);
+      await sleep(5000 * attempt);
       continue;
     }
     if (!res.ok) throw new Error(`Groq (${c.model}) failed: ${res.status} ${(await res.text()).slice(0, 300)}`);
@@ -1058,7 +1138,7 @@ async function groqChat(c: GroqCall): Promise<GroqOut> {
     console.log(`Groq ${c.model}: ${tokens} tokens, ${sources.length} sources, finish=${json.choices?.[0]?.finish_reason}`);
     return { text: msg?.content ?? "", sources, tokens };
   }
-  throw new Error(`Groq (${c.model}) is still rate limited after several retries`);
+  throw new Error(`Groq (${c.model}) is still rate limited or erroring after several retries`);
 }
 
 /* ----- stage 1: radar ----- */
@@ -1184,7 +1264,7 @@ const trendsText = (r: Radar | null) =>
   r ? r.trends.map((t, i) => `${i + 1}. ${t.name} [${t.regions.join(", ")}] (${t.why})`).join("\n") : "(radar unavailable: find the most important stories yourself)";
 const anglesText = (r: Radar | null) => (r && r.angles.length ? r.angles.map((a) => `- ${a.place}: ${a.idea}`).join("\n") : "(none)");
 
-function researchPrompt1(category: CategorySlug, radar: Radar | null, recent: string[], learnTopic?: string, desk?: Desk): string {
+function researchPrompt1(category: CategorySlug, radar: Radar | null, recent: string[], learnTopic?: string, desk?: Desk, deskSnapshot?: string): string {
   const today = new Date().toISOString().slice(0, 10);
   const head = `You are the research desk of Armonia Capital, a financial market intelligence site. Today is ${today}.`;
   const tail = `Search the web thoroughly before answering. Prefer primary sources (central banks, statistics offices, regulators, exchanges, company filings and financial statements), then at least three independent reputable outlets. Collect exact figures with dates, who said what, and any disagreement between sources.${
@@ -1214,10 +1294,11 @@ ${tail}`;
   }
   if (desk) {
     const heads = (deskHeadlines[desk.id] ?? []).slice(0, 12).map((h) => h.line).join("\n") || "(none collected)";
+    const official = deskSnapshot ? `\nOFFICIAL DATA SNAPSHOT (verified, from Econdb, use these figures as given, they do not need a search):\n${deskSnapshot}\n` : "";
     return `${head}
 ECONOMY DESK: ${desk.name}, covering ${desk.focus}.
 SECTION OF THE SITE: ${CATEGORY_META[category].name}: ${FOCUS[category]}
-
+${official}
 RECENT HEADLINES ON THIS ECONOMY (worldwide news index):
 ${heads}
 
@@ -1300,7 +1381,7 @@ SEO RULES
 - Choose one primary keyword phrase (2 to 4 words) a reader would search for. Put it in the title, in the first 100 words, and in one section heading. Use related terms naturally.
 - Title: 50 to 65 characters, specific, no clickbait.
 - 5 or 6 sections with descriptive headings that say what the section answers. The last section looks ahead (what to watch next, or what to read next).
-- 950 to 1150 words in total. This length is required.
+- 950 to 1150 words in total. This is a hard minimum, not a target: a short article fails and has to be rewritten. Each of the 5-6 sections must be at least 150 words (several solid paragraphs), not a few lines. If you are unsure whether you have written enough, write more detail rather than stop early: add context, an example, a number, or a consequence.
 - META_DESCRIPTION: 130 to 155 characters, includes the primary keyword, states the takeaway.
 
 Output EXACTLY this format and nothing else:
@@ -1338,7 +1419,10 @@ ${WRITE_RULES}`;
 }
 
 function revisionPrompt(draft: string, notes: string, problem: string, learnTopic?: string): string {
-  return `You are the editor at Armonia Capital. Your draft failed a quality check: ${problem}.
+  const wordHint = /too short/i.test(problem)
+    ? " Expand every section to at least 150 to 200 words: add concrete detail, context or a consequence from the notes. Do not pad with repetition or filler."
+    : "";
+  return `You are the editor at Armonia Capital. Your draft failed a quality check: ${problem}.${wordHint}
 Rewrite the COMPLETE article so it passes, using only facts from the research notes. Keep what was good, fix the problem, and keep the same output format.${learnTopic ? ` It is an evergreen beginner guide on: ${learnTopic}.` : ""}
 
 <notes>
@@ -1360,7 +1444,8 @@ async function generateOneGroq(offset: number, store: Article[], radar: Radar | 
   const learnTopic = category === "learn" ? pickLearnTopic(allTitles) : undefined;
   console.log(`Researching a ${category} article${deskObj ? ` for the ${deskObj.name} desk` : ""}${learnTopic ? ` on "${learnTopic}"` : ""}…`);
 
-  const r1 = await groqChat({ model: MAIN_MODEL(), prompt: researchPrompt1(category, radar, recent, learnTopic, deskObj), browse: true, maxTokens: 3500 });
+  const snapshot = category === "learn" ? "" : await loadEcondbSnapshot(deskObj?.id);
+  const r1 = await groqChat({ model: MAIN_MODEL(), prompt: researchPrompt1(category, radar, recent, learnTopic, deskObj, snapshot), browse: true, maxTokens: 3500 });
   let notes = r1.text.trim();
   let sources = r1.sources;
   if (!learnTopic) {
@@ -1397,13 +1482,21 @@ async function generateOneGroq(offset: number, store: Article[], radar: Radar | 
   }
   lastNotes = notes;
   deskNotes[deskObj?.id ?? "learn"] = notes;
+
+  if (category === "islamic-finance") {
+    const ticker = notes.match(/\b(Nasdaq|NYSE|ADR)?:?\s*\$?([A-Z]{2,6})\b(?=.{0,30}(sukuk|compliant|shar|halal|islamic))/i)?.[2];
+    if (ticker) {
+      const screen = await screenStock(ticker);
+      if (screen) notes += `\n\nSHARIA SCREEN (Halal Terminal, verified): ${screen.symbol} is ${screen.compliant ? "compliant" : "not compliant"} with its ${screen.methodology ?? "default"} methodology${typeof screen.purificationRate === "number" ? `, purification rate ${screen.purificationRate}%` : ""}.`;
+    }
+  }
   if (notes.split(/\s+/).length < 150) throw new Error("Research notes are too thin to write from");
   const minSources = learnTopic ? 2 : 3; // guides get one research pass, so fewer sources
   if (sources.length < minSources) throw new Error(`Research found only ${sources.length} web sources (need ${minSources}+): refusing an ungrounded article`);
 
-  let draft = await groqChat({ model: MAIN_MODEL(), prompt: writePrompt(category, notes, recent, learnTopic, deskObj), maxTokens: 6000 });
+  let draft = await groqChat({ model: MAIN_MODEL(), prompt: writePrompt(category, notes, recent, learnTopic, deskObj), maxTokens: 7000 });
   let parsed: ReturnType<typeof parseArticle> | undefined;
-  for (let rev = 0; rev <= 2; rev++) {
+  for (let rev = 0; rev <= 3; rev++) {
     try {
       const candidate = parseArticle(draft.text);
       checkQuality(candidate, sources);
@@ -1419,11 +1512,11 @@ async function generateOneGroq(offset: number, store: Article[], radar: Radar | 
     } catch (err) {
       const problem = (err as Error).message;
       console.warn(`Draft ${rev + 1} rejected: ${problem}`);
-      if (rev === 2) {
+      if (rev === 3) {
         console.warn(`Last draft (first 400 chars):\n${draft.text.slice(0, 400)}`);
         throw err;
       }
-      draft = await groqChat({ model: MAIN_MODEL(), prompt: revisionPrompt(draft.text, notes, problem, learnTopic), maxTokens: 6000 });
+      draft = await groqChat({ model: MAIN_MODEL(), prompt: revisionPrompt(draft.text, notes, problem, learnTopic), maxTokens: 7000 });
     }
   }
   if (!parsed) throw new Error("No acceptable article produced");

@@ -1,0 +1,10 @@
+[
+  { "ticker": "RGDPUSA", "label": "US real GDP", "enabled": false },
+  { "ticker": "CPIUSA", "label": "US CPI", "enabled": false },
+  { "ticker": "URATEUSA", "label": "US unemployment rate", "enabled": false },
+  { "ticker": "RGDPEA19", "label": "Euro area real GDP", "enabled": false },
+  { "ticker": "CPIEA19", "label": "Euro area HICP", "enabled": false },
+  { "ticker": "URATEEA19", "label": "Euro area unemployment rate", "enabled": false },
+  { "ticker": "RGDPCHN", "label": "China real GDP", "enabled": false },
+  { "ticker": "CPICHN", "label": "China CPI", "enabled": false }
+]

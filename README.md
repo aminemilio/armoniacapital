@@ -144,6 +144,37 @@ Monday to Friday the generator writes one article for each of three desks: the *
 
 **Token budget:** about 20,000 to 25,000 Groq tokens per article, so a weekday run is roughly 100,000 tokens including the radar, the featured asset and the briefing. Groq's free tier allows about 200,000 per day on the main model. Articles are saved as soon as each one finishes, and if the daily limit is hit the run stops cleanly and keeps what it finished. To cut usage, set the repo variable `RESEARCH_PASSES` to `1`, or `DESKS` to a subset such as `us,eu`. A weekday run takes about 20 to 30 minutes because Groq's per-minute limit forces pauses.
 
+## Sections, search and trust pages
+
+**Sections:** Markets (now includes macro, equities, rates, commodities and currencies), Energy, Digital Assets and Islamic Finance, plus the three economy desks (`/economy/us`, `/economy/eu`, `/economy/china`), News, Learn and the featured asset. The old `/category/macro`, `/category/equities`, `/category/stock` and `/category/investing` addresses redirect permanently to Markets, and older articles keep working.
+
+**Search:** the magnifier in the header opens a search bar. `/search?q=...` looks up a live price for a ticker, coin or company name (Yahoo Finance's unofficial endpoints, so it can fail and then simply shows no price card), and searches our articles, asset profiles, glossary and the latest headlines.
+
+**Pages for readers and ad networks:** About, Contact (form delivers to the `CONTACT_TO` address through Resend), Editorial policy and AI use, Privacy, Terms, Disclaimer, and a cookie banner. Edit your public details in `lib/site.ts`. The banner stores the choice in `localStorage`; load any future analytics or ad script only when `allowsOptional()` from `lib/consent.ts` returns true. For AdSense traffic from the EU and UK, Google also requires a certified consent tool, which AdSense provides for free once you are approved.
+
+## A second AI provider (optional)
+
+Any OpenAI-compatible API can take over the steps that need no web search (radar, writing, revising, the briefing, the featured pick). Set `FALLBACK_BASE_URL`, `FALLBACK_MODEL` and the secret `FALLBACK_API_KEY` (for Z.ai: base URL `https://api.z.ai/api/paas/v4` and one of its free "flash" models; check Z.ai's current model list). With `OFFLOAD_WRITING=true` it is used first, which cuts Groq usage by more than half and leaves Groq for the browsing research. With `OFFLOAD_WRITING=false` it only steps in when Groq hits a daily or rate limit. The research steps always stay on Groq because they need its built-in web search.
+
+## If a run fails or looks weak
+
+- **"Article too short" repeatedly, or a run over ~20 minutes:** the writer is told the word count is a hard minimum and gets up to 4 tries; a persistently short result usually means the research notes were themselves too thin (check the "Raw model output" or notes length in the log).
+- **"Groq 500" several times in a row:** a transient fault on Groq's side. The script retries up to 6 times with a growing pause, and switches the web-search setting from "required" to "optional" on the last 3 tries in case the forced browsing itself is what is failing.
+- **"still rate limited or erroring":** that one article is skipped; the run continues with the others, so a bad day costs one article, not three.
+- **Token or time budget tight:** set the repo variable `RESEARCH_PASSES` to `1`, or `DESKS` to `us,eu` to publish two a day instead of three.
+
+## Wider stock search (Twelve Data)
+
+The search bar's coverage was limited to tickers Yahoo's unofficial search recognised. Get a free key at twelvedata.com (about 800 requests/day) and add it as the Cloudflare secret `TWELVEDATA_API_KEY`: the search then also covers most European, Gulf and Asian exchanges, shown with their exchange name (for example "SAP SE (Germany) · XETRA"). Without the key, search still works through Yahoo and your own `data/universe.json`, just with narrower international coverage.
+
+## Official data grounding (Econdb) and Sharia screening (Halal Terminal)
+
+**Econdb** (econdb.com) is a free, keyless API for official economic series (GDP, CPI, unemployment and more). It can feed real, dated figures straight into the US/EU/China research prompts, so an article can cite an exact official number instead of only what a web search turns up. Econdb's ticker codes are not guessable reliably, so every line in `data/econdb-series.json` starts `"enabled": false`. To turn one on: search the indicator and country on econdb.com, open the series, copy its ticker from the URL, put it in the file, then run `npm run check-econdb` to confirm it returns data before setting `"enabled": true`.
+
+**Halal Terminal** (halalterminal.com) screens individual stocks for Sharia compliance. Its free tier is small (about 50 calls a month), so it is used only when an Islamic Finance article's research already names a specific stock, adding one verified compliance line to the notes. Get a free key at halalterminal.com and add it as the Cloudflare secret `HALALTERMINAL_API_KEY`; without it, this step is skipped.
+
+**Why not the other sites in your list:** Helium Trades is an options-trading platform, not a data API. Alpaca's Market Data API is solid but free-tier US-only and would duplicate what Yahoo and Twelve Data already cover here.
+
 ## Checking the signup setup
 
 Open `https://your-site/api/subscribe` in a browser. It lists which settings the server can read (`RESEND_API_KEY`, `SUBSCRIBE_SECRET`, `RESEND_SEGMENT_ID`), never their values. `"ready": true` means the signup form can send confirmation emails.
