@@ -1,146 +1,136 @@
 {
-  "generatedAt": "2026-11-04T14:09:10.790Z",
+  "generatedAt": "2026-11-05T14:27:43.357Z",
   "trends": [
     {
-      "name": "US Midterm Elections & Democratic Victory",
+      "name": "RBI to conduct 3‑day Variable Rate Reverse Repo auction",
       "regions": [
-        "United States",
-        "Europe",
-        "Africa"
-      ],
-      "keywords": [
-        "midterms",
-        "Democrats",
-        "market impact"
-      ],
-      "why": "Wide coverage across US and global outlets, significant policy shift affecting markets worldwide"
-    },
-    {
-      "name": "Bitcoin Rebounds Post Midterm Dip",
-      "regions": [
-        "Global",
-        "Asia",
-        "Europe"
-      ],
-      "keywords": [
-        "Bitcoin",
-        "rebound",
-        "crypto"
-      ],
-      "why": "Multiple crypto outlets report gains, indicating renewed investor confidence in digital assets"
-    },
-    {
-      "name": "RBI Conducts Overnight Variable Rate Reverse Repo (VRRR) Auction",
-      "regions": [
-        "India",
-        "Asia"
+        "Asia (India)"
       ],
       "keywords": [
         "RBI",
         "VRRR",
         "LAF"
       ],
-      "why": "Central bank policy move with implications for Indian liquidity and global emerging‑market rates"
+      "why": "Central bank liquidity operation signals monetary policy stance, affecting global bond markets and emerging‑market funding flows."
     },
     {
-      "name": "Nigeria Telecom Investment & Privatization Issues",
+      "name": "Bank of England raises key rate to 4%",
       "regions": [
+        "Europe (UK)"
+      ],
+      "keywords": [
+        "BoE",
+        "rate hike",
+        "monetary policy"
+      ],
+      "why": "A 4% policy rate shifts global risk‑on sentiment, impacts euro‑area borrowing costs, and sets a benchmark for other advanced economies."
+    },
+    {
+      "name": "Bitcoin surges above $80k after ETF listing",
+      "regions": [
+        "Global"
+      ],
+      "keywords": [
+        "Bitcoin",
+        "ETF",
+        "price rally"
+      ],
+      "why": "A significant price jump reflects renewed institutional appetite, affecting crypto‑asset valuations worldwide."
+    },
+    {
+      "name": "AI partnership expansion with Nvidia and workflow builder",
+      "regions": [
+        "Asia (Singapore, China)"
+      ],
+      "keywords": [
+        "Nvidia",
+        "AI workflow",
+        "partnership"
+      ],
+      "why": "AI infrastructure deals drive tech sector valuations and shape global AI supply chains."
+    },
+    {
+      "name": "Ukraine’s central bank opposes crypto bill citing monetary sovereignty",
+      "regions": [
+        "Europe (Ukraine)"
+      ],
+      "keywords": [
+        "Ukraine",
+        "crypto bill",
+        "monetary sovereignty"
+      ],
+      "why": "Regulatory stance on crypto affects global crypto market access and cross‑border payment systems."
+    },
+    {
+      "name": "Nigeria’s haulage sector exposed by empty truck trips and cargo delays",
+      "regions": [
+        "Africa (Nigeria)"
+      ],
+      "keywords": [
         "Nigeria",
-        "Africa"
+        "haulage",
+        "logistics"
       ],
-      "keywords": [
-        "telecom",
-        "privatization",
-        "N4trn"
-      ],
-      "why": "Local business coverage highlights unfinished privatization, affecting telecom sector valuation and investor sentiment"
+      "why": "Infrastructure bottlenecks constrain trade, impacting Africa’s trade deficit with China and global supply chains."
     },
     {
-      "name": "Ghana Inflation Rise Ahead of Rate Decision",
+      "name": "Africa’s $102bn trade deficit with China exposes industrial weakness",
       "regions": [
-        "Ghana",
-        "Africa"
+        "Africa (Nigeria)"
       ],
       "keywords": [
-        "inflation",
-        "5.5%",
-        "rate decision"
+        "Africa",
+        "China",
+        "trade deficit"
       ],
-      "why": "Inflation data influences monetary policy and regional bond markets, covered by multiple African outlets"
+      "why": "Highlights structural trade imbalances, influencing global commodity flows and investment patterns."
     },
     {
-      "name": "French Bank Crédit Mutuel Arkéa Cyberattack",
+      "name": "US midterm election results accelerate India‑US trade deal talks",
       "regions": [
-        "France",
-        "Europe"
+        "United States",
+        "Asia (India)"
       ],
       "keywords": [
-        "cyberattack",
-        "bank",
-        "customers"
+        "US midterms",
+        "India‑US trade",
+        "deal"
       ],
-      "why": "Cybersecurity incident at a major European bank with potential contagion to financial sector"
-    },
-    {
-      "name": "Abu Dhabi AI Investment Boom",
-      "regions": [
-        "Abu Dhabi",
-        "Gulf",
-        "MENA"
-      ],
-      "keywords": [
-        "AI",
-        "billions",
-        "investment"
-      ],
-      "why": "Significant AI funding signals tech shift in Gulf economies, covered by Gulf business outlets"
-    },
-    {
-      "name": "Indian Payments Authority NPCI AI & Blockchain Push",
-      "regions": [
-        "India",
-        "Asia"
-      ],
-      "keywords": [
-        "NPCI",
-        "AI",
-        "blockchain"
-      ],
-      "why": "Government initiative to modernize payments infrastructure with AI, impacting fintech and cross‑border remittances"
+      "why": "Political shift in the US reshapes trade negotiations, affecting global supply chains and investment flows."
     }
   ],
   "angles": [
     {
-      "place": "United States",
-      "idea": "Analyze how the Democratic control of Congress may alter U.S. fiscal policy and its ripple effects on global equity markets"
-    },
-    {
-      "place": "Islamic Finance",
-      "idea": "Explore how Bitcoin’s volatility impacts Sharia-compliant crypto investment products and regulatory responses in Gulf states"
-    },
-    {
-      "place": "China",
-      "idea": "Assess how India’s VRRR auction influences cross‑border capital flows to China and the broader Asian financial landscape"
-    },
-    {
-      "place": "Nigeria",
-      "idea": "Examine the impact of telecom privatization on Nigeria’s digital economy and foreign direct investment"
-    },
-    {
-      "place": "South Africa",
-      "idea": "Compare Ghana’s inflation trajectory with South Africa’s monetary stance to gauge regional inflationary trends"
+      "place": "India",
+      "idea": "Assess how the VRRR auction influences Indian repo rates and spill‑over to global emerging‑market liquidity."
     },
     {
       "place": "European Union",
-      "idea": "Investigate EU regulatory responses to banking cyber threats and implications for cross‑border banking operations"
+      "idea": "Examine the BoE move’s effect on euro‑area sovereign yields and the EU’s fiscal‑policy coordination."
     },
     {
-      "place": "MENA/Gulf",
-      "idea": "Analyze how AI investment drives diversification away from hydrocarbons and affects regional capital allocation"
+      "place": "Islamic finance",
+      "idea": "Explore how Bitcoin’s price dynamics influence Sharia‑compliant crypto investment products."
     },
     {
       "place": "China",
-      "idea": "Evaluate how India’s AI‑enabled payments system could compete with China’s digital yuan and influence regional payment ecosystems"
+      "idea": "Analyze how Nvidia’s partnership impacts China’s AI ecosystem and technology export controls."
+    },
+    {
+      "place": "MENA/Gulf",
+      "idea": "Assess how Ukraine’s position influences Gulf‑state crypto regulatory frameworks and investment flows."
+    },
+    {
+      "place": "Nigeria",
+      "idea": "Investigate the economic impact of logistics inefficiencies on Nigeria’s export competitiveness."
+    },
+    {
+      "place": "South Africa",
+      "idea": "Compare South Africa’s trade dynamics with China to Nigeria’s situation, focusing on industrial policy."
+    },
+    {
+      "place": "United States",
+      "idea": "Evaluate how the new US administration’s trade agenda will influence global tech and manufacturing sectors."
     }
   ]
 }
