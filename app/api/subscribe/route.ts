@@ -3,6 +3,19 @@ import { EMAIL_RE, emailEnv, sendConfirmation } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
+/** Open https://your-site/api/subscribe in a browser to see which settings the server can read (no secret values are shown). */
+export async function GET() {
+  const env = emailEnv();
+  return NextResponse.json({
+    RESEND_API_KEY: Boolean(env.key),
+    SUBSCRIBE_SECRET: Boolean(env.secret),
+    RESEND_SEGMENT_ID: Boolean(env.segment),
+    EMAIL_FROM: env.from,
+    SITE_URL: env.site,
+    ready: Boolean(env.key && env.secret),
+  });
+}
+
 // Very small per-instance rate limit (5 requests per minute per IP). Resend and the honeypot do the rest.
 const hits = new Map<string, number[]>();
 
