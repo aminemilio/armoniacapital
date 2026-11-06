@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, Search, X } from "lucide-react";
+import { SearchPanel } from "./SearchPanel";
 import { NewsNavList } from "./NewsNavList";
 
 const NAV_BEFORE_NEWS = [
   { href: "/category/markets", label: "Markets" },
-  { href: "/category/macro", label: "Macro" },
-  { href: "/category/equities", label: "Equities" },
+  { href: "/category/energy", label: "Energy" },
   { href: "/category/digital-assets", label: "Digital Assets" },
   { href: "/category/islamic-finance", label: "Islamic Finance" },
 ];
@@ -41,6 +41,7 @@ export function Header() {
   const [open, setOpen] = useState(false); // mobile menu
   const [newsOpen, setNewsOpen] = useState(false); // desktop News dropdown
   const [mobileNews, setMobileNews] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const newsRef = useRef<HTMLDivElement>(null);
 
   // Close the News dropdown on outside click or Escape.
@@ -63,6 +64,7 @@ export function Header() {
     setOpen(false);
     setNewsOpen(false);
     setMobileNews(false);
+    setSearchOpen(false);
   };
 
   return (
@@ -85,7 +87,10 @@ export function Header() {
               aria-haspopup="true"
               aria-expanded={newsOpen}
               aria-controls="news-dropdown"
-              onClick={() => setNewsOpen((v) => !v)}
+              onClick={() => {
+                setSearchOpen(false);
+                setNewsOpen((v) => !v);
+              }}
               className={`${link} flex items-center gap-1`}
             >
               News
@@ -105,6 +110,19 @@ export function Header() {
               {item.label}
             </Link>
           ))}
+          <button
+            type="button"
+            aria-label="Search"
+            aria-expanded={searchOpen}
+            aria-controls="site-search"
+            onClick={() => {
+              setNewsOpen(false);
+              setSearchOpen((v) => !v);
+            }}
+            className="p-1.5 text-bone/80 transition-colors hover:text-brass-light"
+          >
+            <Search size={18} />
+          </button>
           <Link
             href="/#newsletter"
             className="rounded-sm bg-brass px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-brass-light"
@@ -113,17 +131,37 @@ export function Header() {
           </Link>
         </nav>
 
-        <button
-          type="button"
-          className="p-2 text-bone xl:hidden"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        <div className="flex items-center xl:hidden">
+          <button
+            type="button"
+            aria-label="Search"
+            aria-expanded={searchOpen}
+            aria-controls="site-search"
+            onClick={() => {
+              setOpen(false);
+              setSearchOpen((v) => !v);
+            }}
+            className="p-2 text-bone"
+          >
+            <Search size={20} />
+          </button>
+          <button
+            type="button"
+            className="p-2 text-bone"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            onClick={() => {
+              setSearchOpen(false);
+              setOpen((v) => !v);
+            }}
+          >
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
+
+      <SearchPanel open={searchOpen} onClose={() => setSearchOpen(false)} />
 
       {open && (
         <nav id="mobile-nav" aria-label="Mobile" className="max-h-[80vh] overflow-y-auto border-t border-white/10 bg-ink px-4 pb-5 pt-3 xl:hidden">

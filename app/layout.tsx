@@ -3,6 +3,7 @@ import { Fraunces, IBM_Plex_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { CookieBanner } from "@/components/CookieBanner";
 import { TickerBar } from "@/components/TickerBar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <TickerBar />
         <main id="main">{children}</main>
         <Footer />
+        <CookieBanner />
       </body>
     </html>
   );

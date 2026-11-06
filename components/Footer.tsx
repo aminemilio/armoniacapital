@@ -3,8 +3,7 @@ import { Logo } from "./Header";
 
 const COVERAGE = [
   { href: "/category/markets", label: "Markets" },
-  { href: "/category/macro", label: "Macro" },
-  { href: "/category/equities", label: "Equities" },
+  { href: "/category/energy", label: "Energy" },
   { href: "/category/digital-assets", label: "Digital Assets" },
   { href: "/category/islamic-finance", label: "Islamic Finance" },
   { href: "/economy/us", label: "United States" },
@@ -14,6 +13,8 @@ const COVERAGE = [
 
 const SITE = [
   { href: "/about", label: "About" },
+  { href: "/editorial-policy", label: "Editorial policy" },
+  { href: "/contact", label: "Contact" },
   { href: "/news", label: "News" },
   { href: "/learn", label: "Learn" },
   { href: "/featured", label: "Asset of the day" },

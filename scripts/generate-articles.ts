@@ -44,7 +44,8 @@ const SOURCES_PATH = path.join(ROOT, "data", "sources.json");
 const BRIEFING_PATH = path.join(ROOT, "data", "briefing.json");
 
 const FOCUS: Record<string, string> = {
-  markets: "cross-asset markets: equities, bonds, commodities, currencies, and where positioning looks stretched or balanced",
+  markets: "markets and macro: central banks and rates, inflation and growth data, stocks and earnings, bonds, commodities, currencies, and where positioning looks stretched or balanced",
+  energy: "energy markets: oil, gas and LNG, OPEC+ decisions, electricity and power markets, renewables and the energy transition, energy security, and how energy prices feed into inflation and trade balances",
   macro: "central banks, interest rates, inflation, and the economic data that moves them",
   equities: "major stock indices, sectors, and earnings that shift market balance",
   "digital-assets": "crypto markets, ETF flows, derivatives positioning, and regulation",
@@ -144,7 +145,7 @@ function deskCategory(desk: Desk, index: number): CategorySlug {
   if (forced && forced in CATEGORY_META && forced !== "learn") return forced as CategorySlug;
   if (desk.id === "week") return "macro";
   const day = Math.floor(Date.now() / 86_400_000);
-  return CORE_CATEGORIES[(day + index * 2) % CORE_CATEGORIES.length];
+  return CORE_CATEGORIES[(day + index) % CORE_CATEGORIES.length];
 }
 
 /* ---------------- helpers ---------------- */
@@ -423,7 +424,7 @@ function parseArticle(text: string) {
   };
 }
 
-const MIN_WORDS = 750;
+const MIN_WORDS = 700;
 
 const BANNED = [
   "in today's fast-paced",
@@ -994,7 +995,7 @@ let lastNews: NewsItem[] = []; // English headlines from our feeds, reused by th
 /** Free-tier Groq limits tokens per minute per model, so heavy calls on the same model are spaced out. */
 async function cooldown(model: string): Promise<void> {
   const u = usage.get(model);
-  if (!u || u.tokens < 3000) return;
+  if (!u || u.tokens < 5500) return;
   const wait = COOLDOWN_MS() - (Date.now() - u.at);
   if (wait > 0) {
     console.log(`Waiting ${Math.ceil(wait / 1000)}s for Groq's per-minute token window (${model})…`);
@@ -1014,12 +1015,68 @@ function retryDelayMs(header: string | null, body: string): number {
   return 20_000;
 }
 
+/**
+ * Optional second provider (any OpenAI-compatible API, for example Z.ai GLM or Kimi). It has no built-in web search, so it only
+ * handles steps that need no browsing: radar, writing, revising, the briefing and the featured pick.
+ * FALLBACK_BASE_URL, FALLBACK_API_KEY, FALLBACK_MODEL; OFFLOAD_WRITING=true uses it first to save Groq tokens.
+ */
+async function fallbackChat(c: GroqCall): Promise<GroqOut | null> {
+  const base = env("FALLBACK_BASE_URL");
+  const key = env("FALLBACK_API_KEY");
+  const model = env("FALLBACK_MODEL");
+  if (!base || !key || !model) return null;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 180_000);
+  try {
+    const res = await fetch(`${base.replace(/\/$/, "")}/chat/completions`, {
+      method: "POST",
+      signal: controller.signal,
+      headers: { "content-type": "application/json", authorization: `Bearer ${key}` },
+      body: JSON.stringify({ model, temperature: 0.4, max_tokens: Math.min(c.maxTokens ?? 4000, 8000), messages: [{ role: "user", content: c.prompt }] }),
+    });
+    if (!res.ok) {
+      console.warn(`Second provider failed: ${res.status} ${(await res.text()).slice(0, 200)}`);
+      return null;
+    }
+    const json = (await res.json()) as { choices?: { message?: { content?: string } }[]; usage?: { total_tokens?: number } };
+    const text = (json.choices?.[0]?.message?.content ?? "").replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+    if (!text) return null;
+    console.log(`Second provider ${model}: ${json.usage?.total_tokens ?? 0} tokens`);
+    return { text, sources: [], tokens: json.usage?.total_tokens ?? 0 };
+  } catch (err) {
+    console.warn(`Second provider error: ${(err as Error).message}`);
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function groqChat(c: GroqCall): Promise<GroqOut> {
+  if (!c.browse && env("OFFLOAD_WRITING") === "true") {
+    const r = await fallbackChat(c);
+    if (r) return r;
+    console.warn("Second provider unavailable; using Groq for this step.");
+  }
+  try {
+    return await groqChatCore(c);
+  } catch (err) {
+    if (!c.browse && /daily limit|still rate limited/i.test((err as Error).message)) {
+      const r = await fallbackChat(c);
+      if (r) {
+        console.warn("Groq is limited; this step used the second provider.");
+        return r;
+      }
+    }
+    throw err;
+  }
+}
+
+async function groqChatCore(c: GroqCall): Promise<GroqOut> {
   const key = env("GROQ_API_KEY");
   if (!key) throw new Error("GROQ_API_KEY is not set");
   const gptOss = c.model.startsWith("openai/gpt-oss");
 
-  for (let attempt = 1; attempt <= 5; attempt++) {
+  for (let attempt = 1; attempt <= 6; attempt++) {
     await cooldown(c.model);
     const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
@@ -1030,7 +1087,10 @@ async function groqChat(c: GroqCall): Promise<GroqOut> {
         max_completion_tokens: c.maxTokens ?? 6000,
         messages: [{ role: "user", content: c.prompt }],
         ...(gptOss
-          ? { reasoning_effort: "low", ...(c.browse ? { tools: [{ type: "browser_search" }], tool_choice: "required" } : {}) }
+          ? {
+              reasoning_effort: "low",
+              ...(c.browse ? { tools: [{ type: "browser_search" }], tool_choice: attempt >= 4 ? "auto" : "required" } : {}),
+            }
           : {}),
       }),
     });
@@ -1044,8 +1104,8 @@ async function groqChat(c: GroqCall): Promise<GroqOut> {
       continue;
     }
     if (res.status >= 500) {
-      console.warn(`Groq ${res.status} on ${c.model} (attempt ${attempt}/5). Retrying…`);
-      await sleep(4000 * attempt);
+      console.warn(`Groq ${res.status} on ${c.model} (attempt ${attempt}/6). Retrying…`);
+      await sleep(5000 * attempt);
       continue;
     }
     if (!res.ok) throw new Error(`Groq (${c.model}) failed: ${res.status} ${(await res.text()).slice(0, 300)}`);
@@ -1058,7 +1118,7 @@ async function groqChat(c: GroqCall): Promise<GroqOut> {
     console.log(`Groq ${c.model}: ${tokens} tokens, ${sources.length} sources, finish=${json.choices?.[0]?.finish_reason}`);
     return { text: msg?.content ?? "", sources, tokens };
   }
-  throw new Error(`Groq (${c.model}) is still rate limited after several retries`);
+  throw new Error(`Groq (${c.model}) is still rate limited or erroring after several retries`);
 }
 
 /* ----- stage 1: radar ----- */
@@ -1300,7 +1360,7 @@ SEO RULES
 - Choose one primary keyword phrase (2 to 4 words) a reader would search for. Put it in the title, in the first 100 words, and in one section heading. Use related terms naturally.
 - Title: 50 to 65 characters, specific, no clickbait.
 - 5 or 6 sections with descriptive headings that say what the section answers. The last section looks ahead (what to watch next, or what to read next).
-- 950 to 1150 words in total. This length is required.
+- 950 to 1150 words in total. This is a hard minimum, not a target: a short article fails and has to be rewritten. Each of the 5-6 sections must be at least 150 words (several solid paragraphs), not a few lines. If you are unsure whether you have written enough, write more detail rather than stop early: add context, an example, a number, or a consequence.
 - META_DESCRIPTION: 130 to 155 characters, includes the primary keyword, states the takeaway.
 
 Output EXACTLY this format and nothing else:
@@ -1338,7 +1398,10 @@ ${WRITE_RULES}`;
 }
 
 function revisionPrompt(draft: string, notes: string, problem: string, learnTopic?: string): string {
-  return `You are the editor at Armonia Capital. Your draft failed a quality check: ${problem}.
+  const wordHint = /too short/i.test(problem)
+    ? " Expand every section to at least 150 to 200 words: add concrete detail, context or a consequence from the notes. Do not pad with repetition or filler."
+    : "";
+  return `You are the editor at Armonia Capital. Your draft failed a quality check: ${problem}.${wordHint}
 Rewrite the COMPLETE article so it passes, using only facts from the research notes. Keep what was good, fix the problem, and keep the same output format.${learnTopic ? ` It is an evergreen beginner guide on: ${learnTopic}.` : ""}
 
 <notes>
@@ -1401,9 +1464,9 @@ async function generateOneGroq(offset: number, store: Article[], radar: Radar | 
   const minSources = learnTopic ? 2 : 3; // guides get one research pass, so fewer sources
   if (sources.length < minSources) throw new Error(`Research found only ${sources.length} web sources (need ${minSources}+): refusing an ungrounded article`);
 
-  let draft = await groqChat({ model: MAIN_MODEL(), prompt: writePrompt(category, notes, recent, learnTopic, deskObj), maxTokens: 6000 });
+  let draft = await groqChat({ model: MAIN_MODEL(), prompt: writePrompt(category, notes, recent, learnTopic, deskObj), maxTokens: 7000 });
   let parsed: ReturnType<typeof parseArticle> | undefined;
-  for (let rev = 0; rev <= 2; rev++) {
+  for (let rev = 0; rev <= 3; rev++) {
     try {
       const candidate = parseArticle(draft.text);
       checkQuality(candidate, sources);
@@ -1419,11 +1482,11 @@ async function generateOneGroq(offset: number, store: Article[], radar: Radar | 
     } catch (err) {
       const problem = (err as Error).message;
       console.warn(`Draft ${rev + 1} rejected: ${problem}`);
-      if (rev === 2) {
+      if (rev === 3) {
         console.warn(`Last draft (first 400 chars):\n${draft.text.slice(0, 400)}`);
         throw err;
       }
-      draft = await groqChat({ model: MAIN_MODEL(), prompt: revisionPrompt(draft.text, notes, problem, learnTopic), maxTokens: 6000 });
+      draft = await groqChat({ model: MAIN_MODEL(), prompt: revisionPrompt(draft.text, notes, problem, learnTopic), maxTokens: 7000 });
     }
   }
   if (!parsed) throw new Error("No acceptable article produced");

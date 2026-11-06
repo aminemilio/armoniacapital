@@ -129,7 +129,7 @@ const YAHOO = [
   { symbol: "TSLA", name: "Tesla", ticker: "TSLA" },
 ];
 
-async function fetchYahooOne(entry: (typeof YAHOO)[number]): Promise<TickerItem | null> {
+export async function fetchYahooOne(entry: { symbol: string; name: string; ticker: string }): Promise<TickerItem | null> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 5000);
   try {

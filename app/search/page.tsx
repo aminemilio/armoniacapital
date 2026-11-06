@@ -56,13 +56,10 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
             {quotes.map((h) => {
               const up = h.changePct >= 0;
               return (
-                <li key={`${h.symbol}-${h.exchange ?? ""}`} className="flex items-baseline justify-between border border-white/10 bg-ink-2 p-4">
+                <li key={h.symbol} className="flex items-baseline justify-between border border-white/10 bg-ink-2 p-4">
                   <div>
                     <p className="font-mono text-sm text-bone">{h.symbol}</p>
-                    <p className="text-xs text-slate">
-                      {h.name}
-                      {h.exchange ? ` · ${h.exchange}` : ""}
-                    </p>
+                    <p className="text-xs text-slate">{h.name}</p>
                   </div>
                   <div className="text-right font-mono">
                     <p className="text-lg text-bone">

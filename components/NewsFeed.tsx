@@ -24,9 +24,11 @@ interface Props {
   region?: string;
   country?: string;
   topic?: string;
+  /** Free-text filter: every word must appear in the title or summary. */
+  query?: string;
 }
 
-export function NewsFeed({ limit = 40, compact = false, region, country, topic }: Props) {
+export function NewsFeed({ limit = 40, compact = false, region, country, topic, query }: Props) {
   const [payload, setPayload] = useState<NewsPayload | null>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [now, setNow] = useState(() => Date.now());
@@ -65,8 +67,10 @@ export function NewsFeed({ limit = 40, compact = false, region, country, topic }
     if (region) list = list.filter((i) => i.regions?.includes(region));
     if (country) list = list.filter((i) => i.country === country);
     if (topic) list = list.filter((i) => i.topic === topic);
+    const words = (query ?? "").toLowerCase().split(/\s+/).filter((w) => w.length > 1);
+    if (words.length) list = list.filter((i) => words.every((w) => `${i.title} ${i.summary} ${i.source} ${i.country ?? ""}`.toLowerCase().includes(w)));
     return list.slice(0, limit);
-  }, [payload, region, country, topic, limit]);
+  }, [payload, region, country, topic, query, limit]);
 
   if (status === "loading") {
     return (
@@ -103,7 +107,7 @@ export function NewsFeed({ limit = 40, compact = false, region, country, topic }
     <div>
       {items.length === 0 && (
         <div className="border border-white/10 bg-ink-2 p-6 text-bone/70">
-          No recent headlines for {[region, country, topic].filter(Boolean).join(" › ") || "this selection"} yet. The source may be temporarily
+          No recent headlines for {[region, country, topic, query].filter(Boolean).join(" › ") || "this selection"} yet. The source may be temporarily
           unavailable; check back soon.
         </div>
       )}

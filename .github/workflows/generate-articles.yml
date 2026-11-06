@@ -42,6 +42,10 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL || 'https://armoniacapital.com' }}
           LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'groq' }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          FALLBACK_BASE_URL: ${{ vars.FALLBACK_BASE_URL }}
+          FALLBACK_MODEL: ${{ vars.FALLBACK_MODEL }}
+          FALLBACK_API_KEY: ${{ secrets.FALLBACK_API_KEY }}
+          OFFLOAD_WRITING: ${{ vars.OFFLOAD_WRITING || 'false' }}
           GROQ_LIGHT_MODEL: ${{ vars.GROQ_LIGHT_MODEL || 'openai/gpt-oss-20b' }}
           RESEARCH_PASSES: ${{ vars.RESEARCH_PASSES || '2' }}
           GROQ_MODEL: ${{ vars.GROQ_MODEL || 'openai/gpt-oss-120b' }}

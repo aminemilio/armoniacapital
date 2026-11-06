@@ -8,7 +8,11 @@ const px = (id: number) =>
 export const CATEGORY_META: Record<CategorySlug, { name: string; description: string }> = {
   markets: {
     name: "Markets",
-    description: "Cross-asset positioning and where it's stretched",
+    description: "Rates and central banks, stocks and earnings, commodities and currencies: where positioning is stretched and where it is balanced",
+  },
+  energy: {
+    name: "Energy",
+    description: "Oil, gas and LNG, power markets, renewables and energy security, and how energy prices travel through the economy",
   },
   macro: {
     name: "Macro",
@@ -37,13 +41,19 @@ export const CATEGORY_META: Record<CategorySlug, { name: string; description: st
 };
 
 /** The five verticals always shown on the homepage grid. */
-export const CORE_CATEGORIES: CategorySlug[] = [
-  "markets",
-  "macro",
-  "equities",
-  "digital-assets",
-  "islamic-finance",
-];
+export const CORE_CATEGORIES: CategorySlug[] = ["markets", "energy", "digital-assets", "islamic-finance"];
+
+/**
+ * Older sections folded into Markets. Articles keep working, and the old /category/... URLs redirect (see next.config.ts).
+ */
+export const CATEGORY_ALIAS: Partial<Record<CategorySlug, CategorySlug>> = {
+  macro: "markets",
+  equities: "markets",
+  stock: "markets",
+  investing: "markets",
+};
+
+export const normalizeCategory = (c: CategorySlug): CategorySlug => CATEGORY_ALIAS[c] ?? c;
 
 const SEED_ARTICLES: Article[] = [
   {
@@ -505,7 +515,8 @@ export const ARTICLES: Article[] = (() => {
       return true;
     })
     // data/image-overrides.json (written by `npm run fix-images`) replaces photos that do not fit their category.
-    .map((a) => (overrides[a.slug] ? { ...a, image: overrides[a.slug].image, imageCredit: overrides[a.slug].credit ?? a.imageCredit } : a));
+    .map((a) => (overrides[a.slug] ? { ...a, image: overrides[a.slug].image, imageCredit: overrides[a.slug].credit ?? a.imageCredit } : a))
+    .map((a) => ({ ...a, category: normalizeCategory(a.category) }));
 })();
 
 /* ---------- Helpers ---------- */
@@ -530,7 +541,7 @@ export function isCategorySlug(value: string): value is CategorySlug {
 }
 
 export function getArticlesByCategory(slug: string): Article[] {
-  return getAllArticles().filter((a) => a.category === slug);
+  return getAllArticles().filter((a) => a.category === normalizeCategory(slug as CategorySlug));
 }
 
 export function getAllCategories(): Category[] {
@@ -543,7 +554,7 @@ export function getAllCategories(): Category[] {
 }
 
 export function getCategoryName(slug: string): string {
-  return isCategorySlug(slug) ? CATEGORY_META[slug].name : slug;
+  return isCategorySlug(slug) ? CATEGORY_META[normalizeCategory(slug)].name : slug;
 }
 
 export function getRelatedArticles(article: Article, limit = 3): Article[] {

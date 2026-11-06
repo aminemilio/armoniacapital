@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArticleCard } from "@/components/ArticleCard";
 import {
+  CATEGORY_ALIAS,
   CATEGORY_META,
   getArticlesByCategory,
   getCategoryName,
@@ -11,7 +12,7 @@ import {
 type Params = { slug: string };
 
 export function generateStaticParams() {
-  return Object.keys(CATEGORY_META).map((slug) => ({ slug }));
+  return Object.keys(CATEGORY_META).filter((s) => !(s in CATEGORY_ALIAS)).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {

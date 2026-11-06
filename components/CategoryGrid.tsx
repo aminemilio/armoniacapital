@@ -10,7 +10,7 @@ export function CategoryGrid() {
       <h2 id="briefings-heading" className="font-serif text-3xl text-bone">
         Briefings &amp; series
       </h2>
-      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {core.map((c) => (
           <Link
             key={c.slug}

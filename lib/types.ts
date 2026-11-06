@@ -8,6 +8,7 @@ export type CategorySlug =
   | "business"
   | "politics"
   | "stock"
+  | "energy"
   | "learn";
 
 export interface Category {

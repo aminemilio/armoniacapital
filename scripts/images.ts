@@ -26,6 +26,7 @@ export const IMAGE_POOLS: Record<string, string[]> = {
     "doha skyline",
     "abu dhabi skyline",
   ],
+  energy: ["oil refinery", "wind turbines field", "solar panels field", "natural gas pipeline", "power grid pylons", "offshore oil platform"],
   macro: ["central bank building", "financial district skyline", "government building columns", "city skyline business", "economy city"],
   equities: ["stock market screen", "trading floor", "stock exchange building", "financial charts laptop", "business analytics dashboard"],
   markets: ["container port trade", "gold bars", "oil refinery", "world map business", "commodity trading"],
