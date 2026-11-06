@@ -163,6 +163,10 @@ Any OpenAI-compatible API can take over the steps that need no web search (radar
 - **"still rate limited or erroring":** that one article is skipped; the run continues with the others, so a bad day costs one article, not three.
 - **Token or time budget tight:** set the repo variable `RESEARCH_PASSES` to `1`, or `DESKS` to `us,eu` to publish two a day instead of three.
 
+## Wider stock search (Twelve Data)
+
+The search bar's coverage was limited to tickers Yahoo's unofficial search recognised. Get a free key at twelvedata.com (about 800 requests/day) and add it as the Cloudflare secret `TWELVEDATA_API_KEY`: the search then also covers most European, Gulf and Asian exchanges, shown with their exchange name (for example "SAP SE (Germany) · XETRA"). Without the key, search still works through Yahoo and your own `data/universe.json`, just with narrower international coverage.
+
 ## Checking the signup setup
 
 Open `https://your-site/api/subscribe` in a browser. It lists which settings the server can read (`RESEND_API_KEY`, `SUBSCRIBE_SECRET`, `RESEND_SEGMENT_ID`), never their values. `"ready": true` means the signup form can send confirmation emails.
