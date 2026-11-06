@@ -1,136 +1,135 @@
 {
-  "generatedAt": "2026-11-05T14:27:43.357Z",
+  "generatedAt": "2026-11-06T14:03:32.028Z",
   "trends": [
     {
-      "name": "RBI to conduct 3‑day Variable Rate Reverse Repo auction",
+      "name": "U.S. Labor Market Surges",
       "regions": [
-        "Asia (India)"
+        "United States"
       ],
       "keywords": [
-        "RBI",
-        "VRRR",
-        "LAF"
+        "jobs",
+        "economy",
+        "inflation"
       ],
-      "why": "Central bank liquidity operation signals monetary policy stance, affecting global bond markets and emerging‑market funding flows."
+      "why": "The U.S. added 165,000 jobs in October, far exceeding expectations and signaling a stronger labor market."
     },
     {
-      "name": "Bank of England raises key rate to 4%",
-      "regions": [
-        "Europe (UK)"
-      ],
-      "keywords": [
-        "BoE",
-        "rate hike",
-        "monetary policy"
-      ],
-      "why": "A 4% policy rate shifts global risk‑on sentiment, impacts euro‑area borrowing costs, and sets a benchmark for other advanced economies."
-    },
-    {
-      "name": "Bitcoin surges above $80k after ETF listing",
+      "name": "Global Crypto Market Turbulence",
       "regions": [
         "Global"
       ],
       "keywords": [
         "Bitcoin",
-        "ETF",
-        "price rally"
+        "Ethereum",
+        "hacks"
       ],
-      "why": "A significant price jump reflects renewed institutional appetite, affecting crypto‑asset valuations worldwide."
+      "why": "Bitcoin and other major cryptos saw significant swings amid regulatory fears, large liquidations, and high-profile hacks."
     },
     {
-      "name": "AI partnership expansion with Nvidia and workflow builder",
+      "name": "Morocco’s Water & Digital Trade Push",
       "regions": [
-        "Asia (Singapore, China)"
+        "Morocco, South Korea, Europe"
       ],
       "keywords": [
-        "Nvidia",
-        "AI workflow",
-        "partnership"
+        "desalination",
+        "AI",
+        "customs"
       ],
-      "why": "AI infrastructure deals drive tech sector valuations and shape global AI supply chains."
+      "why": "Morocco is expanding water infrastructure and partnering on AI-driven customs digitalization, positioning itself as a regional logistics hub."
     },
     {
-      "name": "Ukraine’s central bank opposes crypto bill citing monetary sovereignty",
+      "name": "Nigeria’s Economic Transformation Initiatives",
       "regions": [
-        "Europe (Ukraine)"
+        "Nigeria"
       ],
       "keywords": [
-        "Ukraine",
-        "crypto bill",
-        "monetary sovereignty"
+        "SMEDAN",
+        "LNG",
+        "ports"
       ],
-      "why": "Regulatory stance on crypto affects global crypto market access and cross‑border payment systems."
+      "why": "Nigeria is launching entrepreneur programs, boosting LNG exports, and facing port bottlenecks, all critical for its economic trajectory."
     },
     {
-      "name": "Nigeria’s haulage sector exposed by empty truck trips and cargo delays",
+      "name": "Azerbaijan‑Ukraine Energy Defence Agreements",
       "regions": [
-        "Africa (Nigeria)"
+        "Azerbaijan, Ukraine, Europe"
       ],
       "keywords": [
-        "Nigeria",
-        "haulage",
-        "logistics"
+        "energy",
+        "defense",
+        "trade"
       ],
-      "why": "Infrastructure bottlenecks constrain trade, impacting Africa’s trade deficit with China and global supply chains."
+      "why": "New agreements aim to secure energy supplies and strengthen defense cooperation amid regional tensions."
     },
     {
-      "name": "Africa’s $102bn trade deficit with China exposes industrial weakness",
+      "name": "Spain’s Olive Oil Market Withdrawal",
       "regions": [
-        "Africa (Nigeria)"
+        "Spain"
       ],
       "keywords": [
-        "Africa",
-        "China",
-        "trade deficit"
+        "olive oil",
+        "market",
+        "supply"
       ],
-      "why": "Highlights structural trade imbalances, influencing global commodity flows and investment patterns."
+      "why": "Spain is removing 188,000 tonnes of olive oil from the market, affecting global supply and pricing."
     },
     {
-      "name": "US midterm election results accelerate India‑US trade deal talks",
+      "name": "U.S. Elections Spotlight on African‑Born Lawmakers",
       "regions": [
-        "United States",
-        "Asia (India)"
+        "United States"
       ],
       "keywords": [
-        "US midterms",
-        "India‑US trade",
-        "deal"
+        "elections",
+        "African‑born",
+        "representation"
       ],
-      "why": "Political shift in the US reshapes trade negotiations, affecting global supply chains and investment flows."
+      "why": "The 2026 U.S. elections feature a record number of African‑born lawmakers, reshaping policy priorities."
+    },
+    {
+      "name": "EU Regulates TikTok Over Algorithmic Concerns",
+      "regions": [
+        "European Union"
+      ],
+      "keywords": [
+        "TikTok",
+        "regulation",
+        "algorithm"
+      ],
+      "why": "The EU has charged TikTok with harmful algorithmic practices, signaling stricter digital content oversight."
     }
   ],
   "angles": [
     {
-      "place": "India",
-      "idea": "Assess how the VRRR auction influences Indian repo rates and spill‑over to global emerging‑market liquidity."
+      "place": "United States",
+      "idea": "Analyze how the robust jobs data may influence Fed policy and spillover effects on global equity and bond markets."
     },
     {
-      "place": "European Union",
-      "idea": "Examine the BoE move’s effect on euro‑area sovereign yields and the EU’s fiscal‑policy coordination."
+      "place": "Islamic Finance",
+      "idea": "Examine how crypto volatility affects Sharia-compliant digital asset offerings and the potential for Islamic fintech to hedge against such swings."
     },
     {
-      "place": "Islamic finance",
-      "idea": "Explore how Bitcoin’s price dynamics influence Sharia‑compliant crypto investment products."
-    },
-    {
-      "place": "China",
-      "idea": "Analyze how Nvidia’s partnership impacts China’s AI ecosystem and technology export controls."
-    },
-    {
-      "place": "MENA/Gulf",
-      "idea": "Assess how Ukraine’s position influences Gulf‑state crypto regulatory frameworks and investment flows."
+      "place": "Morocco",
+      "idea": "Assess the impact of Morocco’s water security and digital trade initiatives on regional supply chains and investment flows."
     },
     {
       "place": "Nigeria",
-      "idea": "Investigate the economic impact of logistics inefficiencies on Nigeria’s export competitiveness."
+      "idea": "Evaluate how these initiatives could reshape Nigeria’s position in the African energy and manufacturing sectors."
     },
     {
-      "place": "South Africa",
-      "idea": "Compare South Africa’s trade dynamics with China to Nigeria’s situation, focusing on industrial policy."
+      "place": "Ukraine",
+      "idea": "Explore how these deals influence Ukraine’s energy security and its broader geopolitical alignment with the EU."
+    },
+    {
+      "place": "Spain",
+      "idea": "Investigate the economic and environmental drivers behind Spain’s decision and its implications for Mediterranean agriculture."
     },
     {
       "place": "United States",
-      "idea": "Evaluate how the new US administration’s trade agenda will influence global tech and manufacturing sectors."
+      "idea": "Assess how increased African representation may influence U.S. foreign policy toward Africa and investment flows."
+    },
+    {
+      "place": "European Union",
+      "idea": "Analyze the regulatory framework’s impact on social media companies and the broader digital economy within the euro area."
     }
   ]
 }
