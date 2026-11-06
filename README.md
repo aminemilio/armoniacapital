@@ -167,6 +167,14 @@ Any OpenAI-compatible API can take over the steps that need no web search (radar
 
 The search bar's coverage was limited to tickers Yahoo's unofficial search recognised. Get a free key at twelvedata.com (about 800 requests/day) and add it as the Cloudflare secret `TWELVEDATA_API_KEY`: the search then also covers most European, Gulf and Asian exchanges, shown with their exchange name (for example "SAP SE (Germany) · XETRA"). Without the key, search still works through Yahoo and your own `data/universe.json`, just with narrower international coverage.
 
+## Official data grounding (Econdb) and Sharia screening (Halal Terminal)
+
+**Econdb** (econdb.com) is a free, keyless API for official economic series (GDP, CPI, unemployment and more). It can feed real, dated figures straight into the US/EU/China research prompts, so an article can cite an exact official number instead of only what a web search turns up. Econdb's ticker codes are not guessable reliably, so every line in `data/econdb-series.json` starts `"enabled": false`. To turn one on: search the indicator and country on econdb.com, open the series, copy its ticker from the URL, put it in the file, then run `npm run check-econdb` to confirm it returns data before setting `"enabled": true`.
+
+**Halal Terminal** (halalterminal.com) screens individual stocks for Sharia compliance. Its free tier is small (about 50 calls a month), so it is used only when an Islamic Finance article's research already names a specific stock, adding one verified compliance line to the notes. Get a free key at halalterminal.com and add it as the Cloudflare secret `HALALTERMINAL_API_KEY`; without it, this step is skipped.
+
+**Why not the other sites in your list:** Helium Trades is an options-trading platform, not a data API. Alpaca's Market Data API is solid but free-tier US-only and would duplicate what Yahoo and Twelve Data already cover here.
+
 ## Checking the signup setup
 
 Open `https://your-site/api/subscribe` in a browser. It lists which settings the server can read (`RESEND_API_KEY`, `SUBSCRIBE_SECRET`, `RESEND_SEGMENT_ID`), never their values. `"ready": true` means the signup form can send confirmation emails.

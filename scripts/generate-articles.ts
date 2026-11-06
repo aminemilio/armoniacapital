@@ -20,6 +20,8 @@ import path from "node:path";
 import { ARTICLES, CATEGORY_META, CORE_CATEGORIES, getAllArticles } from "../lib/articles";
 import { renderBriefing, type BriefingData } from "../lib/briefing-template";
 import { fetchDashboard } from "../lib/market-data";
+import { fetchEcondbSnapshot, type EcondbSeries } from "../lib/econdb";
+import { screenStock } from "../lib/halal-terminal";
 import { getNews } from "../lib/news";
 import { findImage } from "./images";
 import type { Article, CategorySlug, NewsItem } from "../lib/types";
@@ -41,6 +43,7 @@ const FEATURED_PATH = path.join(ROOT, "data", "featured.json");
 const FEATURED_ARCHIVE_PATH = path.join(ROOT, "data", "featured-archive.json");
 const UNIVERSE_PATH = path.join(ROOT, "data", "universe.json");
 const SOURCES_PATH = path.join(ROOT, "data", "sources.json");
+const ECONDB_PATH = path.join(ROOT, "data", "econdb-series.json");
 const BRIEFING_PATH = path.join(ROOT, "data", "briefing.json");
 
 const FOCUS: Record<string, string> = {
@@ -460,6 +463,23 @@ function checkQuality(a: ReturnType<typeof parseArticle>, sources: Source[]): vo
 }
 
 
+
+let econdbSnapshot = "";
+
+/** One line per official figure Econdb returned, used to ground research in real, dated data. Best effort. */
+async function loadEcondbSnapshot(deskId?: string): Promise<string> {
+  if (econdbSnapshot) return econdbSnapshot;
+  try {
+    const list = JSON.parse(await readFile(ECONDB_PATH, "utf8")) as EcondbSeries[];
+    const byDesk: Record<string, string> = { us: "USA", eu: "EA19", china: "CHN" };
+    const filtered = deskId && byDesk[deskId] ? list.filter((s) => s.ticker.includes(byDesk[deskId])) : list;
+    const points = await fetchEcondbSnapshot(filtered.length ? filtered : list);
+    econdbSnapshot = points.map((p) => `- ${p.label}: ${p.value}${p.unit ? " " + p.unit : ""} (${p.date}) — Econdb`).join("\n");
+  } catch {
+    econdbSnapshot = "";
+  }
+  return econdbSnapshot;
+}
 
 async function prioritySources(): Promise<string> {
   try {
@@ -1244,7 +1264,7 @@ const trendsText = (r: Radar | null) =>
   r ? r.trends.map((t, i) => `${i + 1}. ${t.name} [${t.regions.join(", ")}] (${t.why})`).join("\n") : "(radar unavailable: find the most important stories yourself)";
 const anglesText = (r: Radar | null) => (r && r.angles.length ? r.angles.map((a) => `- ${a.place}: ${a.idea}`).join("\n") : "(none)");
 
-function researchPrompt1(category: CategorySlug, radar: Radar | null, recent: string[], learnTopic?: string, desk?: Desk): string {
+function researchPrompt1(category: CategorySlug, radar: Radar | null, recent: string[], learnTopic?: string, desk?: Desk, deskSnapshot?: string): string {
   const today = new Date().toISOString().slice(0, 10);
   const head = `You are the research desk of Armonia Capital, a financial market intelligence site. Today is ${today}.`;
   const tail = `Search the web thoroughly before answering. Prefer primary sources (central banks, statistics offices, regulators, exchanges, company filings and financial statements), then at least three independent reputable outlets. Collect exact figures with dates, who said what, and any disagreement between sources.${
@@ -1274,10 +1294,11 @@ ${tail}`;
   }
   if (desk) {
     const heads = (deskHeadlines[desk.id] ?? []).slice(0, 12).map((h) => h.line).join("\n") || "(none collected)";
+    const official = deskSnapshot ? `\nOFFICIAL DATA SNAPSHOT (verified, from Econdb, use these figures as given, they do not need a search):\n${deskSnapshot}\n` : "";
     return `${head}
 ECONOMY DESK: ${desk.name}, covering ${desk.focus}.
 SECTION OF THE SITE: ${CATEGORY_META[category].name}: ${FOCUS[category]}
-
+${official}
 RECENT HEADLINES ON THIS ECONOMY (worldwide news index):
 ${heads}
 
@@ -1423,7 +1444,8 @@ async function generateOneGroq(offset: number, store: Article[], radar: Radar | 
   const learnTopic = category === "learn" ? pickLearnTopic(allTitles) : undefined;
   console.log(`Researching a ${category} article${deskObj ? ` for the ${deskObj.name} desk` : ""}${learnTopic ? ` on "${learnTopic}"` : ""}…`);
 
-  const r1 = await groqChat({ model: MAIN_MODEL(), prompt: researchPrompt1(category, radar, recent, learnTopic, deskObj), browse: true, maxTokens: 3500 });
+  const snapshot = category === "learn" ? "" : await loadEcondbSnapshot(deskObj?.id);
+  const r1 = await groqChat({ model: MAIN_MODEL(), prompt: researchPrompt1(category, radar, recent, learnTopic, deskObj, snapshot), browse: true, maxTokens: 3500 });
   let notes = r1.text.trim();
   let sources = r1.sources;
   if (!learnTopic) {
@@ -1460,6 +1482,14 @@ async function generateOneGroq(offset: number, store: Article[], radar: Radar | 
   }
   lastNotes = notes;
   deskNotes[deskObj?.id ?? "learn"] = notes;
+
+  if (category === "islamic-finance") {
+    const ticker = notes.match(/\b(Nasdaq|NYSE|ADR)?:?\s*\$?([A-Z]{2,6})\b(?=.{0,30}(sukuk|compliant|shar|halal|islamic))/i)?.[2];
+    if (ticker) {
+      const screen = await screenStock(ticker);
+      if (screen) notes += `\n\nSHARIA SCREEN (Halal Terminal, verified): ${screen.symbol} is ${screen.compliant ? "compliant" : "not compliant"} with its ${screen.methodology ?? "default"} methodology${typeof screen.purificationRate === "number" ? `, purification rate ${screen.purificationRate}%` : ""}.`;
+    }
+  }
   if (notes.split(/\s+/).length < 150) throw new Error("Research notes are too thin to write from");
   const minSources = learnTopic ? 2 : 3; // guides get one research pass, so fewer sources
   if (sources.length < minSources) throw new Error(`Research found only ${sources.length} web sources (need ${minSources}+): refusing an ungrounded article`);
