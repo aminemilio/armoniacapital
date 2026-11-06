@@ -9,9 +9,7 @@
     "typecheck": "tsc --noEmit",
     "generate": "tsx scripts/generate-articles.ts",
     "check-feeds": "tsx scripts/check-feeds.ts",
-    "send-briefing": "tsx scripts/send-briefing.ts",
-    "fix-images": "tsx scripts/fix-images.ts",
-    "check-econdb": "tsx scripts/check-econdb.ts"
+    "send-briefing": "tsx scripts/send-briefing.ts"
   },
   "dependencies": {
     "clsx": "^2.1.1",

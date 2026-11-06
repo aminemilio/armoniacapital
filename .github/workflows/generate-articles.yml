@@ -2,7 +2,7 @@ name: Generate articles
 
 on:
   schedule:
-    - cron: "0 6 * * *" # once a day at 06:00 UTC (Mon-Fri: 3 articles US/EU/China; Sat: a Learn guide; Sun: the week ahead)
+    - cron: "0 6 * * *" # once a day at 06:00 UTC (Saturdays: a Learn guide)
   workflow_dispatch:
     inputs:
       category:
@@ -20,7 +20,7 @@ concurrency:
 jobs:
   generate:
     runs-on: ubuntu-latest
-    timeout-minutes: 50
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -28,12 +28,6 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - name: Fix mismatched images (once per article)
-        continue-on-error: true
-        run: npm run fix-images
-        env:
-          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
-          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
       - run: npm run generate
         env:
           CATEGORY: ${{ inputs.category || '' }}
@@ -49,7 +43,7 @@ jobs:
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
           DRAFT_MODE: ${{ vars.DRAFT_MODE || 'false' }}
-          ARTICLES_PER_RUN: ${{ vars.ARTICLES_PER_RUN || '' }}
+          ARTICLES_PER_RUN: "1"
       - name: Commit new articles
         if: always()
         run: |

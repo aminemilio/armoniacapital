@@ -8,8 +8,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/news" },
 };
 
-export default async function NewsPage({ searchParams }: { searchParams: Promise<{ topic?: string; country?: string }> }) {
-  const sp = await searchParams;
+export default function NewsPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
       <h1 className="font-serif text-4xl text-bone sm:text-5xl">Market news</h1>
@@ -18,7 +17,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
         see its countries.
       </p>
       <div className="mt-10">
-        <NewsBrowser key={`${sp.country ?? ""}|${sp.topic ?? ""}`} initialCountry={sp.country} initialTopic={sp.topic} />
+        <NewsBrowser />
       </div>
     </div>
   );

@@ -1,25 +1,28 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NewsFeed } from "@/components/NewsFeed";
 import { NewsMenu, type NewsSelection } from "@/components/NewsMenu";
 import { getRegion } from "@/lib/regions";
 
 /** News page body: nested category menu on the left (collapsible on phones) and the headline feed. */
-export function NewsBrowser({ regionSlug, initialCountry, initialTopic }: { regionSlug?: string; initialCountry?: string; initialTopic?: string }) {
+export function NewsBrowser({ regionSlug }: { regionSlug?: string }) {
   const cfg = regionSlug ? getRegion(regionSlug) : undefined;
-  const [sel, setSel] = useState<NewsSelection>({ country: initialCountry, topic: initialTopic });
+  const pathname = usePathname();
+  const [sel, setSel] = useState<NewsSelection>({});
 
-  // Browser back/forward after in-page filtering.
+  // Read ?country= / ?topic= from the URL on load, on navigation, and on back/forward.
   useEffect(() => {
     const read = () => {
       const p = new URLSearchParams(window.location.search);
       setSel({ country: p.get("country") ?? undefined, topic: p.get("topic") ?? undefined });
     };
+    read();
     window.addEventListener("popstate", read);
     return () => window.removeEventListener("popstate", read);
-  }, []);
+  }, [pathname]);
 
   const select = (next: NewsSelection) => {
     setSel(next);

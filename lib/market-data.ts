@@ -8,10 +8,6 @@ import type { DashboardData, QuotesPayload, TickerItem } from "./types";
 const MOCK: TickerItem[] = [
   { symbol: "SPX", name: "S&P 500", price: 5950.12, changePct: 0.34, live: false },
   { symbol: "IXIC", name: "NASDAQ Composite", price: 19480.55, changePct: 0.52, live: false },
-  { symbol: "STOXX", name: "Euro Stoxx 50", price: 5320.4, changePct: 0.21, live: false },
-  { symbol: "SSEC", name: "Shanghai Composite", price: 3350.8, changePct: -0.12, live: false },
-  { symbol: "EURUSD", name: "EUR/USD", price: 1.085, changePct: 0.05, live: false },
-  { symbol: "USDCNY", name: "USD/CNY", price: 7.24, changePct: 0.02, live: false },
   { symbol: "XAU", name: "Gold (spot)", price: 2915.4, changePct: -0.18, live: false },
   { symbol: "DXY", name: "US Dollar Index", price: 106.82, changePct: 0.11, live: false },
   { symbol: "BTC", name: "Bitcoin", price: 96250.0, changePct: 1.24, live: false },
@@ -22,7 +18,7 @@ const MOCK: TickerItem[] = [
   { symbol: "TSLA", name: "Tesla", price: 412.6, changePct: -0.74, live: false },
 ];
 
-const ORDER = ["SPX", "STOXX", "SSEC", "IXIC", "EURUSD", "USDCNY", "XAU", "DXY", "BTC", "ETH", "SOL", "XRP", "NVDA", "TSLA"];
+const ORDER = ["SPX", "IXIC", "XAU", "DXY", "BTC", "ETH", "SOL", "XRP", "NVDA", "TSLA"];
 
 const COINS = [
   { id: "bitcoin", symbol: "BTC", name: "Bitcoin" },
@@ -119,17 +115,13 @@ export async function fetchCrypto(): Promise<TickerItem[]> {
 const YAHOO = [
   { symbol: "SPX", name: "S&P 500", ticker: "^GSPC" },
   { symbol: "IXIC", name: "NASDAQ Composite", ticker: "^IXIC" },
-  { symbol: "STOXX", name: "Euro Stoxx 50", ticker: "^STOXX50E" },
-  { symbol: "SSEC", name: "Shanghai Composite", ticker: "000001.SS" },
-  { symbol: "EURUSD", name: "EUR/USD", ticker: "EURUSD=X" },
-  { symbol: "USDCNY", name: "USD/CNY", ticker: "CNY=X" },
   { symbol: "XAU", name: "Gold (futures)", ticker: "GC=F" },
   { symbol: "DXY", name: "US Dollar Index", ticker: "DX-Y.NYB" },
   { symbol: "NVDA", name: "NVIDIA", ticker: "NVDA" },
   { symbol: "TSLA", name: "Tesla", ticker: "TSLA" },
 ];
 
-export async function fetchYahooOne(entry: { symbol: string; name: string; ticker: string }): Promise<TickerItem | null> {
+async function fetchYahooOne(entry: (typeof YAHOO)[number]): Promise<TickerItem | null> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 5000);
   try {
@@ -206,7 +198,7 @@ function buildDashboard(ticker: TickerItem[], featured?: TickerItem): DashboardD
   const pick = (symbol: string): TickerItem =>
     ticker.find((i) => i.symbol === symbol) ?? MOCK.find((i) => i.symbol === symbol)!;
   return {
-    overview: [pick("SPX"), pick("STOXX"), pick("SSEC")],
+    overview: [pick("SPX"), pick("IXIC")],
     indices: [pick("DXY"), pick("XAU")],
     featured: featured ?? pick("BTC"),
     updatedAt: new Date().toISOString(),

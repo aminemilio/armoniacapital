@@ -20,10 +20,7 @@ import path from "node:path";
 import { ARTICLES, CATEGORY_META, CORE_CATEGORIES, getAllArticles } from "../lib/articles";
 import { renderBriefing, type BriefingData } from "../lib/briefing-template";
 import { fetchDashboard } from "../lib/market-data";
-import { fetchEcondbSnapshot, type EcondbSeries } from "../lib/econdb";
-import { screenStock } from "../lib/halal-terminal";
 import { getNews } from "../lib/news";
-import { findImage } from "./images";
 import type { Article, CategorySlug, NewsItem } from "../lib/types";
 
 interface Source {
@@ -34,21 +31,22 @@ interface LlmResult {
   text: string;
   sources: Source[];
 }
+interface Image {
+  url: string;
+  credit: string;
+}
 
 const ROOT = process.cwd();
 const PUBLISH_PATH = path.join(ROOT, "data", "articles.json");
 const DRAFT_PATH = path.join(ROOT, "data", "drafts.json");
 const TRENDS_PATH = path.join(ROOT, "data", "trends.json");
 const FEATURED_PATH = path.join(ROOT, "data", "featured.json");
-const FEATURED_ARCHIVE_PATH = path.join(ROOT, "data", "featured-archive.json");
 const UNIVERSE_PATH = path.join(ROOT, "data", "universe.json");
 const SOURCES_PATH = path.join(ROOT, "data", "sources.json");
-const ECONDB_PATH = path.join(ROOT, "data", "econdb-series.json");
 const BRIEFING_PATH = path.join(ROOT, "data", "briefing.json");
 
 const FOCUS: Record<string, string> = {
-  markets: "markets and macro: central banks and rates, inflation and growth data, stocks and earnings, bonds, commodities, currencies, and where positioning looks stretched or balanced",
-  energy: "energy markets: oil, gas and LNG, OPEC+ decisions, electricity and power markets, renewables and the energy transition, energy security, and how energy prices feed into inflation and trade balances",
+  markets: "cross-asset markets: equities, bonds, commodities, currencies, and where positioning looks stretched or balanced",
   macro: "central banks, interest rates, inflation, and the economic data that moves them",
   equities: "major stock indices, sectors, and earnings that shift market balance",
   "digital-assets": "crypto markets, ETF flows, derivatives positioning, and regulation",
@@ -83,73 +81,6 @@ const LEARN_TOPICS: { topic: string; keyword: string }[] = [
   { topic: "What is on-chain data in crypto and how analysts use it", keyword: "on-chain" },
   { topic: "What is liquidity and why markets seize up", keyword: "liquidity" },
 ];
-
-/* ---------------- desks: the economies that move the world ---------------- */
-
-type DeskId = "us" | "eu" | "china" | "week";
-interface Desk {
-  id: DeskId;
-  name: string;
-  focus: string;
-  gdelt: string; // GDELT query used to collect headlines for this economy
-  official: string; // where the newest primary releases and financial statements are published
-}
-
-const DESKS: Record<DeskId, Desk> = {
-  us: {
-    id: "us",
-    name: "United States",
-    focus: "the US economy and markets: Federal Reserve and Treasury policy, inflation and jobs data, Wall Street, the dollar, tariffs and trade policy",
-    gdelt: '("Federal Reserve" OR "US economy" OR "Wall Street" OR "US Treasury" OR tariffs)',
-    official: "Federal Reserve statements, minutes and speeches; BLS (CPI, jobs) and BEA (GDP, PCE) releases; US Treasury auctions and statements; SEC filings and earnings releases (10-Q, 10-K, 8-K) of the largest US companies reporting this week",
-  },
-  eu: {
-    id: "eu",
-    name: "European Union and euro area",
-    focus: "the euro area and EU economy: ECB policy, inflation and growth data, European markets, the euro, energy, fiscal rules and EU trade policy",
-    gdelt: '(ECB OR eurozone OR "euro area" OR "European Commission" OR Bundesbank) (economy OR inflation OR markets)',
-    official: "ECB statements, accounts and speeches; Eurostat flash estimates (inflation, GDP, unemployment); PMI releases; Bundesbank and national statistics offices; European Commission forecasts; earnings releases and annual reports of large European companies reporting this week",
-  },
-  china: {
-    id: "china",
-    name: "China",
-    focus: "the Chinese economy and markets: PBoC policy, the property sector, industrial output and exports, the yuan, Chinese stocks, stimulus and US-China trade",
-    gdelt: '(China OR PBOC OR yuan OR "Chinese economy") (economy OR markets OR exports OR property)',
-    official: "People's Bank of China statements; National Bureau of Statistics releases (GDP, CPI, PMI, industrial output, property); China customs trade data; State Council announcements; filings and results of large listed Chinese companies reporting this week",
-  },
-  week: {
-    id: "week",
-    name: "The week ahead: United States, euro area and China",
-    focus: "a preview of the coming week: scheduled central bank meetings, major data releases, earnings and policy deadlines in the United States, the euro area and China, and what each could change",
-    gdelt: '("this week" OR "week ahead" OR "next week") (Fed OR ECB OR China OR markets)',
-    official: "official release calendars of the Federal Reserve, ECB, BLS, BEA, Eurostat and China's National Bureau of Statistics; scheduled central bank meetings; earnings calendars of the largest companies",
-  },
-};
-
-const utcDay = (): number => {
-  const o = env("DAY_OVERRIDE");
-  return o !== undefined ? Number(o) : new Date().getUTCDay();
-};
-
-/** Weekdays: one article per big economy (US, EU, China). Saturday: a Learn guide. Sunday: the week ahead. */
-function plannedDesks(): (Desk | "learn")[] {
-  const forced = env("CATEGORY");
-  if (forced === "learn" || utcDay() === 6) return ["learn"];
-  if (utcDay() === 0) return [DESKS.week];
-  const wanted = (env("DESKS") ?? "us,eu,china").split(",").map((x) => x.trim()) as DeskId[];
-  const list = (["us", "eu", "china"] as DeskId[]).filter((d) => wanted.includes(d)).map((d) => DESKS[d]);
-  const cap = Number(env("ARTICLES_PER_RUN") ?? list.length);
-  return list.slice(0, Math.max(1, Math.min(cap, list.length)));
-}
-
-/** Rotates the topic section per desk so the three articles of a day differ and every section gets covered over time. */
-function deskCategory(desk: Desk, index: number): CategorySlug {
-  const forced = env("CATEGORY");
-  if (forced && forced in CATEGORY_META && forced !== "learn") return forced as CategorySlug;
-  if (desk.id === "week") return "macro";
-  const day = Math.floor(Date.now() / 86_400_000);
-  return CORE_CATEGORIES[(day + index) % CORE_CATEGORIES.length];
-}
 
 /* ---------------- helpers ---------------- */
 
@@ -224,9 +155,7 @@ function cleanSources(raw: Source[], limit = 6): Source[] {
   for (const s of raw) {
     if (!s.url || !/^https?:\/\//.test(s.url) || seen.has(s.url)) continue;
     seen.add(s.url);
-    const host = new URL(s.url).hostname.replace(/^www\./, "");
-    const generic = !s.title || s.title.trim().length < 4 || /^(document|untitled|home|index|pdf|file|download|page)$/i.test(s.title.trim());
-    out.push({ title: (generic ? host : s.title.trim()).slice(0, 120), url: s.url });
+    out.push({ title: (s.title || new URL(s.url).hostname).slice(0, 120), url: s.url });
     if (out.length >= limit) break;
   }
   return out;
@@ -427,7 +356,7 @@ function parseArticle(text: string) {
   };
 }
 
-const MIN_WORDS = 700;
+const MIN_WORDS = 750;
 
 const BANNED = [
   "in today's fast-paced",
@@ -462,24 +391,46 @@ function checkQuality(a: ReturnType<typeof parseArticle>, sources: Source[]): vo
   }
 }
 
+/* ---------------- images ---------------- */
 
-
-let econdbSnapshot = "";
-
-/** One line per official figure Econdb returned, used to ground research in real, dated data. Best effort. */
-async function loadEcondbSnapshot(deskId?: string): Promise<string> {
-  if (econdbSnapshot) return econdbSnapshot;
-  try {
-    const list = JSON.parse(await readFile(ECONDB_PATH, "utf8")) as EcondbSeries[];
-    const byDesk: Record<string, string> = { us: "USA", eu: "EA19", china: "CHN" };
-    const filtered = deskId && byDesk[deskId] ? list.filter((s) => s.ticker.includes(byDesk[deskId])) : list;
-    const points = await fetchEcondbSnapshot(filtered.length ? filtered : list);
-    econdbSnapshot = points.map((p) => `- ${p.label}: ${p.value}${p.unit ? " " + p.unit : ""} (${p.date}) — Econdb`).join("\n");
-  } catch {
-    econdbSnapshot = "";
-  }
-  return econdbSnapshot;
+async function pexelsImage(query: string, used: Set<string>): Promise<Image | null> {
+  const key = env("PEXELS_API_KEY");
+  if (!key) return null;
+  type Resp = { photos?: { photographer: string; src: { large2x?: string; large: string } }[] };
+  const json = await http<Resp>(
+    `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=10&orientation=landscape`,
+    { headers: { Authorization: key } },
+    "Pexels",
+  );
+  const p = (json.photos ?? []).find((x) => !used.has(x.src.large2x ?? x.src.large));
+  return p ? { url: p.src.large2x ?? p.src.large, credit: `Photo by ${p.photographer} on Pexels` } : null;
 }
+
+async function pixabayImage(query: string, used: Set<string>): Promise<Image | null> {
+  const key = env("PIXABAY_API_KEY");
+  if (!key) return null;
+  type Resp = { hits?: { largeImageURL: string; user: string }[] };
+  const json = await http<Resp>(
+    `https://pixabay.com/api/?key=${key}&q=${encodeURIComponent(query)}&image_type=photo&orientation=horizontal&safesearch=true&per_page=20`,
+    {},
+    "Pixabay",
+  );
+  const h = (json.hits ?? []).find((x) => !used.has(x.largeImageURL));
+  return h ? { url: h.largeImageURL, credit: `Image by ${h.user} on Pixabay` } : null;
+}
+
+async function findImage(query: string, used: Set<string>): Promise<Image | null> {
+  for (const fn of [pexelsImage, pixabayImage]) {
+    try {
+      const img = await fn(query, used);
+      if (img) return img;
+    } catch (err) {
+      console.warn(`Image lookup failed: ${(err as Error).message}`);
+    }
+  }
+  return null;
+}
+
 
 async function prioritySources(): Promise<string> {
   try {
@@ -515,9 +466,7 @@ interface FeaturedFile {
   history: { date: string; symbol: string }[];
 }
 
-// Only block wording that actually recommends or predicts; ordinary business verbs ("customers buy") are fine.
-const FEATURED_BANNED =
-  /\b(you should (buy|sell)|buy now|strong buy|worth buying|undervalued|overvalued|price target|guaranteed|will (rise|soar|surge|moon|double|skyrocket)|best investment|must[- ]own|can't lose)\b/i;
+const FEATURED_BANNED = /\b(buy|sell|undervalued|overvalued|price target|guaranteed|will (rise|soar|surge|moon|double)|best investment|must[- ]own)\b/i;
 
 function hashPick(seed: string, n: number): number {
   let h = 2166136261;
@@ -528,45 +477,8 @@ function hashPick(seed: string, n: number): number {
   return (h >>> 0) % n;
 }
 
-/** Years mentioned in the text that are too old to be "current" (older than last year). */
-function staleYears(text: string, nowYear: number): string[] {
-  const out = new Set<string>();
-  for (const m of text.matchAll(/\b(20\d{2})\b/g)) {
-    const y = Number(m[1]);
-    if (y < nowYear - 1) out.add(m[1]);
-  }
-  return [...out];
-}
-
-function parseFeaturedText(raw: string) {
-  const text = raw.replace(/\*\*/g, "");
-  const grab = (label: string, next: string[]) => {
-    const m = new RegExp(`${label}:\\s*([\\s\\S]*?)(?=\\n\\s*(?:${next.join("|")}):|$)`, "i").exec(text);
-    return m?.[1] ?? "";
-  };
-  const bullets = (block: string) =>
-    block
-      .split("\n")
-      .map((l) => l.trim().replace(/^[-*•]\s*/, ""))
-      .filter((l) => l.length > 10)
-      .map((l) => l.replace(/\[\d+\]|【[^】]*】/g, "").trim())
-      .slice(0, 4);
-  return {
-    utility: grab("UTILITY", ["EVIDENCE", "WHY NOW", "RISKS", "PROFILE"]).replace(/\s+/g, " ").trim(),
-    evidence: bullets(grab("EVIDENCE", ["WHY NOW", "RISKS", "PROFILE"])),
-    whyNow: grab("WHY NOW", ["RISKS", "PROFILE"]).replace(/\s+/g, " ").trim(),
-    risks: bullets(grab("RISKS", ["PROFILE"])),
-    profile: grab("PROFILE", ["ZZZ"])
-      .split(/\n\s*\n/)
-      .map((p) => p.replace(/\s+/g, " ").trim())
-      .filter(Boolean)
-      .join("\n\n"),
-  };
-}
-
 async function runFeatured(radar: Radar | null): Promise<void> {
   const today = new Date().toISOString().slice(0, 10);
-  const year = Number(today.slice(0, 4));
   let file: FeaturedFile = { current: null, history: [] };
   try {
     file = JSON.parse(await readFile(FEATURED_PATH, "utf8")) as FeaturedFile;
@@ -574,13 +486,10 @@ async function runFeatured(radar: Radar | null): Promise<void> {
     /* first run */
   }
   if (!Array.isArray(file.history)) file.history = [];
-  const cur = file.current as { date?: string; whyNow?: string; evidence?: string[] } | null;
-  const curStale = cur ? staleYears(`${cur.whyNow ?? ""} ${(cur.evidence ?? []).join(" ")}`, year).length > 0 : false;
-  if (cur?.date === today && !curStale && env("FEATURED_FORCE") !== "true") {
+  if ((file.current as { date?: string } | null)?.date === today && env("FEATURED_FORCE") !== "true") {
     console.log("Featured asset already chosen today.");
     return;
   }
-  if (cur?.date === today && curStale) console.log("Today's featured profile uses outdated figures: redoing it.");
 
   const universe = JSON.parse(await readFile(UNIVERSE_PATH, "utf8")) as UniverseItem[];
   const recent = new Set(file.history.slice(0, 14).map((h) => h.symbol));
@@ -609,57 +518,48 @@ Output ONLY one line: SYMBOL: <symbol> | WHY: <one sentence>`;
   }
   console.log(`Featured asset: ${chosen.name} (${chosen.symbol})`);
 
-  // 2) research it (web search, main model), with one corrective retry
-  const basePrompt = `You are the research desk of Armonia Capital. Today is ${today}; the current year is ${year}.
+  // 2) research its real-world utility (web search, main model)
+  const prompt = `You are the research desk of Armonia Capital. Today is ${today}.
 ASSET: ${chosen.name} (${chosen.symbol}), ${chosen.type}, ${chosen.sector ?? ""}.
 
 TRENDING NOW
 ${trendsText(radar)}
 
-Build a factual profile of this asset's REAL-WORLD UTILITY. Search the web. Prefer primary sources (company filings and investor reports, official documentation, regulators, usage or on-chain dashboards), then reputable outlets.
-
-FRESHNESS RULES (important)
-- Use the MOST RECENT annual or quarterly report, earnings release or official update published before today. State its period in each EVIDENCE line (for example "Q2 FY${year + 1}" or "June ${year}").
-- Do not use any figure or event from before ${year - 1}. If you cannot find recent data for a point, say so in that line instead of using old data.
-- WHY NOW must describe something from the last 30 days and name the month and year.
+Build a short factual profile of this asset's REAL-WORLD UTILITY. Search the web. Prefer primary sources (company filings and investor reports, official documentation, regulators, usage or on-chain dashboards), then reputable outlets.
 
 Output EXACTLY this and nothing else:
 UTILITY: <two sentences: what it does and who actually uses it>
 EVIDENCE:
-- <concrete usage, revenue or adoption figure, with its period> — <source name>
+- <concrete usage, revenue or adoption figure with its date> — <source name>
 - <another>
 - <another>
-WHY NOW: <one sentence, with month and year>
+WHY NOW: <one sentence connecting it to news from the last 30 days>
 RISKS:
 - <specific risk>
 - <specific risk>
-PROFILE: <two short paragraphs, 150 to 200 words in total, plain English: how the business or network works and earns its keep, who competes with it, and what would change the picture. Facts from your sources only.>
 
-Rules: neutral tone; no price predictions, no price targets, no recommendation to buy or sell.`;
+Rules: facts only from your sources; neutral tone; at most 170 words; no price predictions, no price targets, and no words such as buy, sell, undervalued.`;
+  const out = await groqChat({ model: MAIN_MODEL(), prompt, browse: true, maxTokens: 2500 });
 
-  let parsed = parseFeaturedText("");
-  let sources: { title: string; url: string }[] = [];
-  let lastProblem = "";
-  for (let attempt = 1; attempt <= 2; attempt++) {
-    const prompt = attempt === 1 ? basePrompt : `${basePrompt}\n\nYOUR PREVIOUS ANSWER FAILED A CHECK: ${lastProblem}. Search again for newer sources and answer again in the same format.`;
-    const out = await groqChat({ model: MAIN_MODEL(), prompt, browse: true, maxTokens: 3800 });
-    parsed = parseFeaturedText(out.text);
-    sources = out.sources;
+  const text = out.text.replace(/\*\*/g, "");
+  const utility = text.match(/UTILITY:\s*([\s\S]*?)\n\s*EVIDENCE:/i)?.[1]?.replace(/\s+/g, " ").trim() ?? "";
+  const evidenceBlock = text.match(/EVIDENCE:\s*([\s\S]*?)\n\s*WHY NOW:/i)?.[1] ?? "";
+  const whyNow = text.match(/WHY NOW:\s*([\s\S]*?)\n\s*RISKS:/i)?.[1]?.replace(/\s+/g, " ").trim() ?? "";
+  const risksBlock = text.match(/RISKS:\s*([\s\S]*)$/i)?.[1] ?? "";
+  const bullets = (block: string) =>
+    block
+      .split("\n")
+      .map((l) => l.trim().replace(/^[-*•]\s*/, ""))
+      .filter((l) => l.length > 10)
+      .map((l) => l.replace(/\[\d+\]|【[^】]*】/g, "").trim())
+      .slice(0, 4);
+  const evidence = bullets(evidenceBlock);
+  const risks = bullets(risksBlock);
 
-    const all = `${parsed.utility} ${parsed.whyNow} ${parsed.evidence.join(" ")} ${parsed.risks.join(" ")} ${parsed.profile}`;
-    const stale = staleYears(`${parsed.whyNow} ${parsed.evidence.join(" ")}`, year);
-    if (parsed.utility.length < 40 || !parsed.whyNow || parsed.evidence.length < 2 || parsed.risks.length < 1) lastProblem = "the answer was incomplete";
-    else if (parsed.profile.split(/\s+/).length < 90) lastProblem = "the PROFILE section was missing or too short";
-    else if (sources.length < 2) lastProblem = `only ${sources.length} web sources were found`;
-    else if (FEATURED_BANNED.test(all)) lastProblem = "it contained recommendation-style wording";
-    else if (stale.length) lastProblem = `it relies on outdated figures from ${stale.join(", ")}`;
-    else {
-      lastProblem = "";
-      break;
-    }
-    console.warn(`Featured attempt ${attempt} rejected: ${lastProblem}`);
-  }
-  if (lastProblem) throw new Error(`Featured profile rejected: ${lastProblem}`);
+  const all = `${utility} ${whyNow} ${evidence.join(" ")} ${risks.join(" ")}`;
+  if (utility.length < 40 || !whyNow || evidence.length < 2 || risks.length < 1) throw new Error("Featured profile was incomplete");
+  if (out.sources.length < 2) throw new Error(`Featured profile had only ${out.sources.length} web sources`);
+  if (FEATURED_BANNED.test(all)) throw new Error("Featured profile contained recommendation-style wording");
 
   const current = {
     date: today,
@@ -669,39 +569,30 @@ Rules: neutral tone; no price predictions, no price targets, no recommendation t
     coingeckoId: chosen.coingeckoId,
     yahoo: chosen.yahoo,
     sector: chosen.sector,
-    utility: parsed.utility,
-    evidence: parsed.evidence,
-    whyNow: parsed.whyNow,
-    risks: parsed.risks,
-    profile: parsed.profile,
-    sources: sources.slice(0, 6),
+    utility,
+    evidence,
+    whyNow,
+    risks,
+    sources: out.sources.slice(0, 5),
   };
   const history = [{ date: today, symbol: chosen.symbol }, ...file.history.filter((h) => h.date !== today)].slice(0, 40);
   await writeFile(FEATURED_PATH, JSON.stringify({ current, history }, null, 2) + "\n", "utf8");
-
-  let archive: Record<string, unknown>[] = [];
-  try {
-    archive = JSON.parse(await readFile(FEATURED_ARCHIVE_PATH, "utf8")) as Record<string, unknown>[];
-  } catch {
-    /* first entry */
-  }
-  archive = [current, ...archive.filter((x) => (x as { date?: string }).date !== today)].slice(0, 90);
-  await writeFile(FEATURED_ARCHIVE_PATH, JSON.stringify(archive, null, 2) + "\n", "utf8");
   console.log(`✓ Featured asset of the day: ${chosen.name}`);
 }
+
 
 /* ----- the daily email briefing ----- */
 
 const REGION_LABELS = ["Europe", "Africa", "Asia", "MENA"] as const;
 
 function section(text: string, start: string, ends: string[]): string {
-  const re = new RegExp(`^\\s*${start}\\s*:`, "im");
+  const re = new RegExp(`^\\s*${start}\\s*:?`, "im");
   const m = re.exec(text);
   if (!m) return "";
   const from = m.index + m[0].length;
   let to = text.length;
   for (const e of ends) {
-    const em = new RegExp(`^\\s*${e}\\s*:`, "im").exec(text.slice(from));
+    const em = new RegExp(`^\\s*${e}\\s*:?`, "im").exec(text.slice(from));
     if (em) to = Math.min(to, from + em.index);
   }
   return text.slice(from, to).trim();
@@ -729,27 +620,28 @@ function parseBriefing(text: string, allowed: Set<string>) {
   const t = text.replace(/```\w*\n?/g, "").replace(/\*\*/g, "");
   const subject = t.match(/^\s*SUBJECT:\s*(.+)$/im)?.[1]?.trim() ?? "";
   const preview = t.match(/^\s*PREVIEW:\s*(.+)$/im)?.[1]?.trim() ?? "";
-  const balance = section(t, "BALANCE", ["US", "EU", "CHINA", "RIPPLE", "WATCH"]).replace(/\s+/g, " ");
+  const balance = section(t, "BALANCE", ["STORIES", "REGIONS", "WATCH"]).replace(/\s+/g, " ");
   const cleanUrl = (u?: string) => {
     const url = (u ?? "").replace(/[<>\s]/g, "").replace(/[.,;)]+$/, "");
     return /^https?:\/\//.test(url) && allowed.has(url) ? url : undefined;
   };
   const lines = (block: string) => block.split("\n").map((l) => l.trim().replace(/^[-*•]\s*/, "")).filter((l) => l.length > 15);
-  const econ = (label: string) => {
-    const m = new RegExp(`^\\s*${label}\\s*:\\s*(.+)$`, "im").exec(t);
-    if (!m) return null;
-    const [headline, body, url] = m[1].split("|").map((x) => x.trim());
-    return { headline: headline ?? "", text: body ?? "", url: cleanUrl(url) };
-  };
-  const regions = lines(section(t, "RIPPLE", ["WATCH"])).map((l) => {
+
+  const stories = lines(section(t, "STORIES", ["REGIONS", "WATCH"])).map((l) => {
+    const [headline, analysis, url] = l.split("|").map((x) => x.trim());
+    return { headline: headline ?? "", analysis: analysis ?? "", url: cleanUrl(url) };
+  }).filter((x) => x.headline && x.analysis.length > 40);
+
+  const regions = lines(section(t, "REGIONS", ["WATCH"])).map((l) => {
     const [region, text2, url] = l.split("|").map((x) => x.trim());
     return { region: region ?? "", text: text2 ?? "", url: cleanUrl(url) };
   }).filter((x) => x.region && x.text.length > 30);
+
   const watch = lines(section(t, "WATCH", [])).slice(0, 4);
-  return { subject, preview, balance, us: econ("US"), eu: econ("EU"), china: econ("CHINA"), regions: regions.slice(0, 4), watch };
+  return { subject, preview, balance, stories: stories.slice(0, 5), regions: regions.slice(0, 4), watch };
 }
 
-async function runBriefing(radar: Radar | null, made: { desk: DeskId; article: Article }[]): Promise<void> {
+async function runBriefing(radar: Radar | null, article: Article | null): Promise<void> {
   const today = new Date().toISOString().slice(0, 10);
   if (lastNews.length === 0) {
     try {
@@ -759,23 +651,22 @@ async function runBriefing(radar: Radar | null, made: { desk: DeskId; article: A
     }
   }
 
-  // Links the model may use: our feeds' headlines (ripple regions), desk headlines, and URLs found in the research notes.
-  const ripple: NewsItem[] = [];
-  for (const r of ["Africa", "MENA", "Asia", "Europe"]) ripple.push(...lastNews.filter((i) => i.regions.includes(r)).slice(0, 5));
-  const rippleUnique = [...new Map(ripple.map((h) => [h.url, h])).values()];
-  const deskHl = (["us", "eu", "china"] as const).flatMap((id) => (deskHeadlines[id] ?? []).slice(0, 8).map((h) => ({ id, ...h })));
-  if (rippleUnique.length + deskHl.length < 8 && made.length === 0 && !radar) {
-    console.warn("Briefing skipped: not enough material");
+  // Regional headlines (up to 6 per region) with their links: the only links the model may use.
+  const headlines: NewsItem[] = [];
+  for (const r of [...REGION_LABELS, "Global"]) {
+    headlines.push(...lastNews.filter((i) => i.regions.includes(r)).slice(0, 6));
+  }
+  const unique = [...new Map(headlines.map((h) => [h.url, h])).values()];
+  if (unique.length < 8 && !radar) {
+    console.warn("Briefing skipped: not enough headlines");
     return;
   }
 
   let snapshot: BriefingData["snapshot"] = [];
   try {
     const q = await fetchDashboard();
-    const want = ["SPX", "STOXX", "SSEC", "EURUSD", "USDCNY", "DXY", "XAU", "BTC"];
-    snapshot = want
-      .map((sym) => q.ticker.find((t) => t.symbol === sym))
-      .filter((t): t is NonNullable<typeof t> => Boolean(t && t.live))
+    snapshot = q.ticker
+      .filter((t) => ["SPX", "IXIC", "XAU", "DXY", "BTC", "ETH"].includes(t.symbol) && t.live)
       .map((t) => ({ symbol: t.symbol, name: t.name, price: t.price, changePct: t.changePct, currency: t.currency }));
   } catch {
     /* snapshot is optional */
@@ -789,24 +680,12 @@ async function runBriefing(radar: Radar | null, made: { desk: DeskId; article: A
     /* none today */
   }
 
-  const allNotes = Object.values(deskNotes).join("\n");
-  const notesUrls = [...allNotes.matchAll(/https?:\/\/[^\s)<>"']+/g)].map((m) => m[0].replace(/[.,;]+$/, ""));
-  const allowed = new Set<string>([
-    ...rippleUnique.map((h) => h.url),
-    ...deskHl.map((h) => h.url),
-    ...notesUrls,
-    ...made.flatMap((m) => (m.article.sources ?? []).map((x) => x.url)),
-  ]);
+  const notesUrls = [...lastNotes.matchAll(/https?:\/\/[^\s)<>"']+/g)].map((m) => m[0].replace(/[.,;]+$/, ""));
+  const allowed = new Set<string>([...unique.map((h) => h.url), ...notesUrls, ...(article?.sources ?? []).map((x) => x.url)]);
   const snapshotText = snapshot.map((x) => `${x.name} (${x.symbol}): ${x.price} (${x.changePct >= 0 ? "+" : ""}${x.changePct.toFixed(2)}% today)`).join("\n") || "(unavailable)";
-  const headlineText = [
-    ...deskHl.map((h) => `${h.id.toUpperCase()} | ${h.line} | ${h.url}`),
-    ...rippleUnique.map((h) => `${h.regions[0]}${h.country ? "/" + h.country : ""} | ${h.source} | ${h.title} | ${h.url}`),
-  ].join("\n");
-  const ours = made.map((m) => `- ${DESKS[m.desk].name}: ${m.article.title}. ${m.article.excerpt}`).join("\n") || "(no article today)";
-  const notesText = made
-    .map((m) => `[${DESKS[m.desk].name}]\n${(deskNotes[m.desk] ?? "").split(/\s+/).slice(0, 420).join(" ")}`)
-    .join("\n\n");
-  const context = `${snapshotText}\n${trendsText(radar)}\n${notesText}\n${headlineText}\n${ours}`;
+  const headlineText = unique.map((h) => `${h.regions[0]}${h.country ? "/" + h.country : ""} | ${h.source} | ${h.title} | ${h.url}`).join("\n");
+  const notesText = lastNotes.split(/\s+/).slice(0, 1300).join(" ");
+  const context = `${snapshotText}\n${trendsText(radar)}\n${notesText}\n${headlineText}\n${article ? article.title + " " + article.excerpt : ""}`;
 
   const material = `MARKET SNAPSHOT (computed by code)
 ${snapshotText}
@@ -814,32 +693,36 @@ ${snapshotText}
 TRENDING STORIES (radar of worldwide headlines)
 ${trendsText(radar)}
 
-OUR OWN ANALYSIS PUBLISHED TODAY (we link these ourselves; do not repeat their content)
-${ours}
+SUB-NICHE ANGLES
+${anglesText(radar)}
 
-RESEARCH NOTES BY ECONOMY
+TODAY'S LONG ANALYSIS (we link it ourselves; do not repeat its content)
+${article ? `${article.title}: ${article.excerpt}` : "(none today)"}
+
+RESEARCH NOTES
 ${notesText || "(none today)"}
 
-HEADLINES (economy or region | source | title | url)
+HEADLINES (region/country | source | title | url)
 ${headlineText}`;
 
-  const base = `You are the editor of "The Morning Balance", Armonia Capital's daily email briefing for investors and analysts. Our readers follow the three economies that move the world: the United States, the European Union and euro area, and China. Today is ${today}. Write like an experienced financial journalist: precise, specific, plain English, no emojis, no hype.
+  const base = `You are the editor of "The Morning Balance", Armonia Capital's daily email briefing for investors and analysts in Europe, Africa, Asia and the Middle East. Today is ${today}. Write like an experienced financial journalist: precise, specific, plain English, no emojis, no hype.
 
 Use ONLY the material below. Every link must be copied exactly from the material. Every figure you state (prices, percentages, amounts, dates) must appear in the material; if unsure, leave the figure out. Paraphrase; never copy sentences. No investment advice, no recommendations, no predictions stated as certain. Never use: "in today's fast-paced", "delve", "navigate the landscape", "it's important to note", "game-changer", "ever-evolving", "tapestry", "at the end of the day". Avoid em dashes.
 
 ${material}
 
 Output EXACTLY this format and nothing else:
-SUBJECT: <specific subject line, 40 to 70 characters, naming the biggest driver, no clickbait>
+SUBJECT: <specific subject line, 40 to 70 characters, no clickbait>
 PREVIEW: <inbox preview text, up to 110 characters>
-BALANCE: <3 to 4 sentences: how the three big economies and markets stand today, what looks stretched or balanced, and the single most important driver>
-US: <headline> | <two or three sentences: what happened in the United States and why it matters for markets worldwide> | <url from the material>
-EU: <headline> | <two or three sentences for the European Union and euro area> | <url from the material>
-CHINA: <headline> | <two or three sentences for China> | <url from the material>
-RIPPLE:
-- Africa | <two sentences on how the above reaches Africa, naming the country> | <url>
+BALANCE: <3 to 4 sentences: where markets stand today, what looks stretched or balanced, and the single most important driver>
+STORIES:
+- <headline> | <two sentences: what happened and why it matters for markets> | <url from the material>
+(exactly 5 lines, the five most important stories across regions)
+REGIONS:
+- Europe | <two sentences> | <url from the material>
+- Africa | <two sentences, naming the country> | <url>
+- Asia | <two sentences> | <url>
 - MENA | <two sentences, Gulf, Maghreb or Islamic finance where relevant> | <url>
-- Asia | <two sentences on Asia outside China> | <url>
 WATCH:
 - <what to watch today, with a time or trigger if the material gives one>
 (exactly 3 lines)`;
@@ -849,16 +732,13 @@ WATCH:
   const fail = () => {
     if (parsed.subject.length < 20 || parsed.subject.length > 90) return "the subject line length is off";
     if (parsed.balance.length < 150) return "the BALANCE paragraph is too short";
-    for (const [k, v] of [["US", parsed.us], ["EU", parsed.eu], ["CHINA", parsed.china]] as const) {
-      if (!v || v.headline.length < 10 || v.text.length < 60) return `the ${k} section is missing or too short`;
-    }
-    if ([parsed.us, parsed.eu, parsed.china].filter((v) => v?.url).length < 2) return "fewer than 2 of the 3 economy sections have a link copied from the material";
-    if (parsed.regions.length < 2) return "fewer than 2 ripple-effect lines";
+    if (parsed.stories.length < 4) return "fewer than 4 valid stories";
+    if (parsed.stories.filter((x) => x.url).length < 3) return "too few stories with links copied from the material";
+    if (parsed.regions.length < 3) return "fewer than 3 regions";
     if (parsed.watch.length < 2) return "fewer than 2 watch items";
     return "";
   };
-  const textOf = () =>
-    [parsed.balance, ...[parsed.us, parsed.eu, parsed.china].map((v) => `${v?.headline ?? ""} ${v?.text ?? ""}`), ...parsed.regions.map((x) => x.text), ...parsed.watch].join(" ");
+  const textOf = () => [parsed.balance, ...parsed.stories.map((x) => `${x.headline} ${x.analysis}`), ...parsed.regions.map((x) => x.text), ...parsed.watch].join(" ");
 
   let problem = fail();
   let figures = problem ? [] : unsupportedFigures(textOf(), context);
@@ -875,52 +755,29 @@ WATCH:
     if (problem) throw new Error(`Briefing still invalid after revision: ${problem}`);
     figures = unsupportedFigures(textOf(), context);
   }
-  const strip = (txt: string) => dropSentencesWith(txt, figures);
   if (figures.length) {
     console.warn(`Dropping sentences with unsupported figures: ${figures.join(", ")}`);
-    parsed.balance = strip(parsed.balance);
-    for (const v of [parsed.us, parsed.eu, parsed.china]) if (v) v.text = strip(v.text);
-    parsed.regions = parsed.regions.map((x) => ({ ...x, text: strip(x.text) }));
+    parsed.balance = dropSentencesWith(parsed.balance, figures);
+    parsed.stories = parsed.stories.map((x) => ({ ...x, analysis: dropSentencesWith(x.analysis, figures) }));
+    parsed.regions = parsed.regions.map((x) => ({ ...x, text: dropSentencesWith(x.text, figures) }));
   }
-
-  const weekArticle = made.find((m) => m.desk === "week")?.article;
-  const economies: BriefingData["economies"] = (
-    [
-      ["US", "United States", parsed.us, "us"],
-      ["EU", "European Union", parsed.eu, "eu"],
-      ["CHINA", "China", parsed.china, "china"],
-    ] as const
-  ).map(([key, name, v, id]) => {
-    // Sunday's single "week ahead" piece is linked from the first section.
-    const art = made.find((m) => m.desk === id)?.article ?? (id === "us" ? weekArticle : undefined);
-    return {
-      key,
-      name,
-      headline: v?.headline ?? "",
-      text: v?.text ?? "",
-      url: v?.url,
-      articleSlug: art?.slug,
-      articleTitle: art?.title,
-    };
-  });
 
   const data: BriefingData = {
     date: today,
     subject: parsed.subject,
     preview: parsed.preview.slice(0, 140),
     balance: parsed.balance,
-    economies,
+    stories: parsed.stories,
     regions: parsed.regions,
     watch: parsed.watch,
     snapshot,
+    article: article ? { title: article.title, excerpt: article.excerpt, slug: article.slug } : undefined,
     featured,
   };
   const site = (env("SITE_URL") ?? "https://armoniacapital.com").replace(/\/$/, "");
   const { html, text } = renderBriefing(data, site);
-  // The send script waits for one article to be live before sending: use the first one made today.
-  const firstSlug = made[0]?.article.slug ?? null;
-  await writeFile(BRIEFING_PATH, JSON.stringify({ date: today, subject: data.subject, preview: data.preview, slug: firstSlug, slugs: made.map((m) => m.article.slug), html, text, generatedAt: new Date().toISOString() }, null, 2) + "\n", "utf8");
-  console.log(`✓ Briefing ready: "${data.subject}" (${economies.filter((e) => e.articleSlug).length} of our articles linked, ${snapshot.length} prices)`);
+  await writeFile(BRIEFING_PATH, JSON.stringify({ date: today, subject: data.subject, preview: data.preview, slug: article?.slug ?? null, html, text, generatedAt: new Date().toISOString() }, null, 2) + "\n", "utf8");
+  console.log(`✓ Briefing ready: "${data.subject}" (${data.stories.length} stories, ${data.regions.length} regions, ${snapshot.length} prices)`);
 }
 
 /* ---------------- main ---------------- */
@@ -959,7 +816,7 @@ async function generateOneSimple(offset: number, store: Article[]): Promise<Arti
   if (known.has(slug)) throw new Error(`Duplicate slug: ${slug}`);
 
   const usedImages = new Set([...ARTICLES, ...store].map((a) => a.image));
-  const image = await findImage(category, parsed.imageQuery, parsed.title, usedImages);
+  const image = await findImage(parsed.imageQuery, usedImages);
   if (!image) throw new Error("No image found (set PEXELS_API_KEY or PIXABAY_API_KEY)");
 
   return {
@@ -1007,15 +864,13 @@ type GroqResp = {
 };
 
 const usage = new Map<string, { at: number; tokens: number }>();
-const deskNotes: Record<string, string> = {}; // research notes per desk, reused by the briefing
-const deskHeadlines: Record<string, Hl[]> = {}; // GDELT headlines per desk, reused by the research prompts
-let lastNotes = ""; // research notes of the last article
+let lastNotes = ""; // research notes of the day, reused by the briefing
 let lastNews: NewsItem[] = []; // English headlines from our feeds, reused by the briefing
 
 /** Free-tier Groq limits tokens per minute per model, so heavy calls on the same model are spaced out. */
 async function cooldown(model: string): Promise<void> {
   const u = usage.get(model);
-  if (!u || u.tokens < 5500) return;
+  if (!u || u.tokens < 3000) return;
   const wait = COOLDOWN_MS() - (Date.now() - u.at);
   if (wait > 0) {
     console.log(`Waiting ${Math.ceil(wait / 1000)}s for Groq's per-minute token window (${model})…`);
@@ -1035,68 +890,12 @@ function retryDelayMs(header: string | null, body: string): number {
   return 20_000;
 }
 
-/**
- * Optional second provider (any OpenAI-compatible API, for example Z.ai GLM or Kimi). It has no built-in web search, so it only
- * handles steps that need no browsing: radar, writing, revising, the briefing and the featured pick.
- * FALLBACK_BASE_URL, FALLBACK_API_KEY, FALLBACK_MODEL; OFFLOAD_WRITING=true uses it first to save Groq tokens.
- */
-async function fallbackChat(c: GroqCall): Promise<GroqOut | null> {
-  const base = env("FALLBACK_BASE_URL");
-  const key = env("FALLBACK_API_KEY");
-  const model = env("FALLBACK_MODEL");
-  if (!base || !key || !model) return null;
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 180_000);
-  try {
-    const res = await fetch(`${base.replace(/\/$/, "")}/chat/completions`, {
-      method: "POST",
-      signal: controller.signal,
-      headers: { "content-type": "application/json", authorization: `Bearer ${key}` },
-      body: JSON.stringify({ model, temperature: 0.4, max_tokens: Math.min(c.maxTokens ?? 4000, 8000), messages: [{ role: "user", content: c.prompt }] }),
-    });
-    if (!res.ok) {
-      console.warn(`Second provider failed: ${res.status} ${(await res.text()).slice(0, 200)}`);
-      return null;
-    }
-    const json = (await res.json()) as { choices?: { message?: { content?: string } }[]; usage?: { total_tokens?: number } };
-    const text = (json.choices?.[0]?.message?.content ?? "").replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
-    if (!text) return null;
-    console.log(`Second provider ${model}: ${json.usage?.total_tokens ?? 0} tokens`);
-    return { text, sources: [], tokens: json.usage?.total_tokens ?? 0 };
-  } catch (err) {
-    console.warn(`Second provider error: ${(err as Error).message}`);
-    return null;
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
 async function groqChat(c: GroqCall): Promise<GroqOut> {
-  if (!c.browse && env("OFFLOAD_WRITING") === "true") {
-    const r = await fallbackChat(c);
-    if (r) return r;
-    console.warn("Second provider unavailable; using Groq for this step.");
-  }
-  try {
-    return await groqChatCore(c);
-  } catch (err) {
-    if (!c.browse && /daily limit|still rate limited/i.test((err as Error).message)) {
-      const r = await fallbackChat(c);
-      if (r) {
-        console.warn("Groq is limited; this step used the second provider.");
-        return r;
-      }
-    }
-    throw err;
-  }
-}
-
-async function groqChatCore(c: GroqCall): Promise<GroqOut> {
   const key = env("GROQ_API_KEY");
   if (!key) throw new Error("GROQ_API_KEY is not set");
   const gptOss = c.model.startsWith("openai/gpt-oss");
 
-  for (let attempt = 1; attempt <= 6; attempt++) {
+  for (let attempt = 1; attempt <= 5; attempt++) {
     await cooldown(c.model);
     const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
@@ -1107,10 +906,7 @@ async function groqChatCore(c: GroqCall): Promise<GroqOut> {
         max_completion_tokens: c.maxTokens ?? 6000,
         messages: [{ role: "user", content: c.prompt }],
         ...(gptOss
-          ? {
-              reasoning_effort: "low",
-              ...(c.browse ? { tools: [{ type: "browser_search" }], tool_choice: attempt >= 4 ? "auto" : "required" } : {}),
-            }
+          ? { reasoning_effort: "low", ...(c.browse ? { tools: [{ type: "browser_search" }], tool_choice: "required" } : {}) }
           : {}),
       }),
     });
@@ -1124,8 +920,8 @@ async function groqChatCore(c: GroqCall): Promise<GroqOut> {
       continue;
     }
     if (res.status >= 500) {
-      console.warn(`Groq ${res.status} on ${c.model} (attempt ${attempt}/6). Retrying…`);
-      await sleep(5000 * attempt);
+      console.warn(`Groq ${res.status} on ${c.model} (attempt ${attempt}/5). Retrying…`);
+      await sleep(4000 * attempt);
       continue;
     }
     if (!res.ok) throw new Error(`Groq (${c.model}) failed: ${res.status} ${(await res.text()).slice(0, 300)}`);
@@ -1138,7 +934,7 @@ async function groqChatCore(c: GroqCall): Promise<GroqOut> {
     console.log(`Groq ${c.model}: ${tokens} tokens, ${sources.length} sources, finish=${json.choices?.[0]?.finish_reason}`);
     return { text: msg?.content ?? "", sources, tokens };
   }
-  throw new Error(`Groq (${c.model}) is still rate limited or erroring after several retries`);
+  throw new Error(`Groq (${c.model}) is still rate limited after several retries`);
 }
 
 /* ----- stage 1: radar ----- */
@@ -1159,25 +955,20 @@ interface Radar {
   angles: Angle[];
 }
 
-interface Hl {
-  line: string;
-  url: string;
-}
-
 /** Worldwide English-language headlines from GDELT (free, keyless). Best effort. */
-async function gdeltHeadlines(topic = `(economy OR inflation OR "central bank" OR "interest rates" OR stocks OR oil OR gold OR currency OR sukuk OR bitcoin)`, max = 50): Promise<Hl[]> {
-  const q = `${topic} sourcelang:english`;
+async function gdeltHeadlines(): Promise<string[]> {
+  const q = `(economy OR inflation OR "central bank" OR "interest rates" OR stocks OR oil OR gold OR currency OR sukuk OR bitcoin) sourcelang:english`;
   const url = `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(q)}&mode=artlist&maxrecords=60&format=json&timespan=24h&sort=hybridrel`;
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 15_000);
   try {
     const res = await fetch(url, { signal: controller.signal });
     if (!res.ok) return [];
-    const json = JSON.parse(await res.text()) as { articles?: { title?: string; url?: string; domain?: string; sourcecountry?: string }[] };
+    const json = JSON.parse(await res.text()) as { articles?: { title?: string; domain?: string; sourcecountry?: string }[] };
     return (json.articles ?? [])
-      .filter((a) => a.title && a.url)
-      .slice(0, max)
-      .map((a) => ({ line: `[${a.domain ?? "web"}${a.sourcecountry ? "|" + a.sourcecountry : ""}] ${a.title}`, url: a.url as string }));
+      .filter((a) => a.title)
+      .slice(0, 50)
+      .map((a) => `[${a.domain ?? "web"}${a.sourcecountry ? "|" + a.sourcecountry : ""}] ${a.title}`);
   } catch {
     return [];
   } finally {
@@ -1192,23 +983,14 @@ async function runRadar(): Promise<Radar | null> {
     lastNews = news.items.filter((i) => !i.lang || i.lang === "en");
     feedLines = news.items
       .filter((i) => !i.lang || i.lang === "en")
-      .slice(0, 60)
+      .slice(0, 90)
       .map((i) => `[${i.source}|${i.regions.join("/")}] ${i.title}`);
   } catch (err) {
     console.warn(`Radar: our feeds failed (${(err as Error).message})`);
   }
-  const worldwide = await gdeltHeadlines(undefined, 25);
-  const deskLines: string[] = [];
-  // GDELT allows about one request per 5 seconds
-  for (const d of plannedDesks()) {
-    if (d === "learn") continue;
-    await sleep(5500);
-    const got = await gdeltHeadlines(d.gdelt, 14);
-    deskHeadlines[d.id] = got;
-    deskLines.push(...got.map((g) => g.line.replace("[", `[${d.id.toUpperCase()}|`)));
-  }
-  const lines = [...feedLines, ...worldwide.map((w) => w.line), ...deskLines];
-  console.log(`Radar: ${feedLines.length} feed headlines + ${worldwide.length} worldwide + ${deskLines.length} desk headlines`);
+  const worldwide = await gdeltHeadlines();
+  const lines = [...feedLines, ...worldwide];
+  console.log(`Radar: ${feedLines.length} feed headlines + ${worldwide.length} worldwide headlines`);
   if (lines.length < 10) {
     console.warn("Radar skipped: too few headlines");
     return null;
@@ -1222,8 +1004,7 @@ ${lines.join("\n")}
 TASK
 1. Cluster headlines that are about the same story.
 2. Pick the 8 stories that are trending most. Rank higher when more independent outlets cover it, when the market impact is bigger, and when more regions are touched.
-3. Give priority to the three economies that move the world (United States, European Union and euro area, China) and to how their news spills over to the rest of the world.
-4. For Europe, Africa (name the country: Algeria, Egypt, Nigeria, South Africa, Morocco, Tunisia), Asia, MENA/Gulf and Islamic finance, suggest 1 or 2 sub-niche angles an analyst could cover, grounded in the headlines above.
+3. For Europe, Africa (name the country: Algeria, Egypt, Nigeria, South Africa, Morocco, Tunisia), Asia, MENA/Gulf and Islamic finance, suggest 1 or 2 sub-niche angles an analyst could cover, grounded in the headlines above.
 
 Output ONLY these lines, nothing else:
 TREND: <story name> | REGIONS: <region>; <region> | KEYWORDS: <kw>; <kw>; <kw> | WHY: <one sentence>
@@ -1264,22 +1045,16 @@ const trendsText = (r: Radar | null) =>
   r ? r.trends.map((t, i) => `${i + 1}. ${t.name} [${t.regions.join(", ")}] (${t.why})`).join("\n") : "(radar unavailable: find the most important stories yourself)";
 const anglesText = (r: Radar | null) => (r && r.angles.length ? r.angles.map((a) => `- ${a.place}: ${a.idea}`).join("\n") : "(none)");
 
-function researchPrompt1(category: CategorySlug, radar: Radar | null, recent: string[], learnTopic?: string, desk?: Desk, deskSnapshot?: string): string {
+function researchPrompt1(category: CategorySlug, radar: Radar | null, recent: string[], learnTopic?: string): string {
   const today = new Date().toISOString().slice(0, 10);
   const head = `You are the research desk of Armonia Capital, a financial market intelligence site. Today is ${today}.`;
-  const tail = `Search the web thoroughly before answering. Prefer primary sources (central banks, statistics offices, regulators, exchanges, company filings and financial statements), then at least three independent reputable outlets. Collect exact figures with dates, who said what, and any disagreement between sources.${
-    learnTopic
-      ? ""
-      : `
-
-FRESHNESS (required): today is ${today}. The main story must come from the LAST 7 DAYS, and most facts must be dated within the last 10 days. Look first for the newest official releases, statements and financial statements${desk ? `: ${desk.official}` : " published this week by central banks, statistics offices and the largest companies"}. Put each fact's publication date in YYYY-MM-DD form on its line. If you can only find older material for a point, say so instead of presenting it as current.`
-  }
+  const tail = `Search the web thoroughly before answering. Prefer primary sources (central banks, statistics offices, regulators, exchanges, company filings), then at least three independent reputable outlets. Collect exact figures with dates, who said what, and any disagreement between sources.
 
 Output plain-text RESEARCH NOTES, at most 650 words, exactly in this structure:
 STORY: <one line>
 WHY IT MATTERS: <2 sentences>
 FACTS:
-- <fact with figure>${learnTopic ? "" : " — <publication date YYYY-MM-DD>"} — <source name> — <URL>
+- <fact with figure or date> — <source name> — <URL>
 (10 to 14 lines)
 CONTEXT: <3 to 4 sentences of background>
 DIFFERENT VIEWS: <2 to 3 lines>
@@ -1289,23 +1064,6 @@ Do not write the article.`;
     return `${head}
 TOPIC FOR AN EVERGREEN BEGINNER GUIDE: ${learnTopic}
 Verify definitions, mechanics, a simple numeric example, common misconceptions, and what regulators or standard-setters say. Treat "STORY" as the topic itself.
-
-${tail}`;
-  }
-  if (desk) {
-    const heads = (deskHeadlines[desk.id] ?? []).slice(0, 12).map((h) => h.line).join("\n") || "(none collected)";
-    const official = deskSnapshot ? `\nOFFICIAL DATA SNAPSHOT (verified, from Econdb, use these figures as given, they do not need a search):\n${deskSnapshot}\n` : "";
-    return `${head}
-ECONOMY DESK: ${desk.name}, covering ${desk.focus}.
-SECTION OF THE SITE: ${CATEGORY_META[category].name}: ${FOCUS[category]}
-${official}
-RECENT HEADLINES ON THIS ECONOMY (worldwide news index):
-${heads}
-
-TRENDING NOW (our radar of worldwide headlines):
-${trendsText(radar)}
-
-Choose the ONE story that matters most for this economy within that section of the site. It should move global markets or have clear spillovers to other countries (commodities, the dollar, trade, interest rates, capital flows). Avoid repeating these recent pieces: ${recent.join(" | ") || "none"}.
 
 ${tail}`;
   }
@@ -1320,7 +1078,7 @@ Choose the ONE story from the list that best fits the category. If none fits, ch
 ${tail}`;
 }
 
-function researchPrompt2(story: string, radar: Radar | null, priority: string, desk?: Desk): string {
+function researchPrompt2(story: string, radar: Radar | null, priority: string): string {
   return `You are the research desk of Armonia Capital, a financial market intelligence site.
 
 STORY UNDER COVERAGE: ${story || "(see the category's top story)"}
@@ -1331,7 +1089,7 @@ ${anglesText(radar)}
 Priority local sources to check FIRST when relevant (search them by name or site):
 ${priority}
 
-${desk ? `This story belongs to our ${desk.name} desk. Explain the SPILLOVERS: how it reaches other economies (dollar and funding costs, commodity prices, trade flows, capital flows).\n\n` : ""}Find regional and sub-niche angles on this story. Search for how it plays out in Europe, Africa (Algeria, Egypt, Nigeria, South Africa, Morocco, Tunisia), Asia, the Gulf and MENA, and in Islamic finance (sukuk, halal equities, Islamic banks). Use local sources: national central banks, statistics offices, ministries, regulators and local business media.
+Find regional and sub-niche angles on this story. Search for how it plays out in Europe, Africa (Algeria, Egypt, Nigeria, South Africa, Morocco, Tunisia), Asia, the Gulf and MENA, and in Islamic finance (sukuk, halal equities, Islamic banks). Use local sources: national central banks, statistics offices, ministries, regulators and local business media.
 
 Output plain-text NOTES, at most 500 words:
 REGIONAL ANGLES:
@@ -1339,28 +1097,6 @@ REGIONAL ANGLES:
 (6 to 9 lines)
 SUB-NICHE IDEAS: 3 short lines for follow-up coverage.
 Do not write the article.`;
-}
-
-const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
-
-/** Newest publication date found in the notes (ISO dates, "12 Oct 2026", "Oct 12, 2026"), or null. */
-function newestDate(text: string): Date | null {
-  const found: Date[] = [];
-  for (const m of text.matchAll(/\b(20\d{2})-(\d{2})-(\d{2})\b/g)) found.push(new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])));
-  for (const m of text.matchAll(/\b(\d{1,2})\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?,?\s+(20\d{2})\b/gi))
-    found.push(new Date(Date.UTC(+m[3], MONTHS.indexOf(m[2].toLowerCase()), +m[1])));
-  for (const m of text.matchAll(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2}),?\s+(20\d{2})\b/gi))
-    found.push(new Date(Date.UTC(+m[3], MONTHS.indexOf(m[1].toLowerCase()), +m[2])));
-  const valid = found.filter((d) => !Number.isNaN(d.getTime()) && d.getTime() <= Date.now() + 2 * 86_400_000);
-  return valid.length ? new Date(Math.max(...valid.map((d) => d.getTime()))) : null;
-}
-
-/** Empty string when the research notes contain something from the last 10 days; otherwise what is wrong. */
-function freshnessProblem(notes: string): string {
-  const newest = newestDate(notes);
-  if (!newest) return "the notes contain no publication dates";
-  const ageDays = Math.floor((Date.now() - newest.getTime()) / 86_400_000);
-  return ageDays > 10 ? `the newest fact is ${ageDays} days old` : "";
 }
 
 /* ----- stage 3: write + revise ----- */
@@ -1381,7 +1117,7 @@ SEO RULES
 - Choose one primary keyword phrase (2 to 4 words) a reader would search for. Put it in the title, in the first 100 words, and in one section heading. Use related terms naturally.
 - Title: 50 to 65 characters, specific, no clickbait.
 - 5 or 6 sections with descriptive headings that say what the section answers. The last section looks ahead (what to watch next, or what to read next).
-- 950 to 1150 words in total. This is a hard minimum, not a target: a short article fails and has to be rewritten. Each of the 5-6 sections must be at least 150 words (several solid paragraphs), not a few lines. If you are unsure whether you have written enough, write more detail rather than stop early: add context, an example, a number, or a consequence.
+- 950 to 1150 words in total. This length is required.
 - META_DESCRIPTION: 130 to 155 characters, includes the primary keyword, states the takeaway.
 
 Output EXACTLY this format and nothing else:
@@ -1398,14 +1134,12 @@ IMAGE_QUERY: <2 to 4 words describing a generic stock photo, no people names or 
 ## <Section heading>
 <paragraph>`;
 
-function writePrompt(category: CategorySlug, notes: string, recent: string[], learnTopic?: string, desk?: Desk): string {
+function writePrompt(category: CategorySlug, notes: string, recent: string[], learnTopic?: string): string {
   const today = new Date().toISOString().slice(0, 10);
   const session = sessionLabel();
   const kind = learnTopic
     ? `an evergreen educational guide for intelligent beginners on: ${learnTopic}`
-    : desk
-      ? `one news-analysis article for the ${CATEGORY_META[category].name} section, from our ${desk.name} desk. Our readers follow the economies that move the world. Make the ${desk.name} story the heart of the piece, then show in one paragraph how it reaches the rest of the world (emerging markets, Africa, the Gulf and Asia) where the notes support it`
-      : `one news-analysis article for the ${CATEGORY_META[category].name} section`;
+    : `one news-analysis article for the ${CATEGORY_META[category].name} section`;
   return `You are a staff writer at Armonia Capital, a financial market intelligence site. Write like an experienced financial journalist, not like an AI assistant. The site's lens is equilibrium: where price sits relative to balance, who is positioned on each side, and what could pull it back.
 
 Write ${kind}. Today is ${today}.${session && !learnTopic ? ` It is published ahead of the ${session} market open, so make it useful for someone about to follow that session.` : ""}
@@ -1419,10 +1153,7 @@ ${WRITE_RULES}`;
 }
 
 function revisionPrompt(draft: string, notes: string, problem: string, learnTopic?: string): string {
-  const wordHint = /too short/i.test(problem)
-    ? " Expand every section to at least 150 to 200 words: add concrete detail, context or a consequence from the notes. Do not pad with repetition or filler."
-    : "";
-  return `You are the editor at Armonia Capital. Your draft failed a quality check: ${problem}.${wordHint}
+  return `You are the editor at Armonia Capital. Your draft failed a quality check: ${problem}.
 Rewrite the COMPLETE article so it passes, using only facts from the research notes. Keep what was good, fix the problem, and keep the same output format.${learnTopic ? ` It is an evergreen beginner guide on: ${learnTopic}.` : ""}
 
 <notes>
@@ -1436,44 +1167,22 @@ ${draft}
 ${WRITE_RULES}`;
 }
 
-async function generateOneGroq(offset: number, store: Article[], radar: Radar | null, desk?: Desk | "learn"): Promise<Article> {
-  const deskObj = desk && desk !== "learn" ? desk : undefined;
-  const category: CategorySlug = desk === "learn" ? "learn" : deskObj ? deskCategory(deskObj, offset) : pickCategory(offset);
+async function generateOneGroq(offset: number, store: Article[], radar: Radar | null): Promise<Article> {
+  const category = pickCategory(offset);
   const allTitles = [...store, ...getAllArticles()].map((a) => a.title);
   const recent = allTitles.slice(0, 15);
   const learnTopic = category === "learn" ? pickLearnTopic(allTitles) : undefined;
-  console.log(`Researching a ${category} article${deskObj ? ` for the ${deskObj.name} desk` : ""}${learnTopic ? ` on "${learnTopic}"` : ""}…`);
+  console.log(`Researching a ${category} article${learnTopic ? ` on "${learnTopic}"` : ""}…`);
 
-  const snapshot = category === "learn" ? "" : await loadEcondbSnapshot(deskObj?.id);
-  const r1 = await groqChat({ model: MAIN_MODEL(), prompt: researchPrompt1(category, radar, recent, learnTopic, deskObj, snapshot), browse: true, maxTokens: 3500 });
+  const r1 = await groqChat({ model: MAIN_MODEL(), prompt: researchPrompt1(category, radar, recent, learnTopic), browse: true, maxTokens: 3500 });
   let notes = r1.text.trim();
   let sources = r1.sources;
-  if (!learnTopic) {
-    const stale = freshnessProblem(notes);
-    if (stale) {
-      console.warn(`Research looks stale (${stale}). Searching again for the latest releases…`);
-      const retry = await groqChat({
-        model: MAIN_MODEL(),
-        prompt: `${researchPrompt1(category, radar, recent, learnTopic, deskObj)}\n\nYOUR PREVIOUS NOTES FAILED THE FRESHNESS CHECK: ${stale}. Search again and prioritise the newest releases, statements and financial statements from the last 7 days, with a YYYY-MM-DD date on every fact.`,
-        browse: true,
-        maxTokens: 3500,
-      });
-      if (!freshnessProblem(retry.text)) {
-        notes = retry.text.trim();
-        sources = cleanSources([...retry.sources, ...sources], 8);
-      } else {
-        console.warn("Still no fresh dates found; continuing with the better of the two attempts.");
-        if ((newestDate(retry.text)?.getTime() ?? 0) > (newestDate(notes)?.getTime() ?? 0)) notes = retry.text.trim();
-        sources = cleanSources([...retry.sources, ...sources], 8);
-      }
-    }
-  }
 
   const passes = Number(env("RESEARCH_PASSES") ?? 2);
   if (!learnTopic && passes >= 2) {
     const story = (notes.match(/^STORY:\s*(.+)$/im)?.[1] ?? "").trim();
     try {
-      const r2 = await groqChat({ model: MAIN_MODEL(), prompt: researchPrompt2(story, radar, await prioritySources(), deskObj), browse: true, maxTokens: 3000 });
+      const r2 = await groqChat({ model: MAIN_MODEL(), prompt: researchPrompt2(story, radar, await prioritySources()), browse: true, maxTokens: 3000 });
       notes += "\n\n" + r2.text.trim();
       sources = cleanSources([...sources, ...r2.sources], 8);
     } catch (err) {
@@ -1481,42 +1190,25 @@ async function generateOneGroq(offset: number, store: Article[], radar: Radar | 
     }
   }
   lastNotes = notes;
-  deskNotes[deskObj?.id ?? "learn"] = notes;
-
-  if (category === "islamic-finance") {
-    const ticker = notes.match(/\b(Nasdaq|NYSE|ADR)?:?\s*\$?([A-Z]{2,6})\b(?=.{0,30}(sukuk|compliant|shar|halal|islamic))/i)?.[2];
-    if (ticker) {
-      const screen = await screenStock(ticker);
-      if (screen) notes += `\n\nSHARIA SCREEN (Halal Terminal, verified): ${screen.symbol} is ${screen.compliant ? "compliant" : "not compliant"} with its ${screen.methodology ?? "default"} methodology${typeof screen.purificationRate === "number" ? `, purification rate ${screen.purificationRate}%` : ""}.`;
-    }
-  }
   if (notes.split(/\s+/).length < 150) throw new Error("Research notes are too thin to write from");
-  const minSources = learnTopic ? 2 : 3; // guides get one research pass, so fewer sources
-  if (sources.length < minSources) throw new Error(`Research found only ${sources.length} web sources (need ${minSources}+): refusing an ungrounded article`);
+  if (sources.length < 3) throw new Error(`Research found only ${sources.length} web sources (need 3+): refusing an ungrounded article`);
 
-  let draft = await groqChat({ model: MAIN_MODEL(), prompt: writePrompt(category, notes, recent, learnTopic, deskObj), maxTokens: 7000 });
+  let draft = await groqChat({ model: MAIN_MODEL(), prompt: writePrompt(category, notes, recent, learnTopic), maxTokens: 6000 });
   let parsed: ReturnType<typeof parseArticle> | undefined;
-  for (let rev = 0; rev <= 3; rev++) {
+  for (let rev = 0; rev <= 2; rev++) {
     try {
       const candidate = parseArticle(draft.text);
       checkQuality(candidate, sources);
-      if (category !== "learn") {
-        const nowYear = new Date().getUTCFullYear();
-        const counts = new Map<string, number>();
-        for (const m of candidate.content.matchAll(/\b(20\d{2})\b/g)) if (Number(m[1]) < nowYear - 1) counts.set(m[1], (counts.get(m[1]) ?? 0) + 1);
-        const heavy = [...counts].filter(([, n]) => n >= 2).map(([y]) => y);
-        if (heavy.length) throw new Error(`it leans on outdated years (${heavy.join(", ")}); use only the latest figures from the notes`);
-      }
       parsed = candidate;
       break;
     } catch (err) {
       const problem = (err as Error).message;
       console.warn(`Draft ${rev + 1} rejected: ${problem}`);
-      if (rev === 3) {
+      if (rev === 2) {
         console.warn(`Last draft (first 400 chars):\n${draft.text.slice(0, 400)}`);
         throw err;
       }
-      draft = await groqChat({ model: MAIN_MODEL(), prompt: revisionPrompt(draft.text, notes, problem, learnTopic), maxTokens: 7000 });
+      draft = await groqChat({ model: MAIN_MODEL(), prompt: revisionPrompt(draft.text, notes, problem, learnTopic), maxTokens: 6000 });
     }
   }
   if (!parsed) throw new Error("No acceptable article produced");
@@ -1528,7 +1220,7 @@ async function generateOneGroq(offset: number, store: Article[], radar: Radar | 
   if (known.has(slug)) throw new Error(`Duplicate slug: ${slug}`);
 
   const usedImages = new Set([...ARTICLES, ...store].map((a) => a.image));
-  const image = await findImage(category, parsed.imageQuery, parsed.title, usedImages);
+  const image = await findImage(parsed.imageQuery, usedImages);
   if (!image) throw new Error("No image found (set PEXELS_API_KEY or PIXABAY_API_KEY)");
 
   return {
@@ -1546,7 +1238,6 @@ async function generateOneGroq(offset: number, store: Article[], radar: Radar | 
     content: parsed.content,
     sources,
     generated: true,
-    desk: deskObj?.id,
   };
 }
 
@@ -1557,14 +1248,13 @@ async function main(): Promise<void> {
   const draft = env("DRAFT_MODE") === "true";
   const target = draft ? DRAFT_PATH : PUBLISH_PATH;
   const store = await readList(target);
+  const count = Math.max(1, Math.min(5, Number(env("ARTICLES_PER_RUN") ?? 1)));
   const provider = env("LLM_PROVIDER") ?? "gemini";
-  const plan = plannedDesks();
-  const learnDay = plan.length === 1 && plan[0] === "learn";
-  const made: { desk: DeskId; article: Article }[] = [];
   let added = 0;
-  let dailyLimit = false;
+  let todayArticle: Article | null = null;
 
   let radar: Radar | null = null;
+  const learnDay = pickCategory(0) === "learn";
   if (provider === "groq" && !learnDay) {
     try {
       radar = await runRadar();
@@ -1574,30 +1264,19 @@ async function main(): Promise<void> {
     }
   }
 
-  console.log(`Plan for today: ${plan.map((d) => (d === "learn" ? "Learn guide" : d.name)).join(" | ")}`);
-  for (let i = 0; i < plan.length; i++) {
-    const d = plan[i];
-    const label = d === "learn" ? "Learn guide" : d.name;
+  for (let i = 0; i < count; i++) {
     try {
-      const article = provider === "groq" ? await generateOneGroq(i, store, radar, d) : await generateOneSimple(i, store);
+      const article = provider === "groq" ? await generateOneGroq(i, store, radar) : await generateOneSimple(i, store);
       store.unshift(article);
+      todayArticle = article;
       added++;
-      if (article.desk) made.push({ desk: article.desk, article });
-      // Save right away so a later failure or timeout never loses finished articles.
-      await writeFile(target, JSON.stringify(store, null, 2) + "\n", "utf8");
-      console.log(`✓ [${label}] ${article.title}`);
+      console.log(`✓ ${article.title}`);
     } catch (err) {
-      const msg = (err as Error).message;
-      console.error(`✗ [${label}] skipped: ${msg}`);
-      if (/daily limit/i.test(msg)) {
-        dailyLimit = true;
-        console.error("Groq's daily token limit is reached: stopping for today.");
-        break;
-      }
+      console.error(`✗ Article ${i + 1} skipped: ${(err as Error).message}`);
     }
   }
 
-  if (provider === "groq" && !dailyLimit && env("FEATURED") !== "false") {
+  if (provider === "groq" && env("FEATURED") !== "false") {
     try {
       await runFeatured(radar ?? (await loadSavedRadar()));
     } catch (err) {
@@ -1605,9 +1284,9 @@ async function main(): Promise<void> {
     }
   }
 
-  if (provider === "groq" && !dailyLimit && !learnDay && env("BRIEFING") !== "false") {
+  if (provider === "groq" && env("BRIEFING") !== "false") {
     try {
-      await runBriefing(radar ?? (await loadSavedRadar()), made);
+      await runBriefing(radar ?? (await loadSavedRadar()), todayArticle);
     } catch (err) {
       console.warn(`Briefing not produced: ${(err as Error).message}`);
     }
@@ -1618,6 +1297,7 @@ async function main(): Promise<void> {
     process.exitCode = 1;
     return;
   }
+  await writeFile(target, JSON.stringify(store, null, 2) + "\n", "utf8");
   console.log(`Wrote ${added} article(s) to ${path.relative(ROOT, target)}${draft ? " (draft)" : ""}`);
   if (draft) console.warn("DRAFT_MODE is on: drafts are NOT published on the site. Set DRAFT_MODE=false to publish automatically.");
 }

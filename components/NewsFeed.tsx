@@ -20,14 +20,13 @@ const LANGS: Record<string, string> = { fr: "French", ar: "Arabic", es: "Spanish
 interface Props {
   limit?: number;
   compact?: boolean;
-  query?: string;
   /** Only headlines tagged with this region (matches data/feeds.json "regions"). */
   region?: string;
   country?: string;
   topic?: string;
 }
 
-export function NewsFeed({ limit = 40, compact = false, query, region, country, topic }: Props) {
+export function NewsFeed({ limit = 40, compact = false, region, country, topic }: Props) {
   const [payload, setPayload] = useState<NewsPayload | null>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [now, setNow] = useState(() => Date.now());
@@ -63,18 +62,11 @@ export function NewsFeed({ limit = 40, compact = false, query, region, country, 
 
   const items: NewsItem[] = useMemo(() => {
     let list = payload?.items ?? [];
-    const queryTerms = query?.toLowerCase().split(/\s+/).filter(Boolean) ?? [];
-    if (queryTerms.length > 0) {
-      list = list.filter((item) => {
-        const searchable = `${item.title} ${item.summary} ${item.source} ${item.topic} ${item.country ?? ""}`.toLowerCase();
-        return queryTerms.every((term) => searchable.includes(term));
-      });
-    }
     if (region) list = list.filter((i) => i.regions?.includes(region));
     if (country) list = list.filter((i) => i.country === country);
     if (topic) list = list.filter((i) => i.topic === topic);
     return list.slice(0, limit);
-  }, [payload, query, region, country, topic, limit]);
+  }, [payload, region, country, topic, limit]);
 
   if (status === "loading") {
     return (
