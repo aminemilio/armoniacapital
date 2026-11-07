@@ -175,6 +175,12 @@ The search bar's coverage was limited to tickers Yahoo's unofficial search recog
 
 **Why not the other sites in your list:** Helium Trades is an options-trading platform, not a data API. Alpaca's Market Data API is solid but free-tier US-only and would duplicate what Yahoo and Twelve Data already cover here.
 
+## Wider price tape, breaking news bar, and more US coverage
+
+- **Price tape:** now also carries FTSE 100, DAX, Nikkei 225, Hang Seng, Sensex, Bovespa, Tadawul, five more FX pairs (GBP, JPY, AUD, CAD, CNY), WTI and Brent crude, natural gas, silver, copper, wheat and corn — all through the same free Yahoo endpoint, no new key needed.
+- **Breaking news bar:** a red strip under the price tape, visible only when a story is confirmed by 2 or more independent sources within the last 6 hours (checked against your existing news feeds every 5 minutes). It rotates through up to 6 such stories every 8 seconds and disappears when there is nothing to show. No extra API needed — it is computed from the same feeds already in `data/feeds.json`.
+- **More US coverage:** CNBC is now enabled (it was present but switched off for licensing caution; turning it on is your call, already done here), plus MarketWatch and Yahoo Finance headline feeds.
+
 ## Checking the signup setup
 
 Open `https://your-site/api/subscribe` in a browser. It lists which settings the server can read (`RESEND_API_KEY`, `SUBSCRIBE_SECRET`, `RESEND_SEGMENT_ID`), never their values. `"ready": true` means the signup form can send confirmation emails.

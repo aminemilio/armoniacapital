@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CookieBanner } from "@/components/CookieBanner";
+import { BreakingBar } from "@/components/BreakingBar";
 import { TickerBar } from "@/components/TickerBar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <Header />
         <TickerBar />
+        <BreakingBar />
         <main id="main">{children}</main>
         <Footer />
         <CookieBanner />

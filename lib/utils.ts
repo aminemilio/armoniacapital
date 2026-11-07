@@ -30,6 +30,8 @@ export function formatPublished(a: { date: string; publishedAt?: string }): stri
 }
 
 /** Currency pairs are quoted with 4 decimals; everything else uses the default rule. */
+const FX_4DP = new Set(["EURUSD", "USDCNY", "GBPUSD", "USDJPY", "AUDUSD", "USDCAD"]);
+
 export function fxDigits(symbol: string): number | undefined {
-  return symbol === "EURUSD" || symbol === "USDCNY" ? 4 : undefined;
+  return FX_4DP.has(symbol) ? 4 : undefined;
 }
