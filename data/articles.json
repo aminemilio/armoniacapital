@@ -1,5 +1,61 @@
 [
   {
+    "slug": "understanding-murabaha-how-islamic-home-financing-works",
+    "title": "Understanding Murabaha: How Islamic Home Financing Works",
+    "excerpt": "Murabaha is the cornerstone of Sharia‑compliant home loans, turning property purchase into a transparent cost‑plus sale that balances profit and faith.",
+    "metaDescription": "Learn what murabaha is and how Islamic home financing operates, from asset purchase to profit‑margin pricing, with global examples and future outlook.",
+    "keywords": [
+      "murabaha",
+      "islamic home financing",
+      "sharia‑compliant mortgage",
+      "cost‑plus financing",
+      "islamic banking",
+      "myor‑i"
+    ],
+    "category": "learn",
+    "date": "2026-11-07",
+    "publishedAt": "2026-11-07T12:47:15.214Z",
+    "image": "https://images.pexels.com/photos/31679216/pexels-photo-31679216.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "imageCredit": "Photo by Defrino Maasy on Pexels",
+    "readTime": 4,
+    "content": "## What is Murabaha and Why It Matters\n\nMurabaha, defined by the AAOIFI as a sale where the acquisition cost and the markup are disclosed to the buyer, is the most widely used tool for Sharia‑compliant financing. Its relevance stretches beyond religious compliance; it shapes a multi‑billion‑dollar mortgage market that competes with conventional loans for households in Malaysia, Saudi Arabia, the UAE and beyond. For investors and regulators, grasping murabaha’s mechanics reveals how profit is generated without interest, how risk is allocated, and where pricing pressure may emerge.\n\n## The Mechanics of a Murabaha Home Loan\n\nIn a typical murabaha home‑financing transaction, the bank first purchases the property outright. Suppose the market price is RM 500,000; the bank then resells the same house to the client for RM 525,000, embedding a 5 % profit margin. The buyer repays the higher price in equal installments over a term—often 25 years—mirroring a conventional mortgage’s amortisation schedule but with a fixed profit rate instead of a variable interest rate. The AAOIFI’s 2021 revision of Standard 8 requires the bank to disclose the cost and profit margin at contract inception, ensuring the buyer knows exactly how the price was built.\n\nUnlike conventional loans, the bank assumes legal ownership of the property until the buyer completes payment. This ownership transfer satisfies the Sharia prohibition on riba, because the bank is selling an asset rather than lending money. The buyer’s obligation is a deferred‑payment purchase, not a debt with interest accrual. The profit margin remains static throughout the term, insulating the borrower from interest‑rate volatility that can affect conventional mortgages.\n\n## Regional Adoption and Market Scale\n\nMalaysia illustrates murabaha’s dominance. Commodity‑Murabaha accounted for 92.7 % of Islamic money‑market trading volume in 2021, and Islamic banking assets made up 35.5 % of total banking assets that year. Cagamas, the country’s mortgage‑backed securities agency, reported that murabaha‑backed housing loans grew 12 % year‑on‑year, reaching RM 12.4 billion in outstanding volume in 2023. The launch of the Malaysia Islamic Overnight Rate (MYOR‑i) in March 2022—based on overnight unsecured commodity murabaha transactions—provided a benchmark that further anchored pricing transparency.\n\nIn the Gulf, Saudi Arabia’s Islamic home‑finance share rose to 28 % of total mortgage lending by Q4 2022, up from 22 % in 2020, reflecting regulatory encouragement and growing consumer demand. The UAE’s Central Bank resolution of 2021 mandated a “cost‑plus” structure for all Islamic mortgage products, explicitly naming murabaha as the approved method. These policy moves signal that murabaha is not a niche product but a mainstream financing option across the MENA region.\n\n## Consumer Perception and Scholarly Debate\n\nSurveys reveal a gap between perception and technical definition. In Indonesia, a 2022 IFN consumer survey found 68 % of respondents view murabaha home loans as “interest‑free,” while 22 % mistakenly equate the markup with hidden interest. This misunderstanding can affect market confidence and regulatory scrutiny.\n\nScholars remain divided. Critics argue that murabaha is a legal fiction that replicates the economics of interest, merely cloaking it in an asset‑sale narrative. Proponents counter that the mandatory transfer of ownership and full disclosure of profit margins satisfy the spirit of Sharia, providing a genuine alternative to riba. The AAOIFI’s 2021 tightening of disclosure rules attempts to bridge this divide, aiming to prevent “sharia‑hopping” where banks switch structures to exploit loopholes.\n\n## Pricing Benchmarks and Risk Considerations\n\nThe introduction of MYOR‑i as an Islamic benchmark rate marks a shift toward market‑driven pricing for murabaha products. By anchoring profit margins to an overnight unsecured rate, banks can offer more transparent and comparable terms. However, the fixed profit margin still exposes lenders to asset‑price risk; if property values decline, the bank’s return may erode while the borrower continues payments based on the original higher price.\n\nRegulators in Malaysia, Saudi Arabia and the UAE monitor these dynamics closely. In Malaysia, the central bank’s oversight of commodity‑murabaha transactions underpins the MYOR‑i framework, while Saudi Arabia’s central bank tracks the share of Islamic mortgages to gauge systemic risk. The UAE’s resolution ensures that cost‑plus structures remain consistent across institutions, limiting pricing arbitrage.\n\n## What to Watch Next\n\nThe rollout of MYOR‑i‑linked retail mortgage products in Malaysia could set a global pricing reference for murabaha, prompting other jurisdictions to develop similar benchmarks. Ongoing standard‑setting debates at the AAOIFI and the Islamic Financial Services Board may redefine the permissible scope of murabaha, potentially restricting its use to short‑term trade or formally endorsing long‑term housing finance. Consumer perception studies in emerging markets such as Pakistan and Indonesia will likely influence regulatory clarifications on labeling “interest‑free” products. Investors should monitor how these developments affect the balance between Sharia compliance and market‑driven pricing, as shifts could alter the equilibrium between Islamic and conventional mortgage markets worldwide.",
+    "sources": [
+      {
+        "title": "Murabaha Financing: Islamic Law and Cost-Plus Transactions",
+        "url": "https://www.investopedia.com/terms/m/murabaha.asp"
+      },
+      {
+        "title": "Imamic - Islamic Loan Encyclopedia",
+        "url": "https://www.imamic.com/encyclopedia/other-financing/murabaha-cost-plus-financing-for-homes"
+      },
+      {
+        "title": "Al Asalah Murabaha | Flexible, Shariah-Compliant Home Finance | The Saudi Investment Bank",
+        "url": "https://www.saib.com.sa/en/al-asalahmurabahahomefinance"
+      },
+      {
+        "title": "VATFIN8240 - Islamic products: Price plus \"profit\": Basic price plus \"profit\" (Murabaha) - HMRC internal manual - GOV.UK",
+        "url": "https://www.gov.uk/hmrc-internal-manuals/vat-finance-manual/vatfin8240"
+      },
+      {
+        "title": "Home purchjase financings III:  murabaha and tawarruq",
+        "url": "https://www.isfin.net/sites/isfin.com/files/islamic_banking-_home_purchase_financings_iii-_murabaha_and_tawarruq.pdf"
+      },
+      {
+        "title": "Islamic alternative for conventional mortgage - IslamQA",
+        "url": "https://islamqa.org/hanafi/daruliftaa-birmingham/136214/islamic-alternative-for-conventional-mortgage/"
+      },
+      {
+        "title": "Murabaha",
+        "url": "https://myuif.com/glossary/murabaha/"
+      },
+      {
+        "title": "Murabaha House-Financing When Deferred Payments are not fixed",
+        "url": "https://daruliftaa.com/business-trade/murabaha-house-financing-when-deferred-payments-are-not-fixed/"
+      }
+    ],
+    "generated": true
+  },
+  {
     "slug": "eu-sukuk-regulation-shifts-euroarea-funding-balance",
     "title": "EU Sukuk Regulation Shifts Euro‑Area Funding Balance",
     "excerpt": "The European Commission’s sukuk rules give Islamic finance a foothold in the euro area, reshaping sovereign demand, bank liquidity and global capital flows.",

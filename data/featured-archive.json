@@ -1,1 +1,48 @@
-[]
+[
+  {
+    "date": "2026-11-07",
+    "symbol": "ETH",
+    "name": "Ethereum",
+    "type": "crypto",
+    "coingeckoId": "ethereum",
+    "sector": "Smart-contract settlement network",
+    "utility": "Ethereum is a decentralized, programmable blockchain that enables developers to deploy smart contracts and decentralized applications (dApps) for a wide range of real‑world use cases, from finance to supply‑chain tracking. The network is primarily used by developers, enterprises (e.g., Circle, Tether) and end‑users who interact with DeFi protocols, NFTs, and tokenized assets.",
+    "evidence": [
+      "Users paid $35.1 million in network fees (≈15,690 ETH) in Q3 2026, indicating economic activity on the mainnet — Growthepie Q3 2026 Report.",
+      "Daily active addresses averaged 646,000 in September 2026, showing broad user engagement — PeakD “Ethereum Inflation, Supply, Staking and Other Key Metrics” (September 2026).",
+      "The Ethereum Foundation allocated $5,502,930 in ecosystem grants during Q2 2026, supporting core infrastructure and developer tooling — Ethereum Foundation Allocation Update Q2 2026."
+    ],
+    "whyNow": "In September 2026, daily active addresses rose to a 9‑month high of 646 k, reflecting renewed user demand after the July‑August fee uptick.",
+    "risks": [
+      "High gas fee volatility can deter users and push transactions to cheaper Layer‑2 solutions.",
+      "Concentration of staking power among a few large validators may threaten network decentralisation."
+    ],
+    "profile": "Ethereum operates as a public, proof‑of‑stake blockchain that secures transactions and executes smart contracts through a global network of validators. Revenue for the ecosystem comes mainly from transaction (gas) fees and from the value captured by applications built on top of the protocol, such as DeFi platforms, stablecoin issuers, and NFT marketplaces. The Ethereum Foundation and a vibrant open‑source community fund core development, security research, and tooling, while enterprises fund private roll‑ups and side‑chains that rely on Ethereum’s security.\n\nCompeting platforms include Binance Smart Chain, Solana, and Avalanche, which offer lower fees or higher throughput but lack Ethereum’s developer ecosystem and network effects. A shift of major dApps to alternative chains, or a prolonged period of low fee revenue, could weaken Ethereum’s economic moat. Conversely, successful roll‑up deployments, continued staking participation, and ongoing ecosystem grants are likely to sustain its real‑world utility.",
+    "sources": [
+      {
+        "title": "Ethereum Mainnet Quarterly Report: Q3 2026 | growthepie",
+        "url": "https://www.growthepie.com/quick-bites/ethereum-quarterly-report-2026-q3"
+      },
+      {
+        "title": "assets.coingecko.com",
+        "url": "https://assets.coingecko.com/reports/2026/CoinGecko-2026-Q3-Crypto-Industry-Report.pdf?attri_cid=xzsbqakpdv8h"
+      },
+      {
+        "title": "TRON overtakes Ethereum as Q3 USDT supply averages $90.75B",
+        "url": "https://crypto.news/tron-q3-2026-usdt-ethereum-stablecoin-supply/"
+      },
+      {
+        "title": "TRON Surpasses Ethereum as Top USDT Chain in Q3 2026 | KuCoin",
+        "url": "https://www.kucoin.com/news/flash/tron-surpasses-ethereum-as-top-usdt-chain-in-q3-2026"
+      },
+      {
+        "title": "The Watch List: ETH Q3 Update | The DeFi Report | The DeFi Report",
+        "url": "https://thedefireport.io/research/the-watch-list-eth-q3-update"
+      },
+      {
+        "title": "CHARTING CRYPTO:",
+        "url": "https://assets.ctfassets.net/k3n74unfin40/1E4sJdvhe38EFmPmjrczSq/6cd4e695f812889938b702fd487e184d/Charting_Crypto_3Q26.pdf"
+      }
+    ]
+  }
+]
